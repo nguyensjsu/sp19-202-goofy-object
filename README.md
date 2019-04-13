@@ -8,13 +8,13 @@
 
 # Team Project Repo 
 
-## Team Name
+## Team Name: Goofy Object
 
-## Team Members
+## Team Members: Chikei Loi,  Gaochao Wang, Tianyu Cao, Xiaoting Jin, Yuxiang Chen
 
 * [Name](url_to_your_github_repo)
 
-## Project Name
+## Project Name: Tetris
 
 ## Project Description
 
