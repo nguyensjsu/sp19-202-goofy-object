@@ -8,9 +8,9 @@
 
 # Team Project Repo 
 
-## Team Name
+## Goofy Object
 
-## Team Members
+## Tianyu Cao, Gaochao Wang, Yuxiang Liu, Xiaoting jin
 
 * [Name](url_to_your_github_repo)
 
