@@ -16,6 +16,8 @@
 
 ## Project Name: Tetris
 
+## Plan
+In this project, we will implement a online Tetris Game platform, where multiple users can play Tetris simultaneously and interactive among each other.
 ## Project Description
 
 ## Project Progress
