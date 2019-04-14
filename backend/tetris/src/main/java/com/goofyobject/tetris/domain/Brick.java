@@ -1,4 +1,4 @@
-package com.goofyobject.tetris;
+package com.goofyobject.tetris.domain;
 
 public class Brick {
 
