@@ -1,4 +1,4 @@
-## Team: Goofy Object
+# Team: Goofy Object
 ## Team Members: 
     Chikei Loi,  Gaochao Wang, Tianyu Cao, Xiaoting Jin, Yuxiang Chen
 
@@ -7,19 +7,19 @@
 
 ## XP values:
 
-### Courage
+#### Courage   
 Xiaoting Jin:
 
-### Communication
+#### Communication
 Gaochao Wang:
 
-### Simplicity
+#### Simplicity
 
-### Feedback
+#### Feedback
 
-### Respect
+#### Respect
 
-## Project: Tetris
+# Project: Tetris
 
 ## Project Description
 
