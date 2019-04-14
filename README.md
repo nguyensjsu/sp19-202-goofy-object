@@ -23,10 +23,12 @@ Gaochao Wang:
 
 ## Project Description
 
+### Individual Contributions
+
 ### [Project Board](https://github.com/nguyensjsu/sp19-202-goofy-object/projects/1)
 
 ### [Sprint Task Sheet](https://docs.google.com/spreadsheets/d/13YAaGfeRiF0rj4Qpr68T6z8qjsHzUiTO1b6WXLedpbY/edit#gid=0)
 
-### [Burndown Map](https://docs.google.com/spreadsheets/d/13YAaGfeRiF0rj4Qpr68T6z8qjsHzUiTO1b6WXLedpbY/edit#gid=500653002)
+### Burndown Chart
+![alt text](https://docs.google.com/spreadsheets/d/13YAaGfeRiF0rj4Qpr68T6z8qjsHzUiTO1b6WXLedpbY/edit#gid=500653002)
 
-### Individual Contributions
