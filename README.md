@@ -1,10 +1,11 @@
 # Team Project Info 
-## Team Name: Goofy Object
-## Team Members: Chikei Loi,  Gaochao Wang, Tianyu Cao, Xiaoting Jin, Yuxiang Chen
+## Team: Goofy Object
+## Team Members: 
+    Chikei Loi,  Gaochao Wang, Tianyu Cao, Xiaoting Jin, Yuxiang Chen
 
 * [Github Repo](url_to_your_github_repo)
 
-## Project Name: Tetris
+## Project: Tetris
 
 ## Project Description
 
