@@ -1,29 +1,17 @@
-
-*Please do the following:*
-
-1. Edit this readme file first
-
-2. Read './document/README.md' for instructions about team repo submissions.
-
-
-# Team Project Repo 
-
+# Team Project Info 
 ## Team Name: Goofy Object
-
 ## Team Members: Chikei Loi,  Gaochao Wang, Tianyu Cao, Xiaoting Jin, Yuxiang Chen
 
-* [Name](url_to_your_github_repo)
+* [Github Repo](url_to_your_github_repo)
 
 ## Project Name: Tetris
 
-## Plan
-In this project, we will implement a online Tetris Game platform, where multiple users can play Tetris simultaneously and interactive among each other.
 ## Project Description
 
-## Project Progress
+### [Project Board](https://github.com/nguyensjsu/sp19-202-goofy-object/projects/1)
 
-### Burndown Map
+### [Sprint Task Sheet]https://docs.google.com/spreadsheets/d/13YAaGfeRiF0rj4Qpr68T6z8qjsHzUiTO1b6WXLedpbY/edit#gid=0)
 
-### Project Dashboard
+### [Burndown Map](url)
 
 ### Individual Contributions
