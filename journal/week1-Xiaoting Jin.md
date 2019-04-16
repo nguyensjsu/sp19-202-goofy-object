@@ -3,7 +3,7 @@
 ## Xiaoting Jin
 
 ### Finished This Week
-1. Discussed with Team and finally agreed on the game we will realize
+1. Team project Kick off: discussed with Team and finally agreed on the game we will realize
 2. Allocated each team member's task and responsiblity
 ### Planned Next Week
 1. Research and design the algorithm of computer player
