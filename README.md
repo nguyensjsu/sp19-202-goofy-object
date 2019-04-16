@@ -19,7 +19,7 @@ Gaochao Wang:
 
 #### Respect
 
-# Project: Tetris
+# Project: 5 in a Row
 
 ## Project Description
 
