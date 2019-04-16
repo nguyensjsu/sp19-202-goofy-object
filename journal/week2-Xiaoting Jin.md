@@ -1,4 +1,4 @@
-# Week 1 Scrum Report [04/07/2019-04/13/2019]
+# Week 2 Scrum Report [04/07/2019-04/13/2019]
 
 ## Xiaoting Jin
 
