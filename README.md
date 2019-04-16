@@ -19,7 +19,7 @@ Gaochao Wang:
 
 #### Respect
 
-# Project: 5 in a Row
+# Project: Gomoku
 
 ## Project Description
 
