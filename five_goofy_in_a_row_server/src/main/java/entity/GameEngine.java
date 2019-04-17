@@ -19,9 +19,11 @@ public class GameEngine {
         return this.board.checkFiveInRow(p);
     }
 
-    public void notifyReady(Player palyer) {
-
+    public Position notifyReady(Player palyer) {
+        return null;
     }
+
+    public void firstHand(Player palyer) {} //?
 
     public void notifyEnd(Player palyer, int winner) {
 
@@ -32,10 +34,13 @@ public class GameEngine {
         int color = 1;
         Player cur = p1;
         Position p = new Position();
+        firstHand(cur);
         while( (winner = checkWin(p)) == 0) {
-            notifyReady(cur);
+//            notifyReady(cur);
             // p = socket.receive
             putPiece(p,color);
+            notifyReady(cur);
+            notifyReady(cur==p1 ? p2 : p1);
             color = color==1? 2 : 1;
             cur = cur == p1 ? p2 : p1;
         }
