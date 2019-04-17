@@ -24,24 +24,10 @@ public class EventController {
 
     @EventListener(SessionConnectEvent.class)
     public void handleWebsocketConnectListner(SessionConnectEvent event) {
+
         Date date = new Date();
 
-        MessageHeaders headers = event.getMessage().getHeaders();
-
-        String sessionId = headers.get("simpSessionId").toString();
-
-        boolean isJoin = gameRoomService.addSession(sessionId);
-
-        Enumeration<String> currentSessions = gameRoomService.getRoomSessions();
-
-        logger.info("current sessions: ");
-
-        while (currentSessions.hasMoreElements()) { 
-            logger.info(currentSessions.nextElement()); 
-        } 
-
-
-        logger.info("Received a new web socket connection : " + date.getTime() + " " + isJoin);
+        logger.info("Received a new web socket connection : " + date.getTime());
     }
     
     @EventListener(SessionDisconnectEvent.class)
@@ -49,23 +35,7 @@ public class EventController {
         
         Date date = new Date();
 
-        MessageHeaders headers = event.getMessage().getHeaders();
-
-        String sessionId = headers.get("simpSessionId").toString();
-
-        boolean isQuit = gameRoomService.removeSession(sessionId);
-
-        
-        Enumeration<String> currentSessions = gameRoomService.getRoomSessions();
-
-
-        logger.info("current sessions: ");
-
-        while (currentSessions.hasMoreElements()) { 
-            logger.info(currentSessions.nextElement()); 
-        } 
-
-        logger.info("Received a new web socket connection : " + date.getTime() + " " + isQuit);
+        logger.info("Received a new web socket connection : " + date.getTime());
     }
 
 }

@@ -1,13 +1,18 @@
 package com.goofyobject.tetris.service;
 
-import java.util.Enumeration;
+import com.goofyobject.tetris.domain.GameEngine;
+import com.goofyobject.tetris.domain.Player;
 
 public interface GameRoomService {
 
-    public boolean addSession(String sessionId);
+    public boolean addPlayer(Player player);
 
-    public boolean removeSession(String sessionId);
+    public boolean removePlayer(Player player);
 
-    public Enumeration<String> getRoomSessions();
+    public Player[] getWaitingPlayers();
+
+    public void createRoom(Player player);
+
+    public GameEngine findRoom(Player player);
 
 }
