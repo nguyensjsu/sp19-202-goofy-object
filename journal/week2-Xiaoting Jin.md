@@ -13,6 +13,8 @@
 8 hrs
 
 
+## Chikei Loi
+
 ### Finished This Week
 1. Learned Websocket 
 2. Implement basic p2p function  
