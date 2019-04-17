@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 public class Board {
     private final int gridNum = 15;

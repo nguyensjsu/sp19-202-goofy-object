@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 public class GameEngine {
     private Player p1;      //p1-black  first hand

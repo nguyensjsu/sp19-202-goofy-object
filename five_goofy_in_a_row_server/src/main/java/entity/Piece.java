@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 public class Piece {
     private int color; //2- white  1-black
