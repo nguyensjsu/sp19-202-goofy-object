@@ -1,7 +1,6 @@
-package Entity;
+package entity;
 
-public class Token {
-    private Color c;
+public class Position {
     private int x;
     private int y;
 
@@ -9,12 +8,12 @@ public class Token {
         return x;
     }
 
-    public int getY() {
-        return y;
-    }
-
     public void setX(int x) {
         this.x = x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public void setY(int y) {
