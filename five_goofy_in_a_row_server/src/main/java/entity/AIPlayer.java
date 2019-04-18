@@ -10,8 +10,6 @@ class Node{
   public Position p = new Position();
   public int score;
 
-
-
   // ??? Tree Node
   Node(){
     this.child.clear();
@@ -37,7 +35,6 @@ class Node{
 
 
 public class AIPlayer {
-
   private final int gridNum = 15;
   private final int searchDepth = 5; // search depth
   private final int alpha = 10; // alpha

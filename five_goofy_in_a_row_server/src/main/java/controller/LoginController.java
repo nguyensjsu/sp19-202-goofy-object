@@ -1,15 +1,22 @@
 package controller;
 
+import entity.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/login")
+@RequestMapping()
 public class LoginController {
 
-    @PostMapping
-    public boolean login(@RequestParam String username) {
-        // start socket
+    @GetMapping("/login")
+    public boolean login(@RequestBody User user) {
+        // check login
+        return true;
+    }
+
+    @PostMapping("/register")
+    public boolean register(@RequestBody User user) {
+        // check login
         return true;
     }
 }
