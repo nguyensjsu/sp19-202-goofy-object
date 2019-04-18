@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import style from './ChessBoard.module.css';
 
+const BOARD_EMPTY = 0;
+const BOARD_SELF = 1;
+const BOARD_OPP = 2;
+
 class ChessBoard extends Component {
 
     board_size = 480;
@@ -12,6 +16,7 @@ class ChessBoard extends Component {
         { x: this.interval * 4, y: this.interval * 12 },
         { x: this.interval * 12, y: this.interval * 12 }
     ];
+    board = [];
 
 
     componentDidMount() {
@@ -36,11 +41,19 @@ class ChessBoard extends Component {
             ctx.fill()
         }
 
+        // Initialize board array.
+        for(let i = 0; i < 15; i++) {
+            board[i] = [];
+            for(let j = 0; j < 15; j++) {
+                board[i][j] = BOARD_EMPTY;
+            }
+        }
+
     }
 
     onBoardClick = (e) => {
         e.preventDefault();
-        console.log(e.clientX, e.clientY)
+        console.log(e.offsetX, e.offsetY)
     }
 
     render() {
