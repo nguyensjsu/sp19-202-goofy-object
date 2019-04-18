@@ -17,6 +17,7 @@ class ChessBoard extends Component {
         { x: this.interval * 12, y: this.interval * 12 }
     ];
     board = [];
+    isMe = false;
 
 
     componentDidMount() {
@@ -57,7 +58,7 @@ class ChessBoard extends Component {
         // console.log(e.clientX - rect.left, e.clientY - rect.top);
         let coord = this.getCoord(e.clientX - rect.left, e.clientY - rect.top);
         console.log(coord.i, coord.j);
-        this.drawPiece(this.interval + this.interval * coord.i, this.interval + this.interval * coord.j);
+        this.drawPiece(this.interval + this.interval * coord.i, this.interval + this.interval * coord.j, this.isMe);
     }
 
     getCoord = (x, y) => {
@@ -76,9 +77,9 @@ class ChessBoard extends Component {
         ctx.beginPath();
         ctx.arc(x, y, this.interval / 2.1, 0, 2 * Math.PI);
 
-        var grd = ctx.createRadialGradient(x, y, 5, 90, 60, 100);
-        grd.addColorStop(0, "white");
-        grd.addColorStop(1, "black");
+        var grd = ctx.createRadialGradient(x - 3, y - 3, 1, x - 2 , y - 2 , 15);
+        grd.addColorStop(0, role ? "#999" : "white");
+        grd.addColorStop(1, role ? "black" : "#ccc");
 
         // ctx.fillStyle = "#222";
         ctx.fillStyle = grd;
@@ -87,6 +88,8 @@ class ChessBoard extends Component {
         ctx.shadowColor = "#555"
         ctx.shadowBlur = 5
         ctx.fill()
+
+        this.isMe = !role;
     }
 
     render() {
