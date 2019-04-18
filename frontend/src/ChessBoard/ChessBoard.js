@@ -42,9 +42,9 @@ class ChessBoard extends Component {
         }
 
         // Initialize board array.
-        for(let i = 0; i < 15; i++) {
+        for (let i = 0; i < 15; i++) {
             board[i] = [];
-            for(let j = 0; j < 15; j++) {
+            for (let j = 0; j < 15; j++) {
                 board[i][j] = BOARD_EMPTY;
             }
         }
@@ -53,13 +53,47 @@ class ChessBoard extends Component {
 
     onBoardClick = (e) => {
         e.preventDefault();
-        console.log(e.offsetX, e.offsetY)
+        let rect = e.target.getBoundingClientRect();
+        // console.log(e.clientX - rect.left, e.clientY - rect.top);
+        let coord = this.getCoord(e.clientX - rect.left, e.clientY - rect.top);
+        console.log(coord.i, coord.j);
+        this.drawPiece(this.interval + this.interval * coord.i, this.interval + this.interval * coord.j);
+    }
+
+    getCoord = (x, y) => {
+        let i = Math.floor((x + this.interval / 2 - 20 + this.interval) / this.interval - 2);
+        let j = Math.floor((y + this.interval / 2 - 20 + this.interval) / this.interval - 2);
+
+        // console.log(i, j);
+        return { i, j }
+    }
+
+    drawPiece = (x, y, role) => {
+        console.log("Draw piece", x, y)
+        const board = this.refs.board;
+        const ctx = board.getContext("2d");
+
+        ctx.beginPath();
+        ctx.arc(x, y, this.interval / 2.1, 0, 2 * Math.PI);
+
+        var grd = ctx.createRadialGradient(x, y, 5, 90, 60, 100);
+        grd.addColorStop(0, "white");
+        grd.addColorStop(1, "black");
+
+        // ctx.fillStyle = "#222";
+        ctx.fillStyle = grd;
+        ctx.shadowOffsetX = 2
+        ctx.shadowOffsetY = 2
+        ctx.shadowColor = "#555"
+        ctx.shadowBlur = 5
+        ctx.fill()
     }
 
     render() {
         return (
             <div className="ChessBoard">
                 <canvas className={style.board} ref="board" width={this.board_size} height={this.board_size} onClick={this.onBoardClick} />
+
             </div>
         );
     }
