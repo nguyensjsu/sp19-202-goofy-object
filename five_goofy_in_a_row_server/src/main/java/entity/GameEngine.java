@@ -1,51 +1,53 @@
 package entity;
 
 public class GameEngine {
-    private Player p1;      //p1-black  first hand
-    private Player p2;      //p2-white
+    private String id1;    //p1-black  first hand
+    private String id2;   //p2-white
+    private String curPlayer;
+    private Position curPosition;
     private Board board;
 
-    public GameEngine(Player p1, Player p2) {
-        this.p1 = p1;
-        this.p2 = p2;
+    public GameEngine(String id1, String id2) {
+        this.id1 = id1;
+        this.id2 = id2;
+        curPlayer = id1;
         this.board = new Board();
     }
 
-    public void putPiece(Position p, int c) {
-        this.board.putPiece(p,c);
-    }
-
-    public int checkWin(Position p) {
-        return this.board.checkFiveInRow(p);
-    }
-
-    public Position notifyReady(Player palyer) {
-        return null;
-    }
-
-    public void firstHand(Player palyer) {} //?
-
-    public void notifyEnd(Player palyer, int winner) {
-
-    }
-
-    public void startGame() {
-        int winner = 0;
-        int color = 1;
-        Player cur = p1;
-        Position p = new Position();
-        firstHand(cur);
-        while( (winner = checkWin(p)) == 0) {
-//            notifyReady(cur);
-            // p = socket.receive
-            putPiece(p,color);
-            notifyReady(cur);
-            notifyReady(cur==p1 ? p2 : p1);
-            color = color==1? 2 : 1;
-            cur = cur == p1 ? p2 : p1;
+    public boolean putPiece(String id, Position p) {
+        boolean res = this.board.putPiece(p,getColor(id));
+        if(res) {
+            curPlayer = curPlayer.equals(id1)? id2: id1;
         }
-        notifyEnd(p1, winner);
-        notifyEnd(p1, winner);
+        return res;
     }
 
+    private int getColor(String id) {
+        if(id1.equals(id)) {
+            return 1;
+        }else if(id2.equals(id)) {
+            return 2;
+        }else {
+            return 0;
+        }
+    }
+
+    private String checkWinner(Position p) {
+        int res = this.board.checkFiveInRow(p);
+        if(res == 1) {
+            return id1;
+        }else if(res == 2) {
+            return id2;
+        }else {
+            return null;
+        }
+    }
+
+    public String readyPlayer() {
+        return curPlayer;
+    }
+
+    public boolean checkDraw() {
+        return this.board.checkDraw();
+    }
 }

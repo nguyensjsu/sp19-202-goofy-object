@@ -3,21 +3,27 @@ package entity;
 public class Board {
     private final int gridNum = 15;
     private Piece[][] grid;
+    int num = 0;
 
     public Board() {
         this.grid = new Piece[gridNum][gridNum];
     }
 
     public boolean putPiece(Position p, int c) {
-        if(p == null) { return false;}
+        if(p == null || (c != 1 && c != 2)) { return false;}
         int x = p.getX();
         int y = p.getY();
         if( grid[x][y] == null ) {
             grid[x][y] = new Piece(c);
+            num++;
             return true;
         }else {
             return false;
         }
+    }
+
+    public boolean checkDraw() {
+        return num == gridNum * gridNum;
     }
 
     // 1 -p1 win, 2- p2 win, 0- no win
