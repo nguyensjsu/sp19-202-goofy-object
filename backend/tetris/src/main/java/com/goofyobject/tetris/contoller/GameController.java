@@ -1,14 +1,18 @@
 package com.goofyobject.tetris.contoller;
 
-import com.goofyobject.tetris.domain.Brick;
-import com.goofyobject.tetris.domain.GameEngine;
+import com.goofyobject.tetris.domain.Game;
 import com.goofyobject.tetris.domain.Player;
 import com.goofyobject.tetris.service.GameRoomService;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -16,43 +20,39 @@ public class GameController {
 
     @Autowired
     GameRoomService gameRoomService;
-    // @MessageMapping("/moveDown")
-    // @SendTo("/topic/move")
-    // public Brick move(SimpMessageHeaderAccessor headerAccessor,Brick brick)
-    // throws Exception {
-    // // WebSocketSession session,
-    // System.out.println(headerAccessor.getSessionId());
-    // brick.moveDown();
-    // return brick;
-    // }
+
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     @MessageMapping("/addUser")
     @SendTo("/topic/add")
     public Player addUser(SimpMessageHeaderAccessor headerAccessor, Player player) throws Exception {
         player.setSessionId(headerAccessor.getSessionId());
-        if (gameRoomService.addPlayer(player)) {
+        if (gameRoomService.addPlayerToQueue(player)) {
+            headerAccessor.getSessionAttributes().put("username",player.getName());
             return player;
         }
         return null;
     }
 
-    @MessageMapping("/create")
-    @SendTo("/topic/create")
-    public void createRoom(SimpMessageHeaderAccessor headerAccessor, Player player) throws Exception {
-        gameRoomService.createRoom(player);
-    }
-
-    @MessageMapping("/join")
-    @SendTo("/topic/join")
+    @MessageMapping("/match")
     public void matchOpponent(SimpMessageHeaderAccessor headerAccessor, Player player) throws Exception {
 
-        GameEngine e = gameRoomService.findRoom(player);
+        player.setSessionId(headerAccessor.getSessionId());
+        gameRoomService.findRoom(player);
 
-        if (e == null) {
-            return;
+        Game game = gameRoomService.getGameBoard(player);
+
+        if (game != null){
+            messagingTemplate.convertAndSend("/topic/join"+player.getName(), game);
+
+        }else{
+            Thread.sleep(600);
+            messagingTemplate.convertAndSend("/topic/retry"+player.getName(), player);
         }
-
-        //todo: send message to p1 and p2
 
     }
 

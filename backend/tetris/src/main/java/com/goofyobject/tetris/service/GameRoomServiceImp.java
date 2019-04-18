@@ -1,11 +1,11 @@
 package com.goofyobject.tetris.service;
 
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-import com.goofyobject.tetris.domain.GameEngine;
+import com.goofyobject.tetris.domain.Game;
 import com.goofyobject.tetris.domain.Player;
 
 import org.springframework.stereotype.Component;
@@ -13,30 +13,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameRoomServiceImp implements GameRoomService {
 
-    private final ConcurrentLinkedQueue<Player> waitingQueue = new ConcurrentLinkedQueue<>();
-    private final ConcurrentLinkedQueue<GameEngine> room = new ConcurrentLinkedQueue<>();
+    private final LinkedList<Player> waitingQueue = new LinkedList<>();
+    private final ConcurrentHashMap<String, Game> boards = new ConcurrentHashMap<>();
 
 
     @Override
-    public boolean addPlayer(Player player) {
+    public boolean addPlayerToQueue(Player player) {
 
-        if (waitingQueue.contains(player)) {
-            return false;
+        synchronized(waitingQueue){
+            if (waitingQueue.contains(player)) {
+                return false;
+            }
+
+            this.waitingQueue.add(player);
         }
-
-        this.waitingQueue.add(player);
         return true;
-    }
-
-    @Override
-    public boolean removePlayer(Player player) {
-
-        if (waitingQueue.contains(player)) {
-            waitingQueue.remove(player);
-            return true;
-        }
-
-        return false;
     }
 
     @Override
@@ -45,42 +36,41 @@ public class GameRoomServiceImp implements GameRoomService {
     }
 
     @Override
-    public GameEngine findRoom(Player player) {
+    public synchronized void findRoom(Player player) {
         
-        Iterator<GameEngine> it  =  room.iterator();
 
-        while (it.hasNext()){
+        synchronized(waitingQueue){
 
-            GameEngine e = it.next();
+            Player opponent = null;
 
-            if (e.getPlayer2().getSessionId() == null){
-                e.setPlayer2(player);
-                return e;
+
+            Iterator<Player> iterator = waitingQueue.iterator();
+
+            while (iterator.hasNext()) {
+                Player cur = iterator.next();
+                if (!cur.getSessionId().equals(player.getSessionId())){
+                    opponent = cur;
+                }
             }
-        }
+                //cannot find opponent or player already matched
+            if (opponent == null || boards.containsKey(player.getSessionId()) || boards.containsKey(opponent.getSessionId()) ){
+                    return;
+            }
+                //remove players from queue
+            waitingQueue.remove(player);
+            waitingQueue.remove(opponent);
 
-        return null;
+            Game e = new Game(player, opponent);
+
+            boards.put(player.getSessionId(), e);
+            boards.put(opponent.getSessionId(), e);
+        }
         
     }
 
     @Override
-    public void createRoom(Player player) {
-
-
-        Iterator<GameEngine> it  =  room.iterator();
-
-        while (it.hasNext()){
-
-            GameEngine e = it.next();
-
-            if (e.getPlayer1().getSessionId().equals(player.getSessionId())){
-                return;
-            }
-        }
-        
-        GameEngine engine = new GameEngine(player, null);
-
-        room.add(engine);
+    public Game getGameBoard(Player player) {
+        return boards.get(player.getSessionId());
     }
 
 }

@@ -13,6 +13,7 @@ class ChessBoard extends Component {
         { x: this.interval * 12, y: this.interval * 12 }
     ];
 
+
     componentDidMount() {
         const board = this.refs.board;
         const ctx = board.getContext("2d");
@@ -31,15 +32,21 @@ class ChessBoard extends Component {
         for (let coord of this.points_coord) {
             ctx.beginPath();
             ctx.arc(coord.x, coord.y, 4, 0, 2 * Math.PI);
+            ctx.fillStyle = "#555";
             ctx.fill()
         }
 
     }
 
+    onBoardClick = (e) => {
+        e.preventDefault();
+        console.log(e.clientX, e.clientY)
+    }
+
     render() {
         return (
             <div className="ChessBoard">
-                <canvas className={style.board} ref="board" width={this.board_size} height={this.board_size} />
+                <canvas className={style.board} ref="board" width={this.board_size} height={this.board_size} onClick={this.onBoardClick} />
             </div>
         );
     }
