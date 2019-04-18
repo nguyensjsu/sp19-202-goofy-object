@@ -1,4 +1,4 @@
-package controller;
+package five_in_a_row.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

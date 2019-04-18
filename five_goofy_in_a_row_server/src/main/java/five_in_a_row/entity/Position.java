@@ -1,4 +1,4 @@
-package entity;
+package five_in_a_row.entity;
 
 public class Position {
     private int x;

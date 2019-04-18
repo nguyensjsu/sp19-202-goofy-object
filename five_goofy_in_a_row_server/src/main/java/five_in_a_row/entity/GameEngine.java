@@ -1,4 +1,4 @@
-package entity;
+package five_in_a_row.entity;
 
 public class GameEngine {
     private String id1;    //p1-black  first hand

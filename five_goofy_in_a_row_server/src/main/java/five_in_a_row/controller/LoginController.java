@@ -1,6 +1,6 @@
-package controller;
+package five_in_a_row.controller;
 
-import entity.User;
+import five_in_a_row.entity.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

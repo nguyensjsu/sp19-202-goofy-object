@@ -1,4 +1,4 @@
-package entity;
+package five_in_a_row.entity;
 
 public class Board {
     private final int gridNum = 15;
