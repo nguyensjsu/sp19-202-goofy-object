@@ -2,4 +2,7 @@
     border: 1px solid;
     padding: 20px;
     background-color: bisque;
+    box-shadow: #00000078 6px 7px 14px 0px;
+    border-radius: 15px;
+    border-color: rgba(0,0,0,0.2);
 }

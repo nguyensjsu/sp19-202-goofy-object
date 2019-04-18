@@ -42,6 +42,8 @@ class ChessBoard extends Component {
             ctx.fill()
         }
 
+
+
         // Initialize board array.
         for (let i = 0; i < 15; i++) {
             board[i] = [];
@@ -96,7 +98,6 @@ class ChessBoard extends Component {
         return (
             <div className="ChessBoard">
                 <canvas className={style.board} ref="board" width={this.board_size} height={this.board_size} onClick={this.onBoardClick} />
-
             </div>
         );
     }
