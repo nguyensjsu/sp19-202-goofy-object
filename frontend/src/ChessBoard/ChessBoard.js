@@ -16,7 +16,7 @@ class ChessBoard extends Component {
         { x: this.interval * 4, y: this.interval * 12 },
         { x: this.interval * 12, y: this.interval * 12 }
     ];
-    board = [];
+    board_matrix = [];
     isMe = false;
 
 
@@ -46,9 +46,9 @@ class ChessBoard extends Component {
 
         // Initialize board array.
         for (let i = 0; i < 15; i++) {
-            board[i] = [];
+            this.board_matrix[i] = [];
             for (let j = 0; j < 15; j++) {
-                board[i][j] = BOARD_EMPTY;
+                this.board_matrix[i][j] = BOARD_EMPTY;
             }
         }
 
@@ -60,9 +60,10 @@ class ChessBoard extends Component {
         // console.log(e.clientX - rect.left, e.clientY - rect.top);
         let coord = this.getCoord(e.clientX - rect.left, e.clientY - rect.top);
         console.log(coord.i, coord.j);
-        if (coord.i < 0 || coord.i > 14 || coord.j < 0 || coord.j > 14 || this.board[coord.i][coord.j] != 0) return;
-        this.board[coord.i][coord.j] = this.isMe ? BOARD_SELF : BOARD_OPP;
+        if (coord.i < 0 || coord.i > 14 || coord.j < 0 || coord.j > 14 || this.board_matrix[coord.i][coord.j] != 0) return;
+        this.board_matrix[coord.i][coord.j] = this.isMe ? BOARD_SELF : BOARD_OPP;
         this.drawPiece(this.interval + this.interval * coord.i, this.interval + this.interval * coord.j, this.isMe);
+        console.log('Current Board:', this.board_matrix);
     }
 
     getCoord = (x, y) => {
