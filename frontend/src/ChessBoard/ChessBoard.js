@@ -60,6 +60,7 @@ class ChessBoard extends Component {
         // console.log(e.clientX - rect.left, e.clientY - rect.top);
         let coord = this.getCoord(e.clientX - rect.left, e.clientY - rect.top);
         console.log(coord.i, coord.j);
+        if (coord.i < 0 || coord.i > 14 || coord.j < 0 || coord.j > 14) return;
         this.drawPiece(this.interval + this.interval * coord.i, this.interval + this.interval * coord.j, this.isMe);
     }
 
@@ -79,7 +80,7 @@ class ChessBoard extends Component {
         ctx.beginPath();
         ctx.arc(x, y, this.interval / 2.1, 0, 2 * Math.PI);
 
-        var grd = ctx.createRadialGradient(x - 3, y - 3, 1, x - 2 , y - 2 , 15);
+        var grd = ctx.createRadialGradient(x - 3, y - 3, 1, x - 2, y - 2, 15);
         grd.addColorStop(0, role ? "#999" : "white");
         grd.addColorStop(1, role ? "black" : "#ccc");
 
