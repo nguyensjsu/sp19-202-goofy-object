@@ -1,16 +1,15 @@
 package com.goofyobject.tetris.service;
 
-import com.goofyobject.tetris.domain.Game;
-import com.goofyobject.tetris.domain.Player;
+import com.goofyobject.tetris.domain.GameEngine;
 
 public interface GameRoomService {
 
-    public boolean addPlayerToQueue(Player player);
+    public boolean addPlayerToQueue(String sessionId);
 
-    public Player[] getWaitingPlayers();
+    public boolean findOpponent(String sessionId);
 
-    public void findRoom(Player player);
+    public GameEngine getEngine(String sessionId);
 
-    public Game getGameBoard(Player player);
+    public String[] getWaitingPlayers();
 
 }

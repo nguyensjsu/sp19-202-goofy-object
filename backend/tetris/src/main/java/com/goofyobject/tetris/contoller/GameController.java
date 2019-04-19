@@ -1,16 +1,12 @@
 package com.goofyobject.tetris.contoller;
 
-import com.goofyobject.tetris.domain.Game;
-import com.goofyobject.tetris.domain.Player;
+import com.goofyobject.tetris.domain.GameEngine;
+import com.goofyobject.tetris.domain.Position;
 import com.goofyobject.tetris.service.GameRoomService;
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
@@ -26,33 +22,67 @@ public class GameController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-    @MessageMapping("/addUser")
-    @SendTo("/topic/add")
-    public Player addUser(SimpMessageHeaderAccessor headerAccessor, Player player) throws Exception {
-        player.setSessionId(headerAccessor.getSessionId());
-        if (gameRoomService.addPlayerToQueue(player)) {
-            headerAccessor.getSessionAttributes().put("username",player.getName());
-            return player;
-        }
-        return null;
+    @MessageMapping("/addToQueue")
+    public void addUser(SimpMessageHeaderAccessor headerAccessor) throws Exception {
+        String sessionId = headerAccessor.getSessionId();
+        boolean isAdded = gameRoomService.addPlayerToQueue(sessionId);
+        messagingTemplate.convertAndSend("/topic/add?" + sessionId,isAdded);
     }
 
     @MessageMapping("/match")
-    public void matchOpponent(SimpMessageHeaderAccessor headerAccessor, Player player) throws Exception {
+    public void matchOpponent(SimpMessageHeaderAccessor headerAccessor) throws Exception {
+        String sessionId = headerAccessor.getSessionId();
 
-        player.setSessionId(headerAccessor.getSessionId());
-        gameRoomService.findRoom(player);
+        int i = 0;
+        while (i < 500) {
 
-        Game game = gameRoomService.getGameBoard(player);
+            gameRoomService.findOpponent(sessionId);
 
-        if (game != null){
-            messagingTemplate.convertAndSend("/topic/join"+player.getName(), game);
+            GameEngine gameEngine = gameRoomService.getEngine(sessionId);
 
-        }else{
-            Thread.sleep(600);
-            messagingTemplate.convertAndSend("/topic/retry"+player.getName(), player);
+            if (gameEngine != null) {
+
+                messagingTemplate.convertAndSend("/topic/join","");
+
+                String playerOneSessionID = gameEngine.getPlayer1();
+
+                if (sessionId.equals(playerOneSessionID)) {
+                    messagingTemplate.convertAndSend("/topic/update?" + sessionId, "");
+                }
+                return;
+            }
+            Thread.sleep(500);
+            i++;
         }
+        messagingTemplate.convertAndSend("/topic/retry?" + sessionId,"");
+    }
+
+    @MessageMapping("/putPiece")
+    public void putPiece(SimpMessageHeaderAccessor headerAccessor,Position position) throws Exception {
+
+        String sessionId = headerAccessor.getSessionId();
+
+        GameEngine gameEngine = gameRoomService.getEngine(sessionId);
+
+        //if valid move
+        if (gameEngine != null && gameEngine.putPiece(sessionId, position)){
+
+            String winnerSessionId = gameEngine.checkWinner(position);
+            
+            if (winnerSessionId != null){
+                messagingTemplate.convertAndSend("/topic/win", winnerSessionId);
+            }
+
+            if (gameEngine.checkDraw()){
+                messagingTemplate.convertAndSend("/topic/win", "");
+            }
+
+            String readPlayerSessionId = gameEngine.readyPlayer();
+            messagingTemplate.convertAndSend("/topic/update?" + readPlayerSessionId, position);
+            
+        }
+        
+        
 
     }
 
