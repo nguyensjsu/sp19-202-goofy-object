@@ -1,6 +1,7 @@
-package five_in_a_row.controller;
+package com.goofyobject.tetris.contoller;
 
-import five_in_a_row.entity.User;
+import com.goofyobject.tetris.domain.User;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController

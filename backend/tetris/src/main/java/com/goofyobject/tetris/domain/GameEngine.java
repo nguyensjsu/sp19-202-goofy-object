@@ -1,4 +1,4 @@
-package five_in_a_row.entity;
+package com.goofyobject.tetris.domain;
 
 public class GameEngine {
     private String id1;    //p1-black  first hand
@@ -32,7 +32,7 @@ public class GameEngine {
         }
     }
 
-    private String checkWinner(Position p) {
+    public String checkWinner(Position p) {
         int res = this.board.checkFiveInRow(p);
         if(res == 1) {
             return id1;
@@ -50,4 +50,8 @@ public class GameEngine {
     public boolean checkDraw() {
         return this.board.checkDraw();
     }
+
+	public String getPlayer1() {
+		return this.id1;
+	}
 }

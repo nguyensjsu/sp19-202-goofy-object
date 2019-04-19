@@ -1,4 +1,4 @@
-package five_in_a_row.entity;
+package com.goofyobject.tetris.domain;
 
 public class User {
     private String username;

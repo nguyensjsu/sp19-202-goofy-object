@@ -1,4 +1,4 @@
-package five_in_a_row.entity;
+package com.goofyobject.tetris.domain;
 
 public class Position {
     private int x;
