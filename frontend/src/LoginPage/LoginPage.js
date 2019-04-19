@@ -20,6 +20,8 @@ class LoginPage extends Component {
     onLoginHandler = () => {
         console.log("Username:", this.state.username);
         console.log("Password:", this.state.password);
+        this.props.onLoginHandler(true);
+        this.props.history.push('/game')
     }
 
     render() {
