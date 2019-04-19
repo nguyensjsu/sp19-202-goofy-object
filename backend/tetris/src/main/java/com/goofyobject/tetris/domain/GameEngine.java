@@ -1,48 +1,53 @@
-package com.goofyobject.tetris.domain;
+package five_in_a_row.entity;
 
 public class GameEngine {
-    private String p1; // p1-black first hand
-    private String p2; // p2-white
+    private String id1;    //p1-black  first hand
+    private String id2;   //p2-white
+    private String curPlayer;
+    private Position curPosition;
     private Board board;
 
-    public Board getBoard() {
-        return this.board;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public GameEngine(String p1, String p2) {
-        this.p1 = p1;
-        this.p2 = p2;
+    public GameEngine(String id1, String id2) {
+        this.id1 = id1;
+        this.id2 = id2;
+        curPlayer = id1;
         this.board = new Board();
     }
 
-    public String getPlayer1() {
-        return this.p1;
+    public boolean putPiece(String id, Position p) {
+        boolean res = this.board.putPiece(p,getColor(id));
+        if(res) {
+            curPlayer = curPlayer.equals(id1)? id2: id1;
+        }
+        return res;
     }
 
-    public String getPlayer2() {
-        return this.p2;
+    private int getColor(String id) {
+        if(id1.equals(id)) {
+            return 1;
+        }else if(id2.equals(id)) {
+            return 2;
+        }else {
+            return 0;
+        }
     }
 
-    public String readyPlayer(){
-        return this.p2;
+    private String checkWinner(Position p) {
+        int res = this.board.checkFiveInRow(p);
+        if(res == 1) {
+            return id1;
+        }else if(res == 2) {
+            return id2;
+        }else {
+            return null;
+        }
     }
 
-    public boolean putPiece(String sessionId, Position position){
-        return true;
+    public String readyPlayer() {
+        return curPlayer;
     }
 
-    public String checkWinner(Position position){
-        return this.p1;
+    public boolean checkDraw() {
+        return this.board.checkDraw();
     }
-
-    public boolean checkDraw(){
-        return false;
-    }
-
-
-
 }
