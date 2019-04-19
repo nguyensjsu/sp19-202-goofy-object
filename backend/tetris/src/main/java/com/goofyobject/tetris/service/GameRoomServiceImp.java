@@ -1,6 +1,5 @@
 package com.goofyobject.tetris.service;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,6 +24,11 @@ public class GameRoomServiceImp implements GameRoomService {
             this.waitingQueue.add(sessionId);
             return true;
         }
+    }
+
+    @Override
+    public void removePlayerFromQueue(String sessionId) {
+        waitingQueue.remove(sessionId);
     }
 
     @Override

@@ -26,12 +26,12 @@ public class GameController {
     public void addUser(SimpMessageHeaderAccessor headerAccessor) throws Exception {
         String sessionId = headerAccessor.getSessionId();
         boolean isAdded = gameRoomService.addPlayerToQueue(sessionId);
+        matchOpponent(sessionId);
         messagingTemplate.convertAndSend("/topic/add?" + sessionId,isAdded);
+        
     }
 
-    @MessageMapping("/match")
-    public void matchOpponent(SimpMessageHeaderAccessor headerAccessor) throws Exception {
-        String sessionId = headerAccessor.getSessionId();
+    public void matchOpponent(String sessionId) throws Exception {
 
         int i = 0;
         while (i < 500) {
@@ -54,6 +54,7 @@ public class GameController {
             Thread.sleep(500);
             i++;
         }
+        gameRoomService.removePlayerFromQueue(sessionId);
         messagingTemplate.convertAndSend("/topic/retry?" + sessionId,"");
     }
 
