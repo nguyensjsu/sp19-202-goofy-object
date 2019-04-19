@@ -8,15 +8,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping()
 public class LoginController {
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public boolean login(@RequestBody User user) {
-        // check login
-        return true;
+        if(user != null ) {
+            if(user.getUsername() != null ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @PostMapping("/register")
     public boolean register(@RequestBody User user) {
-        // check login
-        return true;
+        if(user != null ) {
+            if(user.getUsername() != null) {
+                return true;
+            }
+        }
+        return false;
     }
 }
