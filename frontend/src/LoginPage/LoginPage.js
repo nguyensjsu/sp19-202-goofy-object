@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import config from '../config';
+import cookie from 'react-cookies';
 
 class LoginPage extends Component {
 
@@ -25,7 +26,8 @@ class LoginPage extends Component {
                 console.log('Login status:', res.data);
                 this.props.onLoginHandler(res.data);
                 if (res.data) {
-                    this.props.history.push('/game')
+                    cookie.save('username', this.state.username);
+                    this.props.history.push('/mode')
                 } else {
                     this.setState({
                         msg: "Failed to login"

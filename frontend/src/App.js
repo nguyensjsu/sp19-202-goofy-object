@@ -4,7 +4,8 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-router-dom';
 
 import ChessBoard from './ChessBoard/ChessBoard';
-import LoginPage from './LoginPage/LoginPage'
+import LoginPage from './LoginPage/LoginPage';
+import ModeSelection from './ModeSelection/ModeSelection';
 
 class App extends Component {
 
@@ -27,7 +28,7 @@ class App extends Component {
           <h1>Five Goofy in a Row</h1>
           <Switch>
             <Route path="/login" exact render={(props) => <LoginPage {...props} onLoginHandler={this.onLoginHandler} />} />
-            {/* <Route path="/mode" exact component={LoginPage} /> */}
+            <Route path="/mode" exact component={ModeSelection} />
             {this.state.loggedIn ? <Route path="/game" exact component={ChessBoard} /> : null}
             {this.state.loggedIn ? null : <Redirect to="/login"></Redirect>}
           </Switch>
