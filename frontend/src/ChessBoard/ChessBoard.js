@@ -60,14 +60,14 @@ class ChessBoard extends Component {
         // console.log(e.clientX - rect.left, e.clientY - rect.top);
         let coord = this.getCoord(e.clientX - rect.left, e.clientY - rect.top);
         console.log(coord.i, coord.j);
-        if (coord.i < 0 || coord.i > 14 || coord.j < 0 || coord.j > 14) return;
+        if (coord.i < 0 || coord.i > 14 || coord.j < 0 || coord.j > 14 || this.board[coord.i][coord.j] != 0) return;
+        this.board[coord.i][coord.j] = this.isMe ? BOARD_SELF : BOARD_OPP;
         this.drawPiece(this.interval + this.interval * coord.i, this.interval + this.interval * coord.j, this.isMe);
     }
 
     getCoord = (x, y) => {
         let i = Math.floor((x + this.interval / 2 - 20 + this.interval) / this.interval - 2);
         let j = Math.floor((y + this.interval / 2 - 20 + this.interval) / this.interval - 2);
-
         // console.log(i, j);
         return { i, j }
     }

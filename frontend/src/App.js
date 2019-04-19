@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-router-dom';
 
 import ChessBoard from './ChessBoard/ChessBoard';
 import LoginPage from './LoginPage/LoginPage'
@@ -10,7 +10,7 @@ class App extends Component {
 
 
   state = {
-    loggedIn : false
+    loggedIn: false
   }
 
   onLoginHandler = (status) => {
@@ -25,9 +25,12 @@ class App extends Component {
       <Router>
         <div className="App">
           <h1>Five Goofy in a Row</h1>
-          <Route path="/" exact render={(props) => <LoginPage {...props} onLoginHandler={this.onLoginHandler} />} />
-          {/* <Route path="/mode" exact component={LoginPage} /> */}
-          {this.state.loggedIn ? <Route path="/game" exact component={ChessBoard} /> : null}
+          <Switch>
+            <Route path="/login" exact render={(props) => <LoginPage {...props} onLoginHandler={this.onLoginHandler} />} />
+            {/* <Route path="/mode" exact component={LoginPage} /> */}
+            {this.state.loggedIn ? <Route path="/game" exact component={ChessBoard} /> : null}
+            {this.state.loggedIn ? null : <Redirect to="/login"></Redirect>}
+          </Switch>
         </div>
       </Router>
     );
