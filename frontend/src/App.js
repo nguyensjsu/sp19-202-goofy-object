@@ -27,9 +27,9 @@ class App extends Component {
         <div className="App">
           <h1>Five Goofy in a Row</h1>
           <Switch>
-            <Route path="/login" exact render={(props) => <LoginPage {...props} onLoginHandler={this.onLoginHandler} />} />
-            <Route path="/mode" exact component={ModeSelection} />
-            {this.state.loggedIn ? <Route path="/game" exact component={ChessBoard} /> : null}
+            <Route path="/login" render={(props) => <LoginPage {...props} onLoginHandler={this.onLoginHandler} />} />
+            <Route path="/mode" component={ModeSelection} />
+            {this.state.loggedIn ? <Route path="/game" component={ChessBoard} /> : null}
             {this.state.loggedIn ? null : <Redirect to="/login"></Redirect>}
           </Switch>
         </div>

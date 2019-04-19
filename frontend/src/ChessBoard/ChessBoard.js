@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import style from './ChessBoard.module.css';
+import {SINGLE_MODE , BATTLE_MODE} from '../ModeSelection/ModeSelection'
 
 const BOARD_EMPTY = 0;
 const BOARD_SELF = 1;
@@ -18,9 +19,13 @@ class ChessBoard extends Component {
     ];
     board_matrix = [];
     isMe = false;
+    game_mode = this.props.location.state.mode;
 
 
     componentDidMount() {
+
+        // console.log("Game Mode:", this.game_mode === SINGLE_MODE)
+
         const board = this.refs.board;
         const ctx = board.getContext("2d");
 
