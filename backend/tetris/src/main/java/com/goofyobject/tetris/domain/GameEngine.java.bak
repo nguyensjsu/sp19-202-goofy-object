@@ -15,7 +15,6 @@ public class GameEngine {
     }
 
     public boolean putPiece(String id, Position p) {
-		if(!curPlayer.equals(id)) {	return false;}
         boolean res = this.board.putPiece(p,getColor(id));
         if(res) {
             curPlayer = curPlayer.equals(id1)? id2: id1;

@@ -6,6 +6,8 @@ public interface GameRoomService {
 
     public boolean addPlayerToQueue(String sessionId);
 
+    public void removePlayerFromQueue(String sessionId);
+
     public boolean findOpponent(String sessionId);
 
     public GameEngine getEngine(String sessionId);
