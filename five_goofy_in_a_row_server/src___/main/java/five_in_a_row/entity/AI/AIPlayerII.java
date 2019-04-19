@@ -45,14 +45,14 @@ public class AIPlayerII implements Data {
         hm.put("11112",10000);
 
         /** White chess */
-        hm.put("2",13);
-        hm.put("22",130);
-        hm.put("222",1300);
-        hm.put("2222",11000);
-        hm.put("21",11);
-        hm.put("221",110);
-        hm.put("2221",1100);
-        hm.put("22221",11000);
+        hm.put("2",21);
+        hm.put("22",210);
+        hm.put("222",2100);
+        hm.put("2222",20000);
+        hm.put("21",20);
+        hm.put("221",200);
+        hm.put("2221",2000);
+        hm.put("22221",20000);
     }
 
 }
