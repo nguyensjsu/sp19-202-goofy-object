@@ -14,29 +14,29 @@ public class GameRoomServiceImp implements GameRoomService {
     private final ConcurrentHashMap<String, GameEngine> engines = new ConcurrentHashMap<>();
 
     @Override
-    public boolean addPlayerToQueue(String sessionId) {
+    public boolean addPlayerToQueue(String username) {
 
         synchronized (waitingQueue) {
-            if (waitingQueue.contains(sessionId)) {
+            if (waitingQueue.contains(username)) {
                 return false;
             }
 
-            this.waitingQueue.add(sessionId);
+            this.waitingQueue.add(username);
             return true;
         }
     }
 
     @Override
-    public void removePlayerFromQueue(String sessionId) {
-        waitingQueue.remove(sessionId);
+    public void removePlayerFromQueue(String username) {
+        waitingQueue.remove(username);
     }
 
     @Override
-    public boolean findOpponent(String curSessionId) {
+    public boolean findOpponent(String curUsername) {
 
         synchronized (waitingQueue) {
 
-            String opponentSessionID = null;
+            String opponentUsername = null;
 
             Iterator<String> iterator = waitingQueue.iterator();
 
@@ -44,30 +44,30 @@ public class GameRoomServiceImp implements GameRoomService {
 
                 String next = iterator.next();
 
-                if (!next.equals(curSessionId)) {
-                    opponentSessionID = next;
+                if (!next.equals(curUsername)) {
+                    opponentUsername = next;
                 }
             }
             // cannot find opponent or player already matched
-            if (opponentSessionID == null || engines.containsKey(curSessionId) || engines.containsKey(curSessionId)) {
+            if (opponentUsername == null || engines.containsKey(curUsername) || engines.containsKey(curUsername)) {
                 return false;
             }
             // remove players from queue
-            waitingQueue.remove(curSessionId);
-            waitingQueue.remove(opponentSessionID);
+            waitingQueue.remove(curUsername);
+            waitingQueue.remove(opponentUsername);
 
-            GameEngine engine = new GameEngine(curSessionId, opponentSessionID);
+            GameEngine engine = new GameEngine(opponentUsername,curUsername);
 
-            engines.put(curSessionId, engine);
-            engines.put(opponentSessionID, engine);
+            engines.put(curUsername, engine);
+            engines.put(opponentUsername, engine);
 
             return true;
         }
 
     }
 
-    public GameEngine getEngine(String sessionId) {
-        return engines.get(sessionId);
+    public GameEngine getEngine(String username) {
+        return engines.get(username);
     }
 
     @Override

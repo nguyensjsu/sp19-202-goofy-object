@@ -14,7 +14,7 @@ public class GameEngine {
         this.board = new Board();
     }
 
-    public boolean putPiece(String id, Position p) {
+    public synchronized boolean putPiece(String id, Position p) {
 		if(!curPlayer.equals(id)) {	return false;}
         boolean res = this.board.putPiece(p,getColor(id));
         if(res) {
@@ -23,7 +23,7 @@ public class GameEngine {
         return res;
     }
 
-    private int getColor(String id) {
+    private synchronized int getColor(String id) {
         if(id1.equals(id)) {
             return 1;
         }else if(id2.equals(id)) {
@@ -33,7 +33,7 @@ public class GameEngine {
         }
     }
 
-    public String checkWinner(Position p) {
+    public synchronized String checkWinner(Position p) {
         int res = this.board.checkFiveInRow(p);
         if(res == 1) {
             return id1;
@@ -44,15 +44,27 @@ public class GameEngine {
         }
     }
 
-    public String readyPlayer() {
+    public synchronized String readyPlayer() {
         return curPlayer;
     }
 
-    public boolean checkDraw() {
+    public synchronized boolean checkDraw() {
         return this.board.checkDraw();
     }
 
-	public String getPlayer1() {
+	public String getId1() {
 		return this.id1;
+	}
+
+	public void setId1(String id1) {
+		this.id1 = id1;
+    }
+    
+    public String getId2() {
+		return this.id2;
+	}
+
+	public void setId2(String id2) {
+		this.id2 = id2;
 	}
 }

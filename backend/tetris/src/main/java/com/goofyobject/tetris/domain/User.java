@@ -2,7 +2,13 @@ package com.goofyobject.tetris.domain;
 
 public class User {
     private String username;
-//    private String password;
+
+    public User(){
+        
+    }
+    public User(String username){
+        this.username = username;
+    }
 
     public String getUsername() {
         return username;
