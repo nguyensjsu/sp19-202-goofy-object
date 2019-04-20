@@ -1,15 +1,15 @@
 
-stompClient.subscribe('/topic/add?' + $("#name").val(), function (res){
+stompClient.subscribe('/topic/add?' + "tok", function (res){
         //status code: OK(202),FAIL(400)
         console.log(res);
 });
-stompClient.subscribe('/topic/join?' + $("#name").val(), function (res){
+stompClient.subscribe('/topic/join?' + "tok", function (res){
         //status code: Black(220), White(230),
         //black first hand
         console.log(res);
 });
     
-stompClient.subscribe('/topic/update?' + $("#name").val(), function (res){
+stompClient.subscribe('/topic/update?' + "tok" , function (res){
             //if has status code: OK(202), WIN(211), LOSE(212)
             //else: no status means a update move from opponent
             console.log(res);
