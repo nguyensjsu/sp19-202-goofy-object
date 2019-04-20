@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import style from './ChessBoard.module.css';
-import {SINGLE_MODE , BATTLE_MODE} from '../ModeSelection/ModeSelection'
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+import config from '../config'
+import cookie from 'react-cookies';
+import { SINGLE_MODE, BATTLE_MODE } from '../ModeSelection/ModeSelection';
 
 const BOARD_EMPTY = 0;
 const BOARD_SELF = 1;
@@ -21,6 +25,7 @@ class ChessBoard extends Component {
     isMe = false;
     game_mode = this.props.location.state.mode;
 
+    stompClient = {};
 
     componentDidMount() {
 
@@ -55,6 +60,16 @@ class ChessBoard extends Component {
             for (let j = 0; j < 15; j++) {
                 this.board_matrix[i][j] = BOARD_EMPTY;
             }
+        }
+
+        if (this.game_mode === BATTLE_MODE) {
+            let socket = new SockJS(config.host + '/ws-game');
+            this.stompClient = Stomp.over(socket);
+            this.stompClient.connect({}, (frame) => {
+                console.log("Connected:", frame);
+                this.stompClient.send('/app/addUser', {}, JSON.stringify({ username: cookie.load('username') }))
+
+            });
         }
 
     }

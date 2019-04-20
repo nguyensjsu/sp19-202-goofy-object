@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
-import config from '../config'
-import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
 
 const SINGLE_MODE = "SINGLE_MODE";
 const BATTLE_MODE = "BATTLE_MODE";
 
 class ModeSelection extends Component {
-
-    socket = {};
-
-    componentDidMount() {
-        this.socket = new SockJS(config.host + '/ws-game');
-    }
 
     onModeSelected = (mode) => {
         console.log("user chose:", mode);
