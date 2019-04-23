@@ -14,6 +14,11 @@ const COLOR_WHITE = { center: "white", edge: "#ccc" };
 
 class ChessBoard extends Component {
 
+    state = {
+        showMsg: false,
+        msg: ""
+    }
+
     board_size = 480;
     interval = this.board_size / 16;
     points_coord = [
@@ -35,6 +40,12 @@ class ChessBoard extends Component {
     componentDidMount() {
 
         // console.log("Game Mode:", this.game_mode === SINGLE_MODE)
+        if(this.game_mode === BATTLE_MODE) {
+            this.setState({
+                showMsg: true,
+                msg: "Connecting to Server..."
+            })
+        }
 
         const board = this.refs.board;
         const ctx = board.getContext("2d");
@@ -74,7 +85,10 @@ class ChessBoard extends Component {
             console.log("Connected:", frame);
             if (this.game_mode === BATTLE_MODE) {
                 this.subscribeToBattle(this.stompClient);
-
+                this.setState({
+                    showMsg: true,
+                    msg: "Findng Oppenent..."
+                })
             }
             this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
         });
@@ -99,10 +113,18 @@ class ChessBoard extends Component {
                 this.my_color = COLOR_BLACK;
                 this.op_color = COLOR_WHITE;
                 this.isMe = true;
+                this.setState({
+                    showMsg: true,
+                    msg: "Connected! You First!"
+                })
             } else if (body.status === 230) {
                 this.my_color = COLOR_WHITE;
                 this.op_color = COLOR_BLACK;
                 this.isMe = false;
+                this.setState({
+                    showMsg: true,
+                    msg: "Connected! Opponent First!"
+                })
             }
         });
 
@@ -115,9 +137,17 @@ class ChessBoard extends Component {
                 console.log("Joing Error:")
             } else if (body.status === 211) {
                 console.log("You Win!")
+                this.setState({
+                    showMsg: true,
+                    msg: "You Win!"
+                })
                 this.isMe = false;
             } else if (body.status === 212) {
                 console.log("You Lose!")
+                this.setState({
+                    showMsg: true,
+                    msg: "You Lost!"
+                })
                 this.drawPiece(body.obj.x, body.obj.y, this.isMe);
                 this.isMe = false;
             } else if (body.status === 202) {
@@ -183,12 +213,26 @@ class ChessBoard extends Component {
         this.isMe = !role;
     }
 
+    onCloseDialogHandler = () => {
+        this.setState({
+            showMsg: false,
+            msg: ""
+        })
+    }
+
     render() {
+
+        let msg_dialog = (
+            <div className={style.dialog}>
+                <h3>Message</h3>
+                <p>{this.state.msg}</p>
+                <input type="button" value="Close" onClick={this.onCloseDialogHandler}></input>
+            </div>
+        )
+
         return (
             <div className="ChessBoard">
-                <div className={style.dialog}>
-                    <h3>Message</h3>
-                </div>
+                {this.state.showMsg ? msg_dialog : null}
                 <canvas className={style.board} ref="board" width={this.board_size} height={this.board_size} onClick={this.onBoardClick} />
             </div>
         );
