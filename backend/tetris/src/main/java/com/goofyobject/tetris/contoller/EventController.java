@@ -32,7 +32,7 @@ public class EventController {
     public void handleWebsocketDisconnectListner(SessionDisconnectEvent event) {
 
         Date date = new Date();
-
+        
         logger.info("Received a new web socket connection : " + date.getTime());
     }
 
