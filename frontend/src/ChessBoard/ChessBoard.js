@@ -119,7 +119,7 @@ class ChessBoard extends Component {
                 console.log("You Lose!")
             } else if (body.status === 202) {
                 console.log("Opponent Move:", body);
-                this.drawPiece(this.getCanvasCoord(body.obj.x), this.getCanvasCoord(body.obj.y), this.isMe);
+                this.drawPiece(body.obj.x, body.obj.y, this.isMe);
             }
         });
 
@@ -134,8 +134,8 @@ class ChessBoard extends Component {
         let coord = this.getCoord(e.clientX - rect.left, e.clientY - rect.top);
         console.log(coord.i, coord.j);
         if (coord.i < 0 || coord.i > 14 || coord.j < 0 || coord.j > 14 || this.board_matrix[coord.i][coord.j] != 0) return;
-        this.board_matrix[coord.i][coord.j] = this.isMe ? BOARD_SELF : BOARD_OPP;
-        this.drawPiece(this.getCanvasCoord(coord.i), this.getCanvasCoord(coord.j), this.isMe);
+        // this.board_matrix[coord.i][coord.j] = this.isMe ? BOARD_SELF : BOARD_OPP;
+        this.drawPiece(coord.i, coord.j, this.isMe);
 
         var move = { "username": cookie.load('username'), "x": coord.i, "y": coord.j };
         this.stompClient.send("/app/putPiece", {}, JSON.stringify(move));
@@ -154,13 +154,18 @@ class ChessBoard extends Component {
 
     drawPiece = (x, y, role) => {
         console.log("Draw piece", x, y)
+        this.board_matrix[x][y] = this.isMe ? BOARD_SELF : BOARD_OPP;
+
         const board = this.refs.board;
         const ctx = board.getContext("2d");
 
-        ctx.beginPath();
-        ctx.arc(x, y, this.interval / 2.1, 0, 2 * Math.PI);
+        let canvasX = this.getCanvasCoord(x);
+        let canvasY = this.getCanvasCoord(y);
 
-        var grd = ctx.createRadialGradient(x - 3, y - 3, 1, x - 2, y - 2, 15);
+        ctx.beginPath();
+        ctx.arc(canvasX, canvasY, this.interval / 2.1, 0, 2 * Math.PI);
+
+        var grd = ctx.createRadialGradient(canvasX - 3, canvasY - 3, 1, canvasX - 2, canvasY - 2, 15);
         grd.addColorStop(0, role ? this.my_color.center : this.op_color.center);
         grd.addColorStop(1, role ? this.my_color.edge : this.op_color.edge);
 
