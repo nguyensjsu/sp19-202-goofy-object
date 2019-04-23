@@ -9,6 +9,8 @@ import { SINGLE_MODE, BATTLE_MODE } from '../ModeSelection/ModeSelection';
 const BOARD_EMPTY = 0;
 const BOARD_SELF = 1;
 const BOARD_OPP = 2;
+const COLOR_BLACK = { center: "#999", edge: "black" };
+const COLOR_WHITE = { center: "white", edge: "#ccc" };
 
 class ChessBoard extends Component {
 
@@ -22,6 +24,9 @@ class ChessBoard extends Component {
         { x: this.interval * 12, y: this.interval * 12 }
     ];
     board_matrix = [];
+
+    my_color = COLOR_BLACK;
+    op_color = COLOR_WHITE;
     isMe = false;
     game_mode = this.props.location.state.mode;
 
@@ -62,33 +67,13 @@ class ChessBoard extends Component {
             }
         }
 
-        let subscribeToBattle = (stompClient) => {
-            stompClient.subscribe('/topic/added?' + cookie.load('username'), function (res) {
-                //status code: OK(202),FAIL(400)
-                console.log("Topic add:", JSON.parse(res.body));
-            });
-            stompClient.subscribe('/topic/join?' + cookie.load('username'), function (res) {
-                //status code: Black(220), White(230),
-                //black first hand
-                console.log("Topic join", res);
-            });
-
-            stompClient.subscribe('/topic/update?' + cookie.load('username'), function (res) {
-                //if has status code: OK(202), WIN(211), LOSE(212)
-                //else: no status means a update move from opponent
-                console.log("Topic update", res);
-            });
-
-
-        }
-
         let socket = new SockJS(config.host + '/ws-game');
         this.stompClient = Stomp.over(socket);
 
         this.stompClient.connect({}, (frame) => {
             console.log("Connected:", frame);
             if (this.game_mode === BATTLE_MODE) {
-                subscribeToBattle(this.stompClient);
+                this.subscribeToBattle(this.stompClient);
 
             }
             this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
@@ -96,15 +81,68 @@ class ChessBoard extends Component {
 
     }
 
+    subscribeToBattle = (stompClient) => {
+
+        stompClient.subscribe('/topic/added?' + cookie.load('username'), (res) => {
+            //status code: OK(202),FAIL(400)
+            console.log("Topic add:", JSON.parse(res.body));
+        });
+        stompClient.subscribe('/topic/join?' + cookie.load('username'), (res) => {
+            //status code: Black(220), White(230),
+            //black first hand
+            let body = JSON.parse(res.body);
+            console.log("Topic join", body);
+
+            if (body.status === 400) {
+                console.log("Joing Error:")
+            } else if (body.status === 220) {
+                this.my_color = COLOR_BLACK;
+                this.op_color = COLOR_WHITE;
+                this.isMe = true;
+            } else if (body.status === 230) {
+                this.my_color = COLOR_WHITE;
+                this.op_color = COLOR_BLACK;
+                this.isMe = false;
+            }
+        });
+
+        stompClient.subscribe('/topic/update?' + cookie.load('username'), (res) => {
+            //if has status code: OK(202), WIN(211), LOSE(212)
+            //else: no status means a update move from opponent
+            let body = JSON.parse(res.body);
+            console.log("Topic update", body);
+            if (body.status === 400) {
+                console.log("Joing Error:")
+            } else if (body.status === 211) {
+                console.log("You Win!")
+                this.isMe = false;
+            } else if (body.status === 212) {
+                console.log("You Lose!")
+                this.drawPiece(body.obj.x, body.obj.y, this.isMe);
+                this.isMe = false;
+            } else if (body.status === 202) {
+                console.log("Opponent Move:", body);
+                this.drawPiece(body.obj.x, body.obj.y, this.isMe);
+            }
+        });
+
+
+    }
+
     onBoardClick = (e) => {
         e.preventDefault();
+        if (!this.isMe) return;
         let rect = e.target.getBoundingClientRect();
         // console.log(e.clientX - rect.left, e.clientY - rect.top);
         let coord = this.getCoord(e.clientX - rect.left, e.clientY - rect.top);
         console.log(coord.i, coord.j);
         if (coord.i < 0 || coord.i > 14 || coord.j < 0 || coord.j > 14 || this.board_matrix[coord.i][coord.j] != 0) return;
-        this.board_matrix[coord.i][coord.j] = this.isMe ? BOARD_SELF : BOARD_OPP;
-        this.drawPiece(this.interval + this.interval * coord.i, this.interval + this.interval * coord.j, this.isMe);
+        // this.board_matrix[coord.i][coord.j] = this.isMe ? BOARD_SELF : BOARD_OPP;
+        this.drawPiece(coord.i, coord.j, this.isMe);
+
+        var move = { "username": cookie.load('username'), "x": coord.i, "y": coord.j };
+        this.stompClient.send("/app/putPiece", {}, JSON.stringify(move));
+
         console.log('Current Board:', this.board_matrix);
     }
 
@@ -115,17 +153,24 @@ class ChessBoard extends Component {
         return { i, j }
     }
 
+    getCanvasCoord = x => this.interval + this.interval * x;
+
     drawPiece = (x, y, role) => {
         console.log("Draw piece", x, y)
+        this.board_matrix[x][y] = this.isMe ? BOARD_SELF : BOARD_OPP;
+
         const board = this.refs.board;
         const ctx = board.getContext("2d");
 
-        ctx.beginPath();
-        ctx.arc(x, y, this.interval / 2.1, 0, 2 * Math.PI);
+        let canvasX = this.getCanvasCoord(x);
+        let canvasY = this.getCanvasCoord(y);
 
-        var grd = ctx.createRadialGradient(x - 3, y - 3, 1, x - 2, y - 2, 15);
-        grd.addColorStop(0, role ? "#999" : "white");
-        grd.addColorStop(1, role ? "black" : "#ccc");
+        ctx.beginPath();
+        ctx.arc(canvasX, canvasY, this.interval / 2.1, 0, 2 * Math.PI);
+
+        var grd = ctx.createRadialGradient(canvasX - 3, canvasY - 3, 1, canvasX - 2, canvasY - 2, 15);
+        grd.addColorStop(0, role ? this.my_color.center : this.op_color.center);
+        grd.addColorStop(1, role ? this.my_color.edge : this.op_color.edge);
 
         // ctx.fillStyle = "#222";
         ctx.fillStyle = grd;

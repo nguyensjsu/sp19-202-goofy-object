@@ -49,9 +49,9 @@ public class GameController {
         messagingTemplate.convertAndSend("/topic/" + topicName + "?" + username, msg);
     }
 
-    public void sendResult(HashMap<String, Status> hm){
+    public void sendResult(HashMap<String, ReplyMsg> hm){
         for (String username : hm.keySet()) {
-            sendReply("update",username,new ReplyMsg(hm.get(username),username));
+            sendReply("update",username,hm.get(username));
         }
     }
 
@@ -102,7 +102,7 @@ public class GameController {
 
         if (gameEngine != null && gameEngine.putPiece(username, pos)) {
 
-            HashMap<String,Status> hm =  new HashMap<>();
+            HashMap<String,ReplyMsg> hm =  new HashMap<>();
 
             String p1 = gameEngine.getId1();
             String p2 = gameEngine.getId2();
@@ -112,24 +112,25 @@ public class GameController {
             if (winner != null) {
 
                 String loser = p1;
-                if (loser.equals(winner)){
+                if (winner.equals(p1)){
                     loser = p2;
                 }
 
-                hm.put(winner, Status.WIN);
-                hm.put(loser, Status.LOSE);
+                hm.put(winner, new ReplyMsg(Status.WIN,move));
+                hm.put(loser, new ReplyMsg(Status.LOSE,move));
                 sendResult(hm);
+                gameRoomService.removePlayersFromGame(p1,p2);
                 
             }else if (gameEngine.checkDraw()) {
-                hm.put(p1, Status.DRAW);
-                hm.put(p2, Status.DRAW);
+                hm.put(p1, new ReplyMsg(Status.DRAW,move));
+                hm.put(p2, new ReplyMsg(Status.DRAW,move));
                 sendResult(hm);
-
+                gameRoomService.removePlayersFromGame(p1,p2);
             }else{
                 String readyPlayer = gameEngine.readyPlayer();
                 logger.info(readyPlayer);
                 // User readyUser = new User(readyPlayer);
-                sendReply("update",readyPlayer, move);
+                sendReply("update",readyPlayer, new ReplyMsg(Status.OK,move));
             }
 
         }

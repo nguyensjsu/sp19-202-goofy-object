@@ -14,4 +14,6 @@ public interface GameRoomService {
 
     public String[] getWaitingPlayers();
 
+	public void removePlayersFromGame(String p1, String p2);
+
 }
