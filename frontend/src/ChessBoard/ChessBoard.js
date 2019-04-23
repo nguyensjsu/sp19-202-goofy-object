@@ -4,12 +4,13 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import config from '../config'
 import cookie from 'react-cookies';
-import axios from 'axios';
 import { SINGLE_MODE, BATTLE_MODE } from '../ModeSelection/ModeSelection';
 
 const BOARD_EMPTY = 0;
 const BOARD_SELF = 1;
 const BOARD_OPP = 2;
+const COLOR_BLACK = { center: "#999", edge: "black" };
+const COLOR_WHITE = { center: "white", edge: "#ccc" };
 
 class ChessBoard extends Component {
 
@@ -23,6 +24,9 @@ class ChessBoard extends Component {
         { x: this.interval * 12, y: this.interval * 12 }
     ];
     board_matrix = [];
+
+    my_color = COLOR_BLACK;
+    op_color = COLOR_WHITE;
     isMe = false;
     game_mode = this.props.location.state.mode;
 
@@ -63,42 +67,57 @@ class ChessBoard extends Component {
             }
         }
 
-        let subscribeToBattle = (stompClient) => {
-            stompClient.subscribe('/topic/add?' + cookie.load('username'), function (res) {
-                //status code: OK(202),FAIL(400)
-                console.log("Topic add:", JSON.parse(res.body));
-            });
-            stompClient.subscribe('/topic/join?' + cookie.load('username'), function (res) {
-                //status code: Black(220), White(230),
-                //black first hand
-                console.log("Topic join", res);
-            });
-
-            stompClient.subscribe('/topic/update?' + cookie.load('username'), function (res) {
-                //if has status code: OK(202), WIN(211), LOSE(212)
-                //else: no status means a update move from opponent
-                console.log("Topic update", res);
-            });
-
-
-        }
-
         let socket = new SockJS(config.host + '/ws-game');
         this.stompClient = Stomp.over(socket);
 
         this.stompClient.connect({}, (frame) => {
             console.log("Connected:", frame);
             if (this.game_mode === BATTLE_MODE) {
-                subscribeToBattle(this.stompClient);
-            }
+                this.subscribeToBattle(this.stompClient);
 
-            // this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
+            }
+            this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
         });
+
+    }
+
+    subscribeToBattle = (stompClient) => {
+
+        stompClient.subscribe('/topic/added?' + cookie.load('username'),  (res) => {
+            //status code: OK(202),FAIL(400)
+            console.log("Topic add:", JSON.parse(res.body));
+        });
+        stompClient.subscribe('/topic/join?' + cookie.load('username'),  (res) => {
+            //status code: Black(220), White(230),
+            //black first hand
+            let body = JSON.parse(res.body);
+            console.log("Topic join", body);
+
+            if (body.status === 400) {
+                console.log("Joing Error:")
+            } else if (body.status === 220) {
+                this.my_color = COLOR_BLACK;
+                this.op_color = COLOR_WHITE;
+                this.isMe = true;
+            } else if (body.status === 230) {
+                this.my_color = COLOR_WHITE;
+                this.op_color = COLOR_BLACK;
+                this.isMe = false;
+            }
+        });
+
+        stompClient.subscribe('/topic/update?' + cookie.load('username'),  (res) => {
+            //if has status code: OK(202), WIN(211), LOSE(212)
+            //else: no status means a update move from opponent
+            console.log("Topic update", res);
+        });
+
 
     }
 
     onBoardClick = (e) => {
         e.preventDefault();
+        if (!this.isMe) return;
         let rect = e.target.getBoundingClientRect();
         // console.log(e.clientX - rect.left, e.clientY - rect.top);
         let coord = this.getCoord(e.clientX - rect.left, e.clientY - rect.top);
@@ -125,8 +144,8 @@ class ChessBoard extends Component {
         ctx.arc(x, y, this.interval / 2.1, 0, 2 * Math.PI);
 
         var grd = ctx.createRadialGradient(x - 3, y - 3, 1, x - 2, y - 2, 15);
-        grd.addColorStop(0, role ? "#999" : "white");
-        grd.addColorStop(1, role ? "black" : "#ccc");
+        grd.addColorStop(0, role ? this.my_color.center : this.op_color.center);
+        grd.addColorStop(1, role ? this.my_color.edge : this.op_color.edge);
 
         // ctx.fillStyle = "#222";
         ctx.fillStyle = grd;
