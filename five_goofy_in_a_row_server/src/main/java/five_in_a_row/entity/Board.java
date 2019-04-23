@@ -1,4 +1,4 @@
-package five_in_a_row.entity;
+package com.goofyobject.tetris.domain;
 
 public class Board {
     private final int gridNum = 15;
@@ -61,6 +61,7 @@ public class Board {
         }
         if(count >= 5) {    return curColor;}
 
+	count = 1;
         // check up
         i = 1;
         while(y-i < gridNum && i < 5) {
@@ -85,6 +86,7 @@ public class Board {
         }
         if(count >= 5) {    return curColor;}
 
+	count = 1;
         // check right-down
         i = 1;
         while(x+i < gridNum && y+i < gridNum && i < 5) {
@@ -97,6 +99,20 @@ public class Board {
         }
         if(count >= 5) {    return curColor;}
 
+	// check left-up
+        i = 1;
+        while(x-i >= 0 && y-i >= 0 && i < 5) {
+            if(grid[x-i ][y-i ] != null && grid[x-i ][y-i ].getColor() == curColor) {
+                count++;
+                i++;
+            }else {
+                break;
+            }
+        }
+        if(count >= 5) {    return curColor;}
+
+
+	count = 1;
         // check left-down
         i = 1;
         while(x-i >= 0 && y+i < gridNum && i < 5) {
@@ -109,17 +125,6 @@ public class Board {
         }
         if(count >= 5) {    return curColor;}
 
-        // check left-up
-        i = 1;
-        while(x-i >= 0 && y-i >= 0 && i < 5) {
-            if(grid[x-i ][y-i ] != null && grid[x-i ][y-i ].getColor() == curColor) {
-                count++;
-                i++;
-            }else {
-                break;
-            }
-        }
-        if(count >= 5) {    return curColor;}
 
         // check right-up
         i = 1;
