@@ -83,11 +83,11 @@ class ChessBoard extends Component {
 
     subscribeToBattle = (stompClient) => {
 
-        stompClient.subscribe('/topic/added?' + cookie.load('username'),  (res) => {
+        stompClient.subscribe('/topic/added?' + cookie.load('username'), (res) => {
             //status code: OK(202),FAIL(400)
             console.log("Topic add:", JSON.parse(res.body));
         });
-        stompClient.subscribe('/topic/join?' + cookie.load('username'),  (res) => {
+        stompClient.subscribe('/topic/join?' + cookie.load('username'), (res) => {
             //status code: Black(220), White(230),
             //black first hand
             let body = JSON.parse(res.body);
@@ -106,10 +106,21 @@ class ChessBoard extends Component {
             }
         });
 
-        stompClient.subscribe('/topic/update?' + cookie.load('username'),  (res) => {
+        stompClient.subscribe('/topic/update?' + cookie.load('username'), (res) => {
             //if has status code: OK(202), WIN(211), LOSE(212)
             //else: no status means a update move from opponent
-            console.log("Topic update", res);
+            let body = JSON.parse(res.body);
+            console.log("Topic update", body);
+            if (body.status === 400) {
+                console.log("Joing Error:")
+            } else if (body.status === 211) {
+                console.log("You Win!")
+            } else if (body.status === 212) {
+                console.log("You Lose!")
+            } else if (body.status === 202) {
+                console.log("Opponent Move:", body);
+                this.drawPiece(this.getCanvasCoord(body.obj.x), this.getCanvasCoord(body.obj.y), this.isMe);
+            }
         });
 
 
@@ -124,7 +135,11 @@ class ChessBoard extends Component {
         console.log(coord.i, coord.j);
         if (coord.i < 0 || coord.i > 14 || coord.j < 0 || coord.j > 14 || this.board_matrix[coord.i][coord.j] != 0) return;
         this.board_matrix[coord.i][coord.j] = this.isMe ? BOARD_SELF : BOARD_OPP;
-        this.drawPiece(this.interval + this.interval * coord.i, this.interval + this.interval * coord.j, this.isMe);
+        this.drawPiece(this.getCanvasCoord(coord.i), this.getCanvasCoord(coord.j), this.isMe);
+
+        var move = { "username": cookie.load('username'), "x": coord.i, "y": coord.j };
+        this.stompClient.send("/app/putPiece", {}, JSON.stringify(move));
+
         console.log('Current Board:', this.board_matrix);
     }
 
@@ -134,6 +149,8 @@ class ChessBoard extends Component {
         // console.log(i, j);
         return { i, j }
     }
+
+    getCanvasCoord = x => this.interval + this.interval * x;
 
     drawPiece = (x, y, role) => {
         console.log("Draw piece", x, y)
