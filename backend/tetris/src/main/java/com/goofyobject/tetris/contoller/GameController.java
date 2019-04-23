@@ -129,7 +129,7 @@ public class GameController {
                 String readyPlayer = gameEngine.readyPlayer();
                 logger.info(readyPlayer);
                 // User readyUser = new User(readyPlayer);
-                sendReply("update",readyPlayer, move);
+                sendReply("update",readyPlayer, new ReplyMsg(Status.OK,move));
             }
 
         }
