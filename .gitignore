@@ -2,3 +2,6 @@
 **/.idea
 **/.git
 *.class
+**/.classpath
+**/.project
+**/.settings
