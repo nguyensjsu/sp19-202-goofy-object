@@ -186,6 +186,9 @@ class ChessBoard extends Component {
     render() {
         return (
             <div className="ChessBoard">
+                <div className={style.dialog}>
+                    <h3>Message</h3>
+                </div>
                 <canvas className={style.board} ref="board" width={this.board_size} height={this.board_size} onClick={this.onBoardClick} />
             </div>
         );
