@@ -115,9 +115,11 @@ class ChessBoard extends Component {
                 console.log("Joing Error:")
             } else if (body.status === 211) {
                 console.log("You Win!")
+                this.isMe = false;
             } else if (body.status === 212) {
                 console.log("You Lose!")
                 this.drawPiece(body.obj.x, body.obj.y, this.isMe);
+                this.isMe = false;
             } else if (body.status === 202) {
                 console.log("Opponent Move:", body);
                 this.drawPiece(body.obj.x, body.obj.y, this.isMe);
