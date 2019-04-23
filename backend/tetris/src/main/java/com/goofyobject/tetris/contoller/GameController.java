@@ -72,12 +72,14 @@ public class GameController {
                 String p2 = gameEngine.getId2();
                 
                 String oppnentName = p1;
+                Status color = Status.White;
 
                 if (username.equals(p1)){
                     oppnentName = p2;
+                    color = Status.Black;
                 }
 
-                sendReply("join",username,new ReplyMsg(Status.Black, oppnentName));
+                sendReply("join",username,new ReplyMsg(color, oppnentName));
                 return;
             }
             Thread.sleep(500);
