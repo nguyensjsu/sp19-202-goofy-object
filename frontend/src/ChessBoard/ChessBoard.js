@@ -4,7 +4,6 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import config from '../config'
 import cookie from 'react-cookies';
-import axios from 'axios';
 import { SINGLE_MODE, BATTLE_MODE } from '../ModeSelection/ModeSelection';
 
 const BOARD_EMPTY = 0;
@@ -64,7 +63,7 @@ class ChessBoard extends Component {
         }
 
         let subscribeToBattle = (stompClient) => {
-            stompClient.subscribe('/topic/add?' + cookie.load('username'), function (res) {
+            stompClient.subscribe('/topic/added?' + cookie.load('username'), function (res) {
                 //status code: OK(202),FAIL(400)
                 console.log("Topic add:", JSON.parse(res.body));
             });
@@ -90,9 +89,9 @@ class ChessBoard extends Component {
             console.log("Connected:", frame);
             if (this.game_mode === BATTLE_MODE) {
                 subscribeToBattle(this.stompClient);
-            }
 
-            // this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
+            }
+            this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
         });
 
     }
