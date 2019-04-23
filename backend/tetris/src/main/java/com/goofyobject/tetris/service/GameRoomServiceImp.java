@@ -28,7 +28,9 @@ public class GameRoomServiceImp implements GameRoomService {
 
     @Override
     public void removePlayerFromQueue(String username) {
-        waitingQueue.remove(username);
+        if (waitingQueue.contains(username)){
+            waitingQueue.remove(username);
+        }
     }
 
     @Override
@@ -49,7 +51,7 @@ public class GameRoomServiceImp implements GameRoomService {
                 }
             }
             // cannot find opponent or player already matched
-            if (opponentUsername == null || engines.containsKey(curUsername) || engines.containsKey(curUsername)) {
+            if (opponentUsername == null || engines.containsKey(curUsername) || engines.containsKey(opponentUsername)) {
                 return false;
             }
             // remove players from queue
