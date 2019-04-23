@@ -4,6 +4,7 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import config from '../config'
 import cookie from 'react-cookies';
+import axios from 'axios';
 import { SINGLE_MODE, BATTLE_MODE } from '../ModeSelection/ModeSelection';
 
 const BOARD_EMPTY = 0;
@@ -62,15 +63,37 @@ class ChessBoard extends Component {
             }
         }
 
-        if (this.game_mode === BATTLE_MODE) {
-            let socket = new SockJS(config.host + '/ws-game');
-            this.stompClient = Stomp.over(socket);
-            this.stompClient.connect({}, (frame) => {
-                console.log("Connected:", frame);
-                this.stompClient.send('/app/addUser', {}, JSON.stringify({ username: cookie.load('username') }))
-
+        let subscribeToBattle = (stompClient) => {
+            stompClient.subscribe('/topic/add?' + cookie.load('username'), function (res) {
+                //status code: OK(202),FAIL(400)
+                console.log("Topic add:", JSON.parse(res.body));
             });
+            stompClient.subscribe('/topic/join?' + cookie.load('username'), function (res) {
+                //status code: Black(220), White(230),
+                //black first hand
+                console.log("Topic join", res);
+            });
+
+            stompClient.subscribe('/topic/update?' + cookie.load('username'), function (res) {
+                //if has status code: OK(202), WIN(211), LOSE(212)
+                //else: no status means a update move from opponent
+                console.log("Topic update", res);
+            });
+
+
         }
+
+        let socket = new SockJS(config.host + '/ws-game');
+        this.stompClient = Stomp.over(socket);
+
+        this.stompClient.connect({}, (frame) => {
+            console.log("Connected:", frame);
+            if (this.game_mode === BATTLE_MODE) {
+                subscribeToBattle(this.stompClient);
+            }
+
+            // this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
+        });
 
     }
 
