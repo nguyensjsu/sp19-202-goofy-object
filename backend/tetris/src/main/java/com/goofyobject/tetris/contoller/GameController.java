@@ -12,19 +12,11 @@ import com.goofyobject.tetris.service.GameRoomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@CrossOrigin("*")
-@RequestMapping()
 public class GameController {
 
     @Autowired
@@ -35,18 +27,22 @@ public class GameController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @PostMapping("/addToQueue")
-    public ResponseEntity<String> addUser(@RequestBody User user) throws Exception {
+    @MessageMapping("/addToQueue")
+    public void addUser(User user) throws Exception {
 
         String username = user.getUsername();
         boolean isAdded = gameRoomService.addPlayerToQueue(username);
 
+        ReplyMsg msg = new ReplyMsg(Status.FAIL, user);
+
         if (!isAdded) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            sendReply("added",username,msg);
+            return;
         }
 
+        msg.setStatus(Status.OK.getValue());
+        sendReply("added",username,msg);
         matchOpponent(user);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     public void sendReply(String topicName, String username, Object msg){
