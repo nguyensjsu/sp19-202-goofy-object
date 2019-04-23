@@ -1,7 +1,0 @@
-Controller
-
-Controller to GameEngine:
-gameEngine(sessionID, sessionID);
-seesionId readyPlayer();
-sessionId putPiece(sessionId, position);
-
