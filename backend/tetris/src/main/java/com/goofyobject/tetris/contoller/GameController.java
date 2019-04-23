@@ -119,12 +119,13 @@ public class GameController {
                 hm.put(winner, Status.WIN);
                 hm.put(loser, Status.LOSE);
                 sendResult(hm);
+                gameRoomService.removePlayersFromGame(p1,p2);
                 
             }else if (gameEngine.checkDraw()) {
                 hm.put(p1, Status.DRAW);
                 hm.put(p2, Status.DRAW);
                 sendResult(hm);
-
+                gameRoomService.removePlayersFromGame(p1,p2);
             }else{
                 String readyPlayer = gameEngine.readyPlayer();
                 logger.info(readyPlayer);

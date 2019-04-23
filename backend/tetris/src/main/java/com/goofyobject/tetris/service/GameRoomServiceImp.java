@@ -17,7 +17,7 @@ public class GameRoomServiceImp implements GameRoomService {
     public boolean addPlayerToQueue(String username) {
 
         synchronized (waitingQueue) {
-            if (waitingQueue.contains(username)) {
+            if (waitingQueue.contains(username) || engines.contains(username)) {
                 return false;
             }
 
@@ -75,6 +75,12 @@ public class GameRoomServiceImp implements GameRoomService {
     @Override
     public String[] getWaitingPlayers() {
         return (String[]) waitingQueue.toArray();
+    }
+
+    @Override
+    public void removePlayersFromGame(String p1, String p2) {
+        engines.remove(p1);
+        engines.remove(p2);
     }
 
 }
