@@ -112,7 +112,7 @@ public class GameController {
             if (winner != null) {
 
                 String loser = p1;
-                if (loser.equals(winner)){
+                if (winner.equals(p1)){
                     loser = p2;
                 }
 
