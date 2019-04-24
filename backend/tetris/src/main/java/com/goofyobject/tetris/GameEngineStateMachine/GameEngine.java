@@ -1,7 +1,7 @@
-package five_in_a_row.statemachine;
+package com.goofyobject.tetris.GameEngineStateMachine;
 
-import five_in_a_row.entity.Board;
-import five_in_a_row.entity.Position;
+import com.goofyobject.tetris.domain.Board;
+import com.goofyobject.tetris.domain.Position;
 
 public class GameEngine {
     private GameState curState;
