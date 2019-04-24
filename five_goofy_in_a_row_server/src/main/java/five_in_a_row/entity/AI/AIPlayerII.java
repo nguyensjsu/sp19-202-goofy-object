@@ -317,6 +317,14 @@ public class AIPlayerII implements Data {
                 }
             }
         }
+
+        /** 输出位置 */
+        for(int i=0;i<COLUMN;i++){
+            for(int j=0;j<ROW;j++){
+                System.out.println(gridWithChess[i][j] + "\t");
+            }
+            System.out.println();
+        }
     }
 
 }
