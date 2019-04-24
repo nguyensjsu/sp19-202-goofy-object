@@ -319,11 +319,52 @@ public class AIPlayerII implements Data {
         }
 
         /** 输出位置 */
+        // for(int i=0;i<COLUMN;i++){
+        //     for(int j=0;j<ROW;j++){
+        //         System.out.println(gridWithChess[i][j] + "\t");
+        //     }
+        //     System.out.println();
+        // }
+    }
+
+    /** 得到最大值 */
+    public void getMax(){
+        int n=0;
+        int max=0;
         for(int i=0;i<COLUMN;i++){
             for(int j=0;j<ROW;j++){
-                System.out.println(gridWithChess[i][j] + "\t");
+                if(gridWithChess[i][j]!=0){
+                    if(n==0){
+                        max=gridWithChess[i][j];
+                        a=i;
+                        b=j;
+                        n++;
+                    }else{
+                        if(gridWithChess[i][j]>max){
+                            max=gridWithChess[i][j];
+                            a=i;
+                            b=j;
+                        }
+                    }
+                }
             }
-            System.out.println();
+        }
+        System.out.println("a b" + a + " " + b);
+        row.add(a);
+        col.add(b);
+        if(row.size()%2==1){
+            grid[a][b]=1;
+        }else{
+            grid[a][b]=2;
+        }
+    }
+
+    /** 下完棋后清空 */
+    public void clearChess(){
+        for(int i=0;i<COLUMN;i++){
+            for(int j=0;j<ROW;j++){
+                gridWithChess[i][j]=0;
+            }
         }
     }
 
