@@ -155,6 +155,39 @@ public class AIPlayerII implements Data {
                         gridWithChess[i][j] += value;
                     }
 
+                    /** 向南判断 */
+                    code="";
+                    color=0;
+                    for(int m=i,n=j+1;n<ROW;n++){
+
+                        /** 如果下一位没有棋子就自动跳出程序 */
+                        if(grid[m][n]==0){
+                            break;
+                        }else{
+
+                            /** 判断是否为第一颗棋子 */
+                            if(color==0){
+                                color=grid[m][n];
+                                code+=grid[m][n];
+                            }else{
+
+                                /** 判断颜色是否相同 */
+                                if(color==grid[m][n]){
+                                    code+=grid[m][n];
+                                }
+                                else{
+                                    code+=grid[m][n];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    value=hm.get(code);
+                    if(value!=null){
+                        gridWithChess[i][j]+=value;
+                    }
+
                     
                 }
             }
