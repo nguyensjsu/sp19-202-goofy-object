@@ -7,7 +7,7 @@
 2. Refactor the websocket api to integrate frontend
 3. Tested websocket functionality in PVP mode.
 ### Planned Next Week
-1. Added disconnect function and add to the state pattern
+1. Add disconnect function and add to the state pattern
 2. Help teammate to add design patterns
 ### Problems/Blocks
 
