@@ -11,10 +11,11 @@ import org.springframework.stereotype.Component;
 public class GameRoomServiceImp implements GameRoomService {
 
     private final LinkedList<String> waitingQueue = new LinkedList<>();
+    private final ConcurrentHashMap<String,String> sessionToUser= new  ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, GameEngine> engines = new ConcurrentHashMap<>();
 
     @Override
-    public boolean addPlayerToQueue(String username) {
+    public boolean addPlayerToQueue(String username, String sessionId) {
 
         synchronized (waitingQueue) {
             if (waitingQueue.contains(username) || engines.contains(username)) {
@@ -22,15 +23,19 @@ public class GameRoomServiceImp implements GameRoomService {
             }
 
             this.waitingQueue.add(username);
+            this.sessionToUser.put(sessionId,username);
             return true;
         }
     }
 
     @Override
-    public void removePlayerFromQueue(String username) {
+    public void removePlayerFromQueue(String username, String sessionId) {
         if (waitingQueue.contains(username)){
             waitingQueue.remove(username);
         }
+
+        this.sessionToUser.remove(sessionId);
+
     }
 
     @Override
@@ -75,6 +80,13 @@ public class GameRoomServiceImp implements GameRoomService {
     @Override
     public String[] getWaitingPlayers() {
         return (String[]) waitingQueue.toArray();
+    }
+
+    @Override
+    public void PlayerLeave(String sessionId){
+        GameEngine curGame = engines.get(sessionToUser.get(sessionId));
+        //set end state;
+        //curGame.
     }
 
     @Override

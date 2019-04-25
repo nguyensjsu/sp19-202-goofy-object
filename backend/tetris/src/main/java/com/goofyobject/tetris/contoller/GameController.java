@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
@@ -28,10 +29,13 @@ public class GameController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @MessageMapping("/addToQueue")
-    public void addUser(User user) throws Exception {
+    public void addUser(SimpMessageHeaderAccessor headerAccessor, User user) throws Exception {
 
         String username = user.getUsername();
-        boolean isAdded = gameRoomService.addPlayerToQueue(username);
+        String sessionId = headerAccessor.getSessionId();
+
+        boolean isAdded = gameRoomService.addPlayerToQueue(username, sessionId);
+
 
         ReplyMsg msg = new ReplyMsg(Status.FAIL, user);
 
@@ -42,7 +46,7 @@ public class GameController {
 
         msg.setStatus(Status.OK.getValue());
         sendReply("added",username,msg);
-        matchOpponent(user);
+        matchOpponent(user,sessionId);
     }
 
     public void sendReply(String topicName, String username, Object msg){
@@ -55,7 +59,7 @@ public class GameController {
         }
     }
 
-    public void matchOpponent(User user) throws Exception {
+    public void matchOpponent(User user, String sessionId) throws Exception {
 
         String username = user.getUsername();
 
@@ -79,6 +83,7 @@ public class GameController {
                     color = Status.Black;
                 }
 
+
                 sendReply("join",username,new ReplyMsg(color, oppnentName));
                 return;
             }
@@ -86,7 +91,7 @@ public class GameController {
             i++;
         }
 
-        gameRoomService.removePlayerFromQueue(username);
+        gameRoomService.removePlayerFromQueue(username, sessionId);
         sendReply("join",username, new ReplyMsg(Status.FAIL, username));
 
     }
