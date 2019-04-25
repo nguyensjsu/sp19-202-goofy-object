@@ -1,5 +1,8 @@
 package com.goofyobject.tetris.domain;
 
+import com.goofyobject.tetris.FactoryPiece.Piece;
+import com.goofyobject.tetris.FactoryPiece.PieceFactory;
+
 public class Board {
     private final int gridNum = 15;
     private Piece[][] grid;
@@ -14,7 +17,7 @@ public class Board {
         int x = p.getX();
         int y = p.getY();
         if( grid[x][y] == null ) {
-            grid[x][y] = new Piece(c);
+            grid[x][y] = PieceFactory.getNewPiece(c);
             num++;
             return true;
         }else {
@@ -61,7 +64,7 @@ public class Board {
         }
         if(count >= 5) {    return curColor;}
 
-	count = 1;
+	    count = 1;
         // check up
         i = 1;
         while(y-i < gridNum && i < 5) {
@@ -86,7 +89,7 @@ public class Board {
         }
         if(count >= 5) {    return curColor;}
 
-	count = 1;
+	    count = 1;
         // check right-down
         i = 1;
         while(x+i < gridNum && y+i < gridNum && i < 5) {
@@ -112,7 +115,7 @@ public class Board {
         if(count >= 5) {    return curColor;}
 
 
-	count = 1;
+	    count = 1;
         // check left-down
         i = 1;
         while(x-i >= 0 && y+i < gridNum && i < 5) {

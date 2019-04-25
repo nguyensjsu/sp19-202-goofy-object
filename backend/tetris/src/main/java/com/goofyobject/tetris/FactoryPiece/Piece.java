@@ -1,4 +1,4 @@
-package five_in_a_row.entity;
+package com.goofyobject.tetris.FactoryPiece;
 
 public class Piece {
     private int color; //2- white  1-black
