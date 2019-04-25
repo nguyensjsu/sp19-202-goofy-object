@@ -3,8 +3,9 @@
 ## Tianyu Cao
 
 ### Finished This Week
-1. Refactor the websocket api for frontend
-2. Tested websocket work in PVP mode.
+1. Completed the websocket API
+2. Refactor the websocket api to integrate frontend
+3. Tested websocket functionality in PVP mode.
 ### Planned Next Week
 1. Added disconnect function and add to the state pattern
 2. Help teammate to add design patterns
