@@ -1,6 +1,9 @@
 package com.goofyobject.tetris.domain;
 
-public class User {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class User extends Reply {
     private String username;
 
     public User(){
@@ -16,6 +19,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public void getObj(HashMap<String,Object> objMap) {
+        objMap.put("username",username);
+        if (this.getDecorator() != null ){
+            this.getDecorator().getObj(objMap);
+        }     
     }
 
 }

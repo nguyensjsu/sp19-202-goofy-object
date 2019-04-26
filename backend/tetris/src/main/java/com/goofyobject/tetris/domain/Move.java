@@ -1,6 +1,9 @@
 package com.goofyobject.tetris.domain;
 
-public class Move {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Move extends Reply {
     private String username;
     private int x;
     private int y;
@@ -33,5 +36,20 @@ public class Move {
 
     public void setY(int y) {
         this.y = y;
+    }
+    
+    @Override
+    public void getObj(HashMap<String,Object> objMap) {
+
+        HashMap<String,Object> moveMap = new HashMap<>();
+        moveMap.put("username",username);
+        moveMap.put("x",x);
+        moveMap.put("y",y);
+
+        objMap.put("move",moveMap);
+
+        if (this.getDecorator() != null ){
+            this.getDecorator().getObj(objMap);
+        }     
     }
 }

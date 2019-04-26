@@ -1,17 +1,24 @@
 package com.goofyobject.tetris.contoller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.goofyobject.tetris.domain.Code;
+import com.goofyobject.tetris.domain.ConcreteMessage;
 import com.goofyobject.tetris.domain.GameEngine;
 import com.goofyobject.tetris.domain.Move;
 import com.goofyobject.tetris.domain.Position;
-import com.goofyobject.tetris.domain.ReplyMsg;
+// import com.goofyobject.tetris.domain.ReplyMsg;
 import com.goofyobject.tetris.domain.Status;
+
 import com.goofyobject.tetris.domain.User;
 import com.goofyobject.tetris.service.GameRoomService;
+
+import org.apache.logging.log4j.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -37,15 +44,24 @@ public class GameController {
         boolean isAdded = gameRoomService.addPlayerToQueue(username, sessionId);
 
 
-        ReplyMsg msg = new ReplyMsg(Status.FAIL, user);
+        ConcreteMessage replyMessage = new ConcreteMessage();
+        user.setDecorator(replyMessage);
 
         if (!isAdded) {
-            sendReply("added",username,msg);
+            Status s = new Status(Code.FAIL);
+            s.setDecorator(user);
+            HashMap<String,Object> res = new HashMap<>();
+            s.getObj(res);
+            sendReply("added",username,res);
             return;
         }
 
-        msg.setStatus(Status.OK.getValue());
-        sendReply("added",username,msg);
+        Status s = new Status(Code.OK);
+        s.setDecorator(user);
+        HashMap<String,Object> res = new HashMap<>();
+        s.getObj(res);
+        sendReply("added",username,res);
+
         matchOpponent(user,sessionId);
     }
 
@@ -53,9 +69,13 @@ public class GameController {
         messagingTemplate.convertAndSend("/topic/" + topicName + "?" + username, msg);
     }
 
-    public void sendResult(HashMap<String, ReplyMsg> hm){
+    public void sendResult(HashMap<String, Integer> hm, Move move){
         for (String username : hm.keySet()) {
-            sendReply("update",username,hm.get(username));
+            Status status = new Status(hm.get(username));
+            status.setDecorator(move);
+            HashMap<String,Object> res = new HashMap<>();
+            status.getObj(res);
+            sendReply("update",username,res);
         }
     }
 
@@ -76,23 +96,34 @@ public class GameController {
                 String p2 = gameEngine.getId2();
                 
                 String oppnentName = p1;
-                Status color = Status.White;
+
+                Status color = new Status(Code.WHITE);
 
                 if (username.equals(p1)){
                     oppnentName = p2;
-                    color = Status.Black;
+
+                    color = new Status(Code.BLACK);
                 }
 
+                color.setDecorator(new User(oppnentName));
 
-                sendReply("join",username,new ReplyMsg(color, oppnentName));
+                HashMap<String,Object> res = new HashMap<>();
+                color.getObj(res);
+
+                sendReply("join",username,res);
                 return;
             }
             Thread.sleep(500);
             i++;
         }
 
+        Status fail = new Status(Code.FAIL);
+        fail.setDecorator(user);
+        HashMap<String,Object> res = new HashMap<>();
+        fail.getObj(res);
+
         gameRoomService.removePlayerFromQueue(username, sessionId);
-        sendReply("join",username, new ReplyMsg(Status.FAIL, username));
+        sendReply("join",username, res);
 
     }
 
@@ -107,7 +138,7 @@ public class GameController {
 
         if (gameEngine != null && gameEngine.putPiece(username, pos)) {
 
-            HashMap<String,ReplyMsg> hm =  new HashMap<>();
+            HashMap<String,Integer> hm =  new HashMap<>();
 
             String p1 = gameEngine.getId1();
             String p2 = gameEngine.getId2();
@@ -121,21 +152,25 @@ public class GameController {
                     loser = p2;
                 }
 
-                hm.put(winner, new ReplyMsg(Status.WIN,move));
-                hm.put(loser, new ReplyMsg(Status.LOSE,move));
-                sendResult(hm);
+                hm.put(winner, Code.WIN);
+                hm.put(loser, Code.LOSE);
+                sendResult(hm,move);
                 gameRoomService.removePlayersFromGame(p1,p2);
                 
             }else if (gameEngine.checkDraw()) {
-                hm.put(p1, new ReplyMsg(Status.DRAW,move));
-                hm.put(p2, new ReplyMsg(Status.DRAW,move));
-                sendResult(hm);
+                hm.put(p1,Code.DRAW);
+                hm.put(p2,Code.DRAW);
+                sendResult(hm,move);
                 gameRoomService.removePlayersFromGame(p1,p2);
             }else{
                 String readyPlayer = gameEngine.readyPlayer();
                 logger.info(readyPlayer);
                 // User readyUser = new User(readyPlayer);
-                sendReply("update",readyPlayer, new ReplyMsg(Status.OK,move));
+                Status ok = new Status(Code.OK);
+                ok.setDecorator(move);
+                HashMap<String,Object> res = new HashMap<>();
+                ok.getObj(res);
+                sendReply("update",readyPlayer, res);
             }
 
         }
