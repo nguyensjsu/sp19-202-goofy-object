@@ -2,6 +2,7 @@ package com.goofyobject.tetris.domain;
 
 import com.goofyobject.tetris.FactoryPiece.Piece;
 import com.goofyobject.tetris.FactoryPiece.PieceFactory;
+// https://zjh776.iteye.com/blog/1979748
 
 // SCRATCH!!!
 import java.util.ArrayList;
