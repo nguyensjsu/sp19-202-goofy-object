@@ -143,5 +143,8 @@ public class Board {
 
         return 0;
     }
-
+    
+    public Piece[][] getGrid() {
+        return grid;
+    }
 }
