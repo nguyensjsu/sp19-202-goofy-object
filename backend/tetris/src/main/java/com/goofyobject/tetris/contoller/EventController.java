@@ -15,7 +15,6 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 @Controller
 public class EventController {
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -26,20 +25,14 @@ public class EventController {
 
     @EventListener(SessionConnectEvent.class)
     public void handleWebsocketConnectListner(SessionConnectEvent event) {
-
         Date date = new Date();
-
         logger.info("Received a new web socket connection : " + date.getTime());
     }
 
     @EventListener(SessionDisconnectEvent.class)
     public void handleWebsocketDisconnectListner(SessionDisconnectEvent event) {
-
         Date date = new Date();
-
-        
-        
-        logger.info("Received a new web socket connection : " + date.getTime());
+        logger.info("Disconnet a web socket connection : " + date.getTime());
     }
 
 }

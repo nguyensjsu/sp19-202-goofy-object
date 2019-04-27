@@ -3,6 +3,7 @@
 ## Design Pattern Used:
 1. State Pattern:  Game state change btw player1 and player2, and change to GameEnd state in the end.
 2. Facotry Pattern:  Factory produce Piece for player to put in game board.
+3. Observer Pattern: One player notify the other player via GameEngine about the new move.
 
 ## UI wireframe
 

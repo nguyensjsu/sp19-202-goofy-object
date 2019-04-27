@@ -26,7 +26,6 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class GameController {
-
     @Autowired
     GameRoomService gameRoomService;
 
@@ -82,16 +81,12 @@ public class GameController {
     public void matchOpponent(User user, String sessionId) throws Exception {
 
         String username = user.getUsername();
-
         int i = 0;
         while (i < 200) {
-
             gameRoomService.findOpponent(username);
-
             GameEngine gameEngine = gameRoomService.getEngine(username);
 
             if (gameEngine != null) {
-
                 String p1 = gameEngine.getId1();
                 String p2 = gameEngine.getId2();
                 
@@ -124,12 +119,10 @@ public class GameController {
 
         gameRoomService.removePlayerFromQueue(username, sessionId);
         sendReply("join",username, res);
-
     }
 
     @MessageMapping("/putPiece")
     public void putPiece(Move move) throws Exception {
-
         String username = move.getUsername();
 
         GameEngine gameEngine = gameRoomService.getEngine(username);
@@ -172,9 +165,7 @@ public class GameController {
                 ok.getObj(res);
                 sendReply("update",readyPlayer, res);
             }
-
         }
-
     }
 
 }
