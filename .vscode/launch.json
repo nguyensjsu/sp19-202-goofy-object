@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoApplication<tetris>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.goofyobject.tetris.DemoApplication",
+            "projectName": "tetris",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-FiveApplication<five_goofy_in_a_row>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "five_in_a_row.FiveApplication",
+            "projectName": "five_goofy_in_a_row",
+            "args": ""
+        }
+    ]
+}
