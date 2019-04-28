@@ -10,3 +10,5 @@ public class MySQLDBUtil {
             + "&password=" + PASSWORD + "&autoreconnect=true";
 
 }
+
+/// SQL For Creating Database and Tables
