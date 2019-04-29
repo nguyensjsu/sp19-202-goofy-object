@@ -1,8 +1,8 @@
-package com.goofyobject.tetris.GameEngineStateMachine;
+package com.goofyobject.tetris.game.GameEngineStateMachine;
 
 
-import com.goofyobject.tetris.domain.Board;
-import com.goofyobject.tetris.domain.Position;
+import com.goofyobject.tetris.game.entity.Board;
+import com.goofyobject.tetris.game.entity.Position;
 
 public class PlayerTwoMoveState implements GameState {
     private GameEngine engine;

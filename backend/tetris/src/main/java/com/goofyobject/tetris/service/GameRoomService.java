@@ -1,6 +1,6 @@
 package com.goofyobject.tetris.service;
 
-import com.goofyobject.tetris.domain.GameEngine;
+import com.goofyobject.tetris.game.entity.GameEngine;
 
 public interface GameRoomService {
 

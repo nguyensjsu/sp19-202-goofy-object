@@ -1,4 +1,4 @@
-package com.goofyobject.tetris.FactoryPiece;
+package com.goofyobject.tetris.game.FactoryPiece;
 
 public class Piece {
     private int color; //2- white  1-black

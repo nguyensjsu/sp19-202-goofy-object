@@ -4,19 +4,17 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.goofyobject.tetris.domain.GameEngine;
+import com.goofyobject.tetris.game.entity.GameEngine;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GameRoomServiceImp implements GameRoomService {
-
     private final LinkedList<String> waitingQueue = new LinkedList<>();
     private final ConcurrentHashMap<String,String> sessionToUser= new  ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, GameEngine> engines = new ConcurrentHashMap<>();
 
     @Override
     public boolean addPlayerToQueue(String username, String sessionId) {
-
         synchronized (waitingQueue) {
             if (waitingQueue.contains(username) || engines.contains(username)) {
                 return false;
@@ -35,24 +33,19 @@ public class GameRoomServiceImp implements GameRoomService {
         }
 
         this.sessionToUser.remove(sessionId);
-
     }
 
     @Override
     public boolean findOpponent(String curUsername) {
 
         synchronized (waitingQueue) {
-
             String opponentUsername = null;
-
             Iterator<String> iterator = waitingQueue.iterator();
-
             while (iterator.hasNext()) {
-
                 String next = iterator.next();
-
                 if (!next.equals(curUsername)) {
                     opponentUsername = next;
+                    break;
                 }
             }
             // cannot find opponent or player already matched
@@ -67,7 +60,6 @@ public class GameRoomServiceImp implements GameRoomService {
 
             engines.put(curUsername, engine);
             engines.put(opponentUsername, engine);
-
             return true;
         }
 

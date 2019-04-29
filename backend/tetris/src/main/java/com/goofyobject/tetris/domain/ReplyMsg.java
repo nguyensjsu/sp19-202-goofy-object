@@ -1,4 +1,4 @@
-package com.goofyobject.tetris.domain;
+//package com.goofyobject.tetris.domain;
 
 // public class ReplyMsg {
 

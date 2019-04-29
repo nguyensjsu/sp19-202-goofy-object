@@ -50,6 +50,6 @@ public class Move extends Reply {
 
         if (this.getDecorator() != null ){
             this.getDecorator().getObj(objMap);
-        }     
+        }
     }
 }

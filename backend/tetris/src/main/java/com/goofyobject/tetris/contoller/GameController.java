@@ -1,24 +1,20 @@
 package com.goofyobject.tetris.contoller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.goofyobject.tetris.domain.Code;
 import com.goofyobject.tetris.domain.ConcreteMessage;
-import com.goofyobject.tetris.domain.GameEngine;
 import com.goofyobject.tetris.domain.Move;
-import com.goofyobject.tetris.domain.Position;
-// import com.goofyobject.tetris.domain.ReplyMsg;
 import com.goofyobject.tetris.domain.Status;
-
 import com.goofyobject.tetris.domain.User;
-import com.goofyobject.tetris.service.GameRoomService;
 
-import org.apache.logging.log4j.message.Message;
+import com.goofyobject.tetris.service.GameRoomService;
+import com.goofyobject.tetris.game.entity.Position;
+import com.goofyobject.tetris.game.entity.GameEngine;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -36,12 +32,10 @@ public class GameController {
 
     @MessageMapping("/addToQueue")
     public void addUser(SimpMessageHeaderAccessor headerAccessor, User user) throws Exception {
-
         String username = user.getUsername();
+        logger.info("-----------username:" + username);
         String sessionId = headerAccessor.getSessionId();
-
         boolean isAdded = gameRoomService.addPlayerToQueue(username, sessionId);
-
 
         ConcreteMessage replyMessage = new ConcreteMessage();
         user.setDecorator(replyMessage);
@@ -96,7 +90,6 @@ public class GameController {
 
                 if (username.equals(p1)){
                     oppnentName = p2;
-
                     color = new Status(Code.BLACK);
                 }
 
@@ -124,13 +117,9 @@ public class GameController {
     @MessageMapping("/putPiece")
     public void putPiece(Move move) throws Exception {
         String username = move.getUsername();
-
         GameEngine gameEngine = gameRoomService.getEngine(username);
-
         Position pos = new Position(move.getX(),move.getY());
-
         if (gameEngine != null && gameEngine.putPiece(username, pos)) {
-
             HashMap<String,Integer> hm =  new HashMap<>();
 
             String p1 = gameEngine.getId1();

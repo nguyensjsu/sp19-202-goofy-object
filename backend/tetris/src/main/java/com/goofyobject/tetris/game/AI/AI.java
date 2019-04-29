@@ -1,7 +1,7 @@
 // package com.goofyobject.tetris.domain;
 
-// import com.goofyobject.tetris.FactoryPiece.Piece;
-// import com.goofyobject.tetris.FactoryPiece.PieceFactory;
+// import Piece;
+// import PieceFactory;
 
 // // SCRATCH!!!
 // import java.util.ArrayList;

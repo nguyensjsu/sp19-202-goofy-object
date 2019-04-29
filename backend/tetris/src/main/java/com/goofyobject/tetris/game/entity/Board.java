@@ -1,7 +1,7 @@
-package com.goofyobject.tetris.domain;
+package com.goofyobject.tetris.game.entity;
 
-import com.goofyobject.tetris.FactoryPiece.Piece;
-import com.goofyobject.tetris.FactoryPiece.PieceFactory;
+import com.goofyobject.tetris.game.FactoryPiece.Piece;
+import com.goofyobject.tetris.game.FactoryPiece.PieceFactory;
 
 public class Board {
     private final int gridNum = 15;

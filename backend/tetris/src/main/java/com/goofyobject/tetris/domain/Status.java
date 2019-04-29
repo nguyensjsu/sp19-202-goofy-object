@@ -1,6 +1,5 @@
 package com.goofyobject.tetris.domain;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 

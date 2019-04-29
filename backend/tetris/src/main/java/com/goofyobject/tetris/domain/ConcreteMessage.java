@@ -9,6 +9,4 @@ public class ConcreteMessage implements Message {
 
     }
 
-
-    
 }

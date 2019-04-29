@@ -19,9 +19,4 @@ class Reply implements Message {
     public void getObj(HashMap<String,Object> objMap) {
   
     }
-
-
-
- 
-    
 }

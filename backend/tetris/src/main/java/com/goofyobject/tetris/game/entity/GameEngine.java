@@ -1,4 +1,4 @@
-package com.goofyobject.tetris.domain;
+package com.goofyobject.tetris.game.entity;
 
 public class GameEngine {
     private String id1;    //p1-black  first hand

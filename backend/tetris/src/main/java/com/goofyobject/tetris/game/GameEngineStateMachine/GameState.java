@@ -1,7 +1,7 @@
-package com.goofyobject.tetris.GameEngineStateMachine;
+package com.goofyobject.tetris.game.GameEngineStateMachine;
 
 
-import com.goofyobject.tetris.domain.Position;
+import com.goofyobject.tetris.game.entity.Position;
 
 public interface GameState {
 
