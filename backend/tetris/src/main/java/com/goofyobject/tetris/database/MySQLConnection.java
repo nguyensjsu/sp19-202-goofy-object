@@ -67,7 +67,7 @@ public class MySQLConnection {
 
     public boolean checkUser(String username) {
         Set<String> eventIdSet = new HashSet<>();
-        String sql = "SELECT username FROM users where username = ?";
+        String sql = "SELECT userid FROM users where username = ?";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);

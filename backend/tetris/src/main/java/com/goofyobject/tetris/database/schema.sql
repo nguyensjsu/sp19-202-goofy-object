@@ -1,18 +1,13 @@
-sudu su mysql
--u root -p -h localhost
-
-mysql -u admin -p -h localhost
-
-CREATE USER 'admin'@'localhost' IDENTIFIED BY 12345678;
-
-GRANT ALL PRIVILEGES ON my_company.* TO 'admin'@'localhost';
+-- sudu su mysql
+-- -u root -p -h localhost
+-- mysql -u admin -p -h localhost
+-- CREATE USER 'admin'@'localhost' IDENTIFIED BY 12345678;
+-- GRANT ALL PRIVILEGES ON my_company.* TO 'admin'@'localhost';
 --- database sql
 
 -- create database
 CREATE DATABASE cmpe202_group;
-
 USE cmpe202_group;
-
 -- create users table
 DROP TABLE IF EXISTS users;
 CREATE TABLE users
@@ -26,9 +21,8 @@ DROP TABLE IF EXISTS history;
 CREATE TABLE history
 (
     userid        int not null,
-    username      VARCHAR(255) not null,
-    game_time     timestamp,
+    username      varchar(255) not null,
+    game_time     timestamp not null,
     game_flag     int not null,
     win_flag      int not null
 );
-
