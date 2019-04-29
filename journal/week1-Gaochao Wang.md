@@ -8,7 +8,7 @@
 
 ### Planned Next Week 
 - Task1: UML Class Analysis
-- Task2: Socket implementation
+- Task2: Game Logic Design
 
 ### Problems/Blocks
 Not sure what database is fast enough to do real time update
