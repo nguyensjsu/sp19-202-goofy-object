@@ -3,16 +3,16 @@
 ## Gaochao Wang
 
 ### Finished Last Week 
-- Task1: Learn about socket in Java
-- Task2: analyzed class/method needed
+- Task1: Analyzed class/method needed
+- Task2: Created GameEgnine for game Logic
 
 ### Planned Next Week 
-- Task1: implement game engine
-- Task2: implement socket in Javascript for client
+- Task1: test game engine
+- Task2: create login/register backend service
 
 ### Problems/Blocks
 
 
 ### Time Spend
-- Task1: 7 hrs
-- Task2: 3 hrs
+- Task1: 3 hrs
+- Task2: 7 hrs
