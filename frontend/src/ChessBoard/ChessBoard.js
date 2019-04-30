@@ -40,7 +40,7 @@ class ChessBoard extends Component {
     componentDidMount() {
 
         // console.log("Game Mode:", this.game_mode === SINGLE_MODE)
-        if(this.game_mode === BATTLE_MODE) {
+        if (this.game_mode === BATTLE_MODE) {
             this.setState({
                 showMsg: true,
                 msg: "Connecting to Server..."
@@ -176,6 +176,20 @@ class ChessBoard extends Component {
         console.log('Current Board:', this.board_matrix);
     }
 
+    updateOverlay = (x, y) => {
+        const overlay = this.refs.overlay;
+        const ctx = overlay.getContext("2d");
+        ctx.clearRect(0, 0, overlay.width, overlay.height);
+        
+        ctx.strokeStyle = "#FF0000";
+
+        ctx.strokeRect(x - this.interval / 2, y - this.interval / 2, this.interval, this.interval);
+
+        // ctx.moveTo(this.interval, this.interval * i);
+        // ctx.lineTo(this.board_size - this.interval, this.interval * i);
+        ctx.stroke();
+    }
+
     getCoord = (x, y) => {
         let i = Math.floor((x + this.interval / 2 - 20 + this.interval) / this.interval - 2);
         let j = Math.floor((y + this.interval / 2 - 20 + this.interval) / this.interval - 2);
@@ -210,6 +224,8 @@ class ChessBoard extends Component {
         ctx.shadowBlur = 5
         ctx.fill()
 
+        this.updateOverlay(canvasX, canvasY);
+
         this.isMe = !role;
     }
 
@@ -233,7 +249,10 @@ class ChessBoard extends Component {
         return (
             <div className="ChessBoard">
                 {this.state.showMsg ? msg_dialog : null}
-                <canvas className={style.board} ref="board" width={this.board_size} height={this.board_size} onClick={this.onBoardClick} />
+                <div className={style.canvas} style={{ width: this.board_size, height: this.board_size }}>
+                    <canvas className={style.board} ref="board" width={this.board_size} height={this.board_size} onClick={this.onBoardClick} />
+                    <canvas className={style.overlay} ref="overlay" width={this.board_size} height={this.board_size} onClick={this.onBoardClick}></canvas>
+                </div>
             </div>
         );
     }

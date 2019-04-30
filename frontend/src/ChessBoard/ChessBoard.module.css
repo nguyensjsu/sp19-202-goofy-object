@@ -5,6 +5,28 @@
     box-shadow: #00000078 6px 7px 14px 0px;
     border-radius: 15px;
     border-color: rgba(0,0,0,0.2);
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.overlay {
+    /* border: 1px solid; */
+    padding: 21px;
+    position: absolute;
+    top:0;
+    left:0;
+    /* background-color: bisque; */
+    /* box-shadow: #00000078 6px 7px 14px 0px; */
+    /* border-radius: 15px; */
+    /* border-color: rgba(0,0,0,0.2); */
+}
+
+.canvas {
+    display: inline-block;
+    /* border: 1px solid; */
+    padding: 21px;
+    position: relative;
 }
 
 .dialog {
@@ -19,4 +41,5 @@
     border-radius: 15px;
     box-shadow: #00000078 6px 7px 14px 0px;
     border-color: rgba(0,0,0,0.2);
+    z-index: 1;
 }
