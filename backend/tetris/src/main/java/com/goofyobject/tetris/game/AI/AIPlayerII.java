@@ -52,5 +52,48 @@ public class AIPlayerII implements Data {
         hm.put("22221", 20000);
     }
 
-    
+    public void AI() {
+        for (int i = 0; i < COLUMN; i++) {
+            for (int j = 0; j < ROW; j++) {
+
+                /** 当前位置没有棋子 */
+                if (grid[i][j] == 0) {
+
+                    /** 向东判断 */
+                    String code = "";
+                    int color = 0;
+                    for (int m = i + 1, n = j; m < COLUMN; m++) {
+
+                        /** 如果下一位没有棋子就跳出程序 */
+                        if (grid[m][n] == 0) {
+                            break;
+                        } else {
+
+                            /** 判断是否是第一颗棋子 */
+                            if (color == 0) {
+                                color = grid[m][n];
+                                code += grid[m][n];
+                            } else {
+
+                                /** 判断颜色是否相同 */
+                                if (color == grid[m][n]) {
+                                    code += grid[m][n];
+                                } else {
+                                    code += grid[m][n];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    Integer value = hm.get(code);
+                    if (value != null) {
+                        gridWithChess[i][j] += value;
+                    }
+
+                }
+            }
+        }
+    }
+
 }
