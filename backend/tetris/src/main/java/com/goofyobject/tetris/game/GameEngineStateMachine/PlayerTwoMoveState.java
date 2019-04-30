@@ -5,11 +5,11 @@ import com.goofyobject.tetris.game.entity.Board;
 import com.goofyobject.tetris.game.entity.Position;
 
 public class PlayerTwoMoveState implements GameState {
-    private GameEngine engine;
+    private GameLogic engine;
     private String playerId;
     private Board board;
 
-    public PlayerTwoMoveState(GameEngine engine, String id, Board board) {
+    public PlayerTwoMoveState(GameLogic engine, String id, Board board) {
         this.engine = engine;
         this.playerId = id;
         this.board = board;

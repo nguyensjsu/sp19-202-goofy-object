@@ -4,14 +4,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.goofyobject.tetris.game.entity.GameEngine;
+import com.goofyobject.tetris.game.entity.GameLogic;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GameRoomServiceImp implements GameRoomService {
     private final LinkedList<String> waitingQueue = new LinkedList<>();
     private final ConcurrentHashMap<String,String> sessionToUser= new  ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, GameEngine> engines = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, GameLogic> engines = new ConcurrentHashMap<>();
 
     @Override
     public boolean addPlayerToQueue(String username, String sessionId) {
@@ -37,7 +37,6 @@ public class GameRoomServiceImp implements GameRoomService {
 
     @Override
     public boolean findOpponent(String curUsername) {
-
         synchronized (waitingQueue) {
             String opponentUsername = null;
             Iterator<String> iterator = waitingQueue.iterator();
@@ -56,7 +55,7 @@ public class GameRoomServiceImp implements GameRoomService {
             waitingQueue.remove(curUsername);
             waitingQueue.remove(opponentUsername);
 
-            GameEngine engine = new GameEngine(opponentUsername,curUsername);
+            GameLogic engine = new GameLogic(opponentUsername,curUsername);
 
             engines.put(curUsername, engine);
             engines.put(opponentUsername, engine);
@@ -65,7 +64,7 @@ public class GameRoomServiceImp implements GameRoomService {
 
     }
 
-    public GameEngine getEngine(String username) {
+    public GameLogic getEngine(String username) {
         return engines.get(username);
     }
 
@@ -76,7 +75,7 @@ public class GameRoomServiceImp implements GameRoomService {
 
     @Override
     public void PlayerLeave(String sessionId){
-        GameEngine curGame = engines.get(sessionToUser.get(sessionId));
+        GameLogic curGame = engines.get(sessionToUser.get(sessionId));
         //set end state;
         //curGame.
     }

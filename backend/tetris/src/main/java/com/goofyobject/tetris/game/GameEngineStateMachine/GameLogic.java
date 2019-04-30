@@ -3,14 +3,14 @@ package com.goofyobject.tetris.game.GameEngineStateMachine;
 import com.goofyobject.tetris.game.entity.Board;
 import com.goofyobject.tetris.game.entity.Position;
 
-public class GameEngine {
+public class GameLogic {
     private GameState curState;
     private GameState playerOneMoveState;
     private GameState playerTwoMoveState;
     private GameState gameEndState;
     private Board board;
 
-    public GameEngine(String id1, String id2) {
+    public GameLogic(String id1, String id2) {
         this.board = new Board();
         playerOneMoveState = new PlayerOneMoveState(this, id1, this.board);
         playerTwoMoveState = new PlayerTwoMoveState(this, id2, this.board);

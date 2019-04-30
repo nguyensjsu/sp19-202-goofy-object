@@ -10,7 +10,7 @@ import com.goofyobject.tetris.domain.User;
 
 import com.goofyobject.tetris.service.GameRoomService;
 import com.goofyobject.tetris.game.entity.Position;
-import com.goofyobject.tetris.game.entity.GameEngine;
+import com.goofyobject.tetris.game.entity.GameLogic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,11 +78,11 @@ public class GameController {
         int i = 0;
         while (i < 200) {
             gameRoomService.findOpponent(username);
-            GameEngine gameEngine = gameRoomService.getEngine(username);
+            GameLogic gameLogic = gameRoomService.getEngine(username);
 
-            if (gameEngine != null) {
-                String p1 = gameEngine.getId1();
-                String p2 = gameEngine.getId2();
+            if (gameLogic != null) {
+                String p1 = gameLogic.getId1();
+                String p2 = gameLogic.getId2();
                 
                 String oppnentName = p1;
 
@@ -117,15 +117,13 @@ public class GameController {
     @MessageMapping("/putPiece")
     public void putPiece(Move move) throws Exception {
         String username = move.getUsername();
-        GameEngine gameEngine = gameRoomService.getEngine(username);
+        GameLogic gameLogic = gameRoomService.getEngine(username);
         Position pos = new Position(move.getX(),move.getY());
-        if (gameEngine != null && gameEngine.putPiece(username, pos)) {
+        if (gameLogic != null && gameLogic.putPiece(username, pos)) {
             HashMap<String,Integer> hm =  new HashMap<>();
-
-            String p1 = gameEngine.getId1();
-            String p2 = gameEngine.getId2();
-
-            String winner = gameEngine.checkWinner(pos);
+            String p1 = gameLogic.getId1();
+            String p2 = gameLogic.getId2();
+            String winner = gameLogic.checkWinner(pos);
 
             if (winner != null) {
 
@@ -138,14 +136,13 @@ public class GameController {
                 hm.put(loser, Code.LOSE);
                 sendResult(hm,move);
                 gameRoomService.removePlayersFromGame(p1,p2);
-                
-            }else if (gameEngine.checkDraw()) {
+            }else if (gameLogic.checkDraw()) {
                 hm.put(p1,Code.DRAW);
                 hm.put(p2,Code.DRAW);
                 sendResult(hm,move);
                 gameRoomService.removePlayersFromGame(p1,p2);
             }else{
-                String readyPlayer = gameEngine.readyPlayer();
+                String readyPlayer = gameLogic.readyPlayer();
                 logger.info(readyPlayer);
                 // User readyUser = new User(readyPlayer);
                 Status ok = new Status(Code.OK);

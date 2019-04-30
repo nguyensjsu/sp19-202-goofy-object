@@ -1,13 +1,13 @@
 package com.goofyobject.tetris.game.entity;
 
-public class GameEngine {
+public class GameLogic {
     private String id1;    //p1-black  first hand
     private String id2;   //p2-white
     private String curPlayer;
     private Position curPosition;
     private Board board;
 
-    public GameEngine(String id1, String id2) {
+    public GameLogic(String id1, String id2) {
         this.id1 = id1;
         this.id2 = id2;
         curPlayer = id1;

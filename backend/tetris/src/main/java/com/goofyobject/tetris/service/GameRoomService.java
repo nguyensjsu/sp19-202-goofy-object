@@ -1,6 +1,6 @@
 package com.goofyobject.tetris.service;
 
-import com.goofyobject.tetris.game.entity.GameEngine;
+import com.goofyobject.tetris.game.entity.GameLogic;
 
 public interface GameRoomService {
 
@@ -10,7 +10,7 @@ public interface GameRoomService {
 
     public boolean findOpponent(String username);
 
-    public GameEngine getEngine(String username);
+    public GameLogic getEngine(String username);
 
     public String[] getWaitingPlayers();
 
