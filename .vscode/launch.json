@@ -19,6 +19,16 @@
             "mainClass": "five_in_a_row.FiveApplication",
             "projectName": "five_goofy_in_a_row",
             "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Test<tetris>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.goofyobject.tetris.Test",
+            "projectName": "tetris",
+            "args": ""
         }
     ]
 }
