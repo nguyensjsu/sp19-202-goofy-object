@@ -56,26 +56,26 @@ public class AIPlayerII implements Data {
         for (int i = 0; i < COLUMN; i++) {
             for (int j = 0; j < ROW; j++) {
 
-                /** 当前位置没有棋子 */
+                /** No Piece */
                 if (grid[i][j] == 0) {
 
-                    /** 向东判断 */
+                    /** East Direction */
                     String code = "";
                     int color = 0;
                     for (int m = i + 1, n = j; m < COLUMN; m++) {
 
-                        /** 如果下一位没有棋子就跳出程序 */
+                        /** if no Piece at next postion */
                         if (grid[m][n] == 0) {
                             break;
                         } else {
 
-                            /** 判断是否是第一颗棋子 */
+                            /** First Piece? */
                             if (color == 0) {
                                 color = grid[m][n];
                                 code += grid[m][n];
                             } else {
 
-                                /** 判断颜色是否相同 */
+                                /** Color Same? */
                                 if (color == grid[m][n]) {
                                     code += grid[m][n];
                                 } else {
@@ -91,23 +91,23 @@ public class AIPlayerII implements Data {
                         gridWithChess[i][j] += value;
                     }
 
-                    /** 向西判断 */
+                    /** West Direction */
                     code = "";
                     color = 0;
                     for (int m = i - 1, n = j; m > -1; m--) {
 
-                        /** 如果下一位没有棋子就跳出程序 */
+                        /** If no Piece at next Position, break */
                         if (grid[m][n] == 0) {
                             break;
                         } else {
 
-                            /** 判断是否为第一颗棋子 */
+                            /** First Piece? */
                             if (color == 0) {
                                 color = grid[m][n];
                                 code += grid[m][n];
                             } else {
 
-                                /** 判断颜色是否相同 */
+                                /** Same Color? */
                                 if (color == grid[m][n]) {
                                     code += grid[m][n];
                                 } else {
@@ -123,23 +123,23 @@ public class AIPlayerII implements Data {
                         gridWithChess[i][j] += value;
                     }
 
-                    /** 向北判断 */
+                    /** North Direciton */
                     code = "";
                     color = 0;
                     for (int m = i, n = j - 1; n > -1; n--) {
 
-                        /** 如果下一位没有棋子就自动跳出程序 */
+                        /** Break if no Piece */
                         if (grid[m][n] == 0) {
                             break;
                         } else {
 
-                            /** 判断是否为第一颗棋子 */
+                            /** First Piece? */
                             if (color == 0) {
                                 color = grid[m][n];
                                 code += grid[m][n];
                             } else {
 
-                                /** 判断颜色是否相同 */
+                                /** Same Color? */
                                 if (color == grid[m][n]) {
                                     code += grid[m][n];
                                 } else {
@@ -155,23 +155,23 @@ public class AIPlayerII implements Data {
                         gridWithChess[i][j] += value;
                     }
 
-                    /** 向南判断 */
+                    /** South Direction */
                     code = "";
                     color = 0;
                     for (int m = i, n = j + 1; n < ROW; n++) {
 
-                        /** 如果下一位没有棋子就自动跳出程序 */
+                        /** Break if no Piece */
                         if (grid[m][n] == 0) {
                             break;
                         } else {
 
-                            /** 判断是否为第一颗棋子 */
+                            /** First Piece? */
                             if (color == 0) {
                                 color = grid[m][n];
                                 code += grid[m][n];
                             } else {
 
-                                /** 判断颜色是否相同 */
+                                /** Same Color? */
                                 if (color == grid[m][n]) {
                                     code += grid[m][n];
                                 } else {
@@ -186,23 +186,23 @@ public class AIPlayerII implements Data {
                     if (value != null) {
                         gridWithChess[i][j] += value;
                     }
-                    /** 向东北判断 */
+                    /** NorthEast */
                     code = "";
                     color = 0;
                     for (int m = i + 1, n = j - 1; m < COLUMN && n > -1; m++, n--) {
 
-                        /** 如果下一位没有棋子就自动跳出程序 */
+                        
                         if (grid[m][n] == 0) {
                             break;
                         } else {
 
-                            /** 判断是否为第一颗棋子 */
+                            
                             if (color == 0) {
                                 color = grid[m][n];
                                 code += grid[m][n];
                             } else {
 
-                                /** 判断颜色是否相同 */
+                                
                                 if (color == grid[m][n]) {
                                     code += grid[m][n];
                                 } else {
@@ -216,23 +216,21 @@ public class AIPlayerII implements Data {
                     if (value != null) {
                         gridWithChess[i][j] += value;
                     }
-                    /** 向东南判断 */
+                    /** SouthEast */
                     code = "";
                     color = 0;
                     for (int m = i + 1, n = j + 1; m < COLUMN && n < ROW; m++, n++) {
 
-                        /** 如果下一位没有棋子就自动跳出程序 */
+                        
                         if (grid[m][n] == 0) {
                             break;
                         } else {
 
-                            /** 判断是否为第一颗棋子 */
                             if (color == 0) {
                                 color = grid[m][n];
                                 code += grid[m][n];
                             } else {
 
-                                /** 判断颜色是否相同 */
                                 if (color == grid[m][n]) {
                                     code += grid[m][n];
                                 } else {
@@ -247,23 +245,20 @@ public class AIPlayerII implements Data {
                     if (value != null) {
                         gridWithChess[i][j] += value;
                     }                    
-                    /** 向西北判断 */
+                    /** NorthWest */
                     code = "";
                     color = 0;
                     for (int m = i - 1, n = j - 1; m > -1 && n > -1; m--, n--) {
 
-                        /** 如果下一位没有棋子就自动跳出程序 */
                         if (grid[m][n] == 0) {
                             break;
                         } else {
 
-                            /** 判断是否为第一颗棋子 */
                             if (color == 0) {
                                 color = grid[m][n];
                                 code += grid[m][n];
                             } else {
 
-                                /** 判断颜色是否相同 */
                                 if (color == grid[m][n]) {
                                     code += grid[m][n];
                                 } else {
@@ -278,9 +273,84 @@ public class AIPlayerII implements Data {
                     if (value != null) {
                         gridWithChess[i][j] += value;
                     }
+                    code = "";
+                    color = 0;
+                    for (int m = i - 1, n = j + 1; m > -1 && n < ROW; m--, n++) {
+
+                        if (grid[m][n] == 0) {
+                            break;
+                        } else {
+
+                            if (color == 0) {
+                                color = grid[m][n];
+                                code += grid[m][n];
+                            } else {
+
+                                if (color == grid[m][n]) {
+                                    code += grid[m][n];
+                                } else {
+                                    code += grid[m][n];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    value = hm.get(code);
+                    if (value != null) {
+                        gridWithChess[i][j] += value;
+                    }                    
                 }
             }
         }
+
+        /** Output */
+        // for(int i=0;i<COLUMN;i++){
+        // for(int j=0;j<ROW;j++){
+        // System.out.println(gridWithChess[i][j] + "\t");
+        // }
+        // System.out.println();
+        // }
     }
 
+    /** getMax */
+    public void getMax() {
+        int n = 0;
+        int max = 0;
+        for (int i = 0; i < COLUMN; i++) {
+            for (int j = 0; j < ROW; j++) {
+                if (gridWithChess[i][j] != 0) {
+                    if (n == 0) {
+                        max = gridWithChess[i][j];
+                        a = i;
+                        b = j;
+                        n++;
+                    } else {
+                        if (gridWithChess[i][j] > max) {
+                            max = gridWithChess[i][j];
+                            a = i;
+                            b = j;
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("a b" + a + " " + b);
+        row.add(a);
+        col.add(b);
+        if (row.size() % 2 == 1) {
+            grid[a][b] = 1;
+        } else {
+            grid[a][b] = 2;
+        }
+    }
+
+    /** clearChessBoard */
+    public void clearChess() {
+        for (int i = 0; i < COLUMN; i++) {
+            for (int j = 0; j < ROW; j++) {
+                gridWithChess[i][j] = 0;
+            }
+        }
+    }
 }
