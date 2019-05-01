@@ -12,15 +12,17 @@ public class Board {
     }
 
     public boolean putPiece(Position p, int c) {
-        if(p == null || (c != 1 && c != 2)) { return false;}
+        if (p == null || (c != 1 && c != 2)) {
+            return false;
+        }
         int x = p.getX();
         int y = p.getY();
-        System.out.println("new Put Piece: color="+ c + ", x=" + x+ ", y=" +y);
-        if( grid[x][y] == null ) {
+        System.out.println("new Put Piece: color=" + c + ", x=" + x + ", y=" + y);
+        if (grid[x][y] == null) {
             grid[x][y] = PieceFactory.getNewPiece(c);
             num++;
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -36,5 +38,18 @@ public class Board {
 
     public boolean isFull() {
         return num == gridNum * gridNum;
+    }
+
+    // clone
+    @Override
+    public Object clone() {
+        Board bd = null;
+        try {
+            bd = (Board) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return bd;
+
     }
 }
