@@ -1,4 +1,3 @@
-package db.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,6 +18,7 @@ import javax.validation.constraints.Null;
 
 public class MySQLConnection {
     private static MySQLConnection instance;
+    private String URL ="";
     private Connection conn = null;
 
     public static MySQLConnection getInstance() {
@@ -31,7 +31,7 @@ public class MySQLConnection {
     private MySQLConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(MySQLDBUtil.URL);
+            conn = DriverManager.getConnection(URL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,8 +77,8 @@ public class MySQLConnection {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     public boolean checkUserLogin(String username, String password) {
@@ -92,8 +92,8 @@ public class MySQLConnection {
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     public boolean saveUserStats(String username, Date gameTime, int win ){
@@ -102,16 +102,16 @@ public class MySQLConnection {
         try {
                 PreparedStatement statement = conn.prepareStatement(sql);
                 statement.setInt(1, userid);
-                statement.setString(2, username);
-                statement.setDate(3, gameTime);
-                statement.setInt(4, 1);
-                statement.setInt(5, win_flag);
+//                statement.setString(2, username);
+//                statement.setDate(3, gameTime);
+//                statement.setInt(4, 1);
+//                statement.setInt(5, 4);
                 statement.execute();
                 return true;
             } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     public Set<Integer> getUserId(String username) {

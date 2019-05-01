@@ -16,6 +16,7 @@ public class Board {
         if(p == null || (c != 1 && c != 2)) { return false;}
         int x = p.getX();
         int y = p.getY();
+        System.out.println("new Put Piece: color="+ c + ", x=" + x+ ", y=" +y);
         if( grid[x][y] == null ) {
             grid[x][y] = PieceFactory.getNewPiece(c);
             num++;
@@ -67,7 +68,7 @@ public class Board {
 	    count = 1;
         // check up
         i = 1;
-        while(y-i < gridNum && i < 5) {
+        while(y-i >= 0  && i < 5) {
             if(grid[x][y-i] != null && grid[x][y-i].getColor() == curColor) {
                 count++;
                 i++;
