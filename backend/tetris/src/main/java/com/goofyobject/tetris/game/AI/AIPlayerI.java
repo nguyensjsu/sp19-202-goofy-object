@@ -12,7 +12,6 @@ import java.util.Random;
 // computer forever white   2
 // human forever black   1
 public class AIPlayerI {
-
     private Board board;
 
     public AIPlayerI(Board board) {

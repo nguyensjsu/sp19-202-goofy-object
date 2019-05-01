@@ -1,5 +1,6 @@
 package com.goofyobject.tetris.game.GameEngineStateMachine;
 
+import com.goofyobject.tetris.game.AI.AIPlayerI;
 import com.goofyobject.tetris.game.entity.Board;
 import com.goofyobject.tetris.game.entity.Position;
 
@@ -9,13 +10,21 @@ public class GameLogic {
     private GameState playerTwoMoveState;
     private GameState gameEndState;
     private Board board;
+    private AIPlayerI aiPlayerI;
 
     public GameLogic(String id1, String id2) {
         this.board = new Board();
+        if(id2 == null) {
+            aiPlayerI = new AIPlayerI(this.board);
+        }
         playerOneMoveState = new PlayerOneMoveState(this, id1, this.board);
         playerTwoMoveState = new PlayerTwoMoveState(this, id2, this.board);
         gameEndState = new GameEndState();
         this.curState = playerOneMoveState;
+    }
+
+    public AIPlayerI getAiPlayerI() {
+        return aiPlayerI;
     }
 
     public boolean putPiece(String id, Position p) {

@@ -5,12 +5,12 @@ import com.goofyobject.tetris.game.entity.Board;
 import com.goofyobject.tetris.game.entity.Position;
 
 public class PlayerOneMoveState implements GameState {
-    private GameLogic engine;
+    private GameLogic logic;
     private String playerId;
     private Board board;
 
-    public PlayerOneMoveState(GameLogic engine, String id, Board board) {
-        this.engine = engine;
+    public PlayerOneMoveState(GameLogic logic, String id, Board board) {
+        this.logic = logic;
         this.playerId = id;
         this.board = board;
     }
@@ -20,7 +20,11 @@ public class PlayerOneMoveState implements GameState {
         if(!playerId.equals(id)) {return false;}
         boolean res = this.board.putPiece(p,1);
         if(res) {
-            this.engine.switchToPlayerTwoMoveState();
+            if(this.logic.getAiPlayerI() == null) {
+                this.logic.switchToPlayerTwoMoveState();
+            }else {
+                this.board.putPiece( this.logic.getAiPlayerI().getComputerPosition(), 2);
+            }
             return true;
         }
         return false;
