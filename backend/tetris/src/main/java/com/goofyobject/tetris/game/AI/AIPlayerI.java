@@ -28,7 +28,7 @@ public class AIPlayerI {
         Random rn = new Random();
         int x = rn.nextInt(14);
         int y = rn.nextInt(14);
-        while (this.board.getGrid()[x][y] == null) {
+        while (this.board.getGrid()[x][y] != null) {
             x = rn.nextInt(14);
             y = rn.nextInt(14);
         }
