@@ -153,6 +153,14 @@ class ChessBoard extends Component {
             } else if (body.status === 202) {
                 console.log("Opponent Move:", body);
                 this.drawPiece(body.move.x, body.move.y, this.isMe);
+            } else if (body.status === 213) {
+                console.log("Draw", body);
+                this.setState({
+                    showMsg: true,
+                    msg: "That's a draw!"
+                })
+                this.drawPiece(body.move.x, body.move.y, this.isMe);
+                this.isMe = false;
             }
         });
 
