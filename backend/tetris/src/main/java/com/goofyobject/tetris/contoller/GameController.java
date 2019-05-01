@@ -7,6 +7,8 @@ import com.goofyobject.tetris.domain.ConcreteMessage;
 import com.goofyobject.tetris.domain.Move;
 import com.goofyobject.tetris.domain.Status;
 import com.goofyobject.tetris.domain.User;
+import com.goofyobject.tetris.domain.Reply;
+
 
 import com.goofyobject.tetris.service.GameRoomService;
 import com.goofyobject.tetris.game.entity.Position;
@@ -41,34 +43,33 @@ public class GameController {
         user.setDecorator(replyMessage);
 
         if (!isAdded) {
-            Status s = new Status(Code.FAIL);
-            s.setDecorator(user);
-            HashMap<String,Object> res = new HashMap<>();
-            s.getObj(res);
-            sendReply("added",username,res);
+            sendReply("added",user, new Reply[]{new Status(Code.FAIL)});
             return;
         }
-
-        Status s = new Status(Code.OK);
-        s.setDecorator(user);
-        HashMap<String,Object> res = new HashMap<>();
-        s.getObj(res);
-        sendReply("added",username,res);
+        sendReply("added",user,new Reply[]{new Status(Code.OK)});
 
         matchOpponent(user,sessionId);
     }
 
-    public void sendReply(String topicName, String username, Object msg){
-        messagingTemplate.convertAndSend("/topic/" + topicName + "?" + username, msg);
+    public void sendReply(String topicName, User user, Reply[] reply){
+
+        Reply cur = user;
+        
+        for (int i = 0; i < reply.length; i++){
+            cur.setDecorator(reply[i]);
+            cur = reply[i];
+        }
+
+        HashMap<String,Object> res = new HashMap<>();
+        user.getObj(res);
+
+        messagingTemplate.convertAndSend("/topic/" + topicName + "?" + user.getUsername(), res);
     }
 
     public void sendResult(HashMap<String, Integer> hm, Move move){
         for (String username : hm.keySet()) {
             Status status = new Status(hm.get(username));
-            status.setDecorator(move);
-            HashMap<String,Object> res = new HashMap<>();
-            status.getObj(res);
-            sendReply("update",username,res);
+            sendReply("update",new User(username), new Reply[] {move,status});
         }
     }
 
@@ -93,25 +94,15 @@ public class GameController {
                     color = new Status(Code.BLACK);
                 }
 
-                color.setDecorator(new User(oppnentName));
-
-                HashMap<String,Object> res = new HashMap<>();
-                color.getObj(res);
-
-                sendReply("join",username,res);
+                sendReply("join",user, new Reply[]{new User(oppnentName), color});
                 return;
             }
             Thread.sleep(500);
             i++;
         }
 
-        Status fail = new Status(Code.FAIL);
-        fail.setDecorator(user);
-        HashMap<String,Object> res = new HashMap<>();
-        fail.getObj(res);
-
         gameRoomService.removePlayerFromQueue(username, sessionId);
-        sendReply("join",username, res);
+        sendReply("join",user, new Reply[]{new Status(Code.FAIL)});
     }
 
     @MessageMapping("/putPiece")
@@ -142,14 +133,10 @@ public class GameController {
                 sendResult(hm,move);
                 gameRoomService.removePlayersFromGame(p1,p2);
             }else{
-                String readyPlayer = gameLogic.readyPlayer();
-                logger.info(readyPlayer);
+                User readyPlayer = new User(gameLogic.readyPlayer());
+                logger.info(readyPlayer.getUsername());
                 // User readyUser = new User(readyPlayer);
-                Status ok = new Status(Code.OK);
-                ok.setDecorator(move);
-                HashMap<String,Object> res = new HashMap<>();
-                ok.getObj(res);
-                sendReply("update",readyPlayer, res);
+                sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
             }
         }
     }

@@ -148,11 +148,11 @@ class ChessBoard extends Component {
                     showMsg: true,
                     msg: "You Lost!"
                 })
-                this.drawPiece(body.obj.x, body.obj.y, this.isMe);
+                this.drawPiece(body.move.x, body.move.y, this.isMe);
                 this.isMe = false;
             } else if (body.status === 202) {
                 console.log("Opponent Move:", body);
-                this.drawPiece(body.obj.x, body.obj.y, this.isMe);
+                this.drawPiece(body.move.x, body.move.y, this.isMe);
             }
         });
 

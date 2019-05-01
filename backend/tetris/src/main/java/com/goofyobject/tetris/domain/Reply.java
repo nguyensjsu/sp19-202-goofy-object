@@ -3,7 +3,7 @@ package com.goofyobject.tetris.domain;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class Reply implements Message {
+public class Reply implements Message {
 
     private Message msgDecorator;
 
