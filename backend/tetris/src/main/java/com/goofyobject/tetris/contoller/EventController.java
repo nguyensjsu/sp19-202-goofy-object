@@ -1,7 +1,13 @@
 package com.goofyobject.tetris.contoller;
 
 import java.util.Date;
+import java.util.HashMap;
 
+import com.goofyobject.tetris.domain.Code;
+import com.goofyobject.tetris.domain.ConcreteMessage;
+import com.goofyobject.tetris.domain.Reply;
+import com.goofyobject.tetris.domain.Status;
+import com.goofyobject.tetris.domain.User;
 import com.goofyobject.tetris.service.GameRoomService;
 
 import org.slf4j.Logger;
@@ -23,6 +29,20 @@ public class EventController {
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
+    public void sendReply(String topicName, User user, Reply[] reply){
+
+        Reply cur = reply[0];
+        for (int i = 1; i < reply.length; i++){
+            cur.setDecorator(reply[i]);
+            cur = reply[i];
+        }
+        cur.setDecorator(new ConcreteMessage());
+        HashMap<String,Object> res = new HashMap<>();
+        reply[0].getObj(res);
+
+        messagingTemplate.convertAndSend("/topic/" + topicName + "?" + user.getUsername(), res);
+    }
+
     @EventListener(SessionConnectEvent.class)
     public void handleWebsocketConnectListner(SessionConnectEvent event) {
         Date date = new Date();
@@ -33,6 +53,15 @@ public class EventController {
     public void handleWebsocketDisconnectListner(SessionDisconnectEvent event) {
         Date date = new Date();
         logger.info("Disconnet a web socket connection : " + date.getTime());
+
+
+        User informPlayer = gameRoomService.PlayerLeave(event.getSessionId());
+
+        if (informPlayer != null){
+            sendReply("update",informPlayer,new Reply[]{new Status(Code.LEAVE)});
+        }
+        
+
     }
 
 }

@@ -1,22 +1,24 @@
 package com.goofyobject.tetris.service;
 
-
+import com.goofyobject.tetris.domain.User;
 import com.goofyobject.tetris.game.GameEngineStateMachine.GameLogic;
 
 public interface GameRoomService {
 
-    public boolean addPlayerToQueue(String username, String sessionId);
+    public boolean addPlayerToQueue(User user, String sessionId);
 
-    public void removePlayerFromQueue(String username, String sessionId);
+    public void removePlayerFromQueue(User user);
 
-    public boolean findOpponent(String username);
+    public boolean findOpponent(User user);
 
-    public GameLogic getEngine(String username);
+    public GameLogic getEngine(User user);
 
     public String[] getWaitingPlayers();
 
-    public void PlayerLeave(String sessionId);
+    public User PlayerLeave(String sessionId);
 
-	public void removePlayersFromGame(String p1, String p2);
+    public boolean addPlayersToGame(User p1, User p2,GameLogic game);
+
+	public void removePlayersFromGame(User p1, User p2);
 
 }

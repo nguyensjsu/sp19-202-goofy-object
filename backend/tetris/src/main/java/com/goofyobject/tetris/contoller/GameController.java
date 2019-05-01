@@ -9,7 +9,6 @@ import com.goofyobject.tetris.domain.Status;
 import com.goofyobject.tetris.domain.User;
 import com.goofyobject.tetris.domain.Reply;
 
-
 import com.goofyobject.tetris.service.GameRoomService;
 import com.goofyobject.tetris.game.entity.Position;
 import com.goofyobject.tetris.game.GameEngineStateMachine.GameLogic;
@@ -22,6 +21,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
+
 @Controller
 public class GameController {
     @Autowired
@@ -32,12 +32,31 @@ public class GameController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @MessageMapping("/createAiGame")
+    public void createAiGame(SimpMessageHeaderAccessor headerAccessor, User user) throws Exception {
+        String username = user.getUsername();
+
+        String sessionId = headerAccessor.getSessionId();
+        user.setSessionId(sessionId);
+
+        boolean isAdded = gameRoomService.addPlayersToGame(user, null, new GameLogic(username, null));
+
+        if (!isAdded) {
+            sendReply("added",user, new Reply[]{new Status(Code.FAIL)});
+            return;
+        }
+        sendReply("update",user,new Reply[]{new Status(Code.BLACK)});
+
+    }
+
     @MessageMapping("/addToQueue")
     public void addUser(SimpMessageHeaderAccessor headerAccessor, User user) throws Exception {
         String username = user.getUsername();
         logger.info("-----------username:" + username);
         String sessionId = headerAccessor.getSessionId();
-        boolean isAdded = gameRoomService.addPlayerToQueue(username, sessionId);
+        user.setSessionId(sessionId);
+
+        boolean isAdded = gameRoomService.addPlayerToQueue(user, sessionId);
 
         if (!isAdded) {
             sendReply("added",user, new Reply[]{new Status(Code.FAIL)});
@@ -45,7 +64,7 @@ public class GameController {
         }
         sendReply("added",user,new Reply[]{new Status(Code.OK)});
 
-        matchOpponent(user,sessionId);
+        matchOpponent(user);
     }
 
     public void sendReply(String topicName, User user, Reply[] reply){
@@ -70,13 +89,13 @@ public class GameController {
         }
     }
 
-    public void matchOpponent(User user, String sessionId) throws Exception {
+    public void matchOpponent(User user) throws Exception {
 
         String username = user.getUsername();
         int i = 0;
         while (i < 200) {
-            gameRoomService.findOpponent(username);
-            GameLogic gameLogic = gameRoomService.getEngine(username);
+            gameRoomService.findOpponent(user);
+            GameLogic gameLogic = gameRoomService.getEngine(user);
 
             if (gameLogic != null) {
                 String p1 = gameLogic.getId1();
@@ -98,14 +117,16 @@ public class GameController {
             i++;
         }
 
-        gameRoomService.removePlayerFromQueue(username, sessionId);
+        gameRoomService.removePlayerFromQueue(user);
         sendReply("join",user, new Reply[]{new Status(Code.FAIL)});
     }
 
     @MessageMapping("/putPiece")
-    public void putPiece(Move move) throws Exception {
+    public void putPiece(SimpMessageHeaderAccessor headerAccessor,Move move) throws Exception {
+
         String username = move.getUsername();
-        GameLogic gameLogic = gameRoomService.getEngine(username);
+        User user = new User(username);
+        GameLogic gameLogic = gameRoomService.getEngine(user);
         Position pos = new Position(move.getX(),move.getY());
         if (gameLogic != null && gameLogic.putPiece(username, pos)) {
             HashMap<String,Integer> hm =  new HashMap<>();
@@ -123,12 +144,12 @@ public class GameController {
                 hm.put(winner, Code.WIN);
                 hm.put(loser, Code.LOSE);
                 sendResult(hm,move);
-                gameRoomService.removePlayersFromGame(p1,p2);
+                gameRoomService.removePlayersFromGame(new User(p1), new User(p2));
             }else if (gameLogic.checkDraw()) {
                 hm.put(p1,Code.DRAW);
                 hm.put(p2,Code.DRAW);
                 sendResult(hm,move);
-                gameRoomService.removePlayersFromGame(p1,p2);
+                gameRoomService.removePlayersFromGame(new User(p1), new User(p2));
             }else{
                 User readyPlayer = new User(gameLogic.readyPlayer());
                 logger.info(readyPlayer.getUsername());
