@@ -56,7 +56,7 @@ public class GameController {
             cur.setDecorator(reply[i]);
             cur = reply[i];
         }
-
+        cur.setDecorator(new ConcreteMessage());
         HashMap<String,Object> res = new HashMap<>();
         user.getObj(res);
 
