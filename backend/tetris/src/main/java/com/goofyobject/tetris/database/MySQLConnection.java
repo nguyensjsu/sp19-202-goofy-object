@@ -1,7 +1,5 @@
 package com.goofyobject.tetris.database;
 
-import com.goofyobject.tetris.database.MySQLDBUtil;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,7 +12,6 @@ import java.util.Date;
 
 public class MySQLConnection {
     private static MySQLConnection instance;
-    private String URL ="";
     private Connection conn = null;
 
     public static MySQLConnection getInstance() {
