@@ -147,4 +147,16 @@ public class Board {
     public Piece[][] getGrid() {
         return grid;
     }
+
+    // clone
+    @Override
+    public Object clone() {
+        Board bd = null;
+        try {
+            bd = (Board) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return bd;
+    }
 }
