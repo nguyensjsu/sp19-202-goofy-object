@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
     userid        int primary key not null auto_increment,
-    username      varchar(255) not null,         
+    username      varchar(255) not null,
     password      char(8) not null
 );
 -- create histroy table
