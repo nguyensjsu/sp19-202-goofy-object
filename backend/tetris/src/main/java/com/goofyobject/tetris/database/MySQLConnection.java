@@ -1,3 +1,6 @@
+package com.goofyobject.tetris.database;
+
+import com.goofyobject.tetris.database.MySQLDBUtil;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -5,16 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.Date;
 
-import javax.validation.constraints.Null;
-
-// import db.DBConnection;
-// import external.ExternalAPI;
-// import external.ExternalAPIFactory;
 
 public class MySQLConnection {
     private static MySQLConnection instance;
@@ -31,7 +27,7 @@ public class MySQLConnection {
     private MySQLConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(URL);
+            conn = DriverManager.getConnection(MySQLDBUtil.URL);
         } catch (Exception e) {
             e.printStackTrace();
         }

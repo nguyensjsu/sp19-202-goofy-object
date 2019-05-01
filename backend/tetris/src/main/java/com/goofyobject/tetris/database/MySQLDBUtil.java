@@ -1,4 +1,4 @@
-package db.mysql;
+package com.goofyobject.tetris.database;
 
 public class MySQLDBUtil {
     private static final String HOSTNAME = "localhost";
