@@ -4,7 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.goofyobject.tetris.game.entity.GameLogic;
+
+import com.goofyobject.tetris.game.GameEngineStateMachine.GameLogic;
 import org.springframework.stereotype.Component;
 
 @Component

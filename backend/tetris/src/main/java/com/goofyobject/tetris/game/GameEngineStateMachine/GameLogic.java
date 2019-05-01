@@ -34,7 +34,7 @@ public class GameLogic {
         this.curState = playerTwoMoveState;
     }
 
-    private String checkWinner(Position p) {
+    public String checkWinner(Position p) {
         int res = this.board.checkFiveInRow(p);
         if(res == 1) {
             this.curState = this.gameEndState;
@@ -53,5 +53,13 @@ public class GameLogic {
             this.curState = this.gameEndState;
         }
         return res;
+    }
+
+    public String getId1() {
+        return this.playerOneMoveState.getPlayerId();
+    }
+
+    public String getId2() {
+        return this.playerTwoMoveState.getPlayerId();
     }
 }
