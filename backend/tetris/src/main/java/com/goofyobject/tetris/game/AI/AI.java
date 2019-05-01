@@ -1,13 +1,16 @@
-package com.goofyobject.tetris.domain;
+package com.goofyobject.tetris.game.AI;
 
 
-import com.goofyobject.tetris.FactoryPiece.Piece;
-import com.goofyobject.tetris.FactoryPiece.PieceFactory;
+import com.goofyobject.tetris.game.FactoryPiece.Piece;
+import com.goofyobject.tetris.game.entity.Board;
+import com.goofyobject.tetris.game.entity.Position;
+
 // https://zjh776.iteye.com/blog/1979748
 
 
 // SCRATCH!!!
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AI {
 
@@ -25,7 +28,21 @@ public class AI {
         this.computerID = id;
     }
 
+    // for testing connection
     public Position getComputerPosition(Board board) {
+
+        Random rn = new Random();
+        int x = rn.nextInt(14);
+        int y = rn.nextInt(14);
+        while (board.getGrid()[x][y] == null) {
+            x = rn.nextInt(14);
+            y = rn.nextInt(14);
+        }
+        Position result = new Position(x, y);
+        return result;
+    }
+
+    public Position getComputerPosition_1(Board board) {
         
         int maxComputerScore = 0;
         Piece[][] grid = board.getGrid();
