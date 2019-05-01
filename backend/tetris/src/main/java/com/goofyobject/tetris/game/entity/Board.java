@@ -42,7 +42,7 @@ public class Board {
 
     // clone
     @Override
-    public Object clone() {
+    public Board clone() {
         Board bd = null;
         try {
             bd = (Board) super.clone();
