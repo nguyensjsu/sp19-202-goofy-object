@@ -39,9 +39,6 @@ public class GameController {
         String sessionId = headerAccessor.getSessionId();
         boolean isAdded = gameRoomService.addPlayerToQueue(username, sessionId);
 
-        ConcreteMessage replyMessage = new ConcreteMessage();
-        user.setDecorator(replyMessage);
-
         if (!isAdded) {
             sendReply("added",user, new Reply[]{new Status(Code.FAIL)});
             return;
