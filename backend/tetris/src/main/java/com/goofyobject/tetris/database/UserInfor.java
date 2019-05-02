@@ -6,6 +6,8 @@ public class UserInfor {
     private int age;
     private String gender;
     private String region;
+    private int wins;
+    private int loses;
 
     public String getRegion() {
         return region;
@@ -14,9 +16,6 @@ public class UserInfor {
     public void setRegion(String region) {
         this.region = region;
     }
-
-    private int wins;
-    private int loses;
 
     public String getUsername() {
         return username;
