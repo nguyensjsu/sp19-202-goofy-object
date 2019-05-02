@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - AIPlayerI",
+            "request": "launch",
+            "mainClass": "com.goofyobject.tetris.game.AI.AIPlayerI",
+            "projectName": "tetris"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-DemoApplication<tetris>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
