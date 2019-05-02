@@ -24,23 +24,25 @@ public class AIPlayerI implements AIPlayerIService{
     private final int searchDepth = 3; // search depth
     private final int alpha = 0;
     private final int beta = 0;
-    private final String AI_FIVE = "[0,1]*22222[0,1]*";
+    private final String AI_FIVE = "22222";
     private final String AI_FOUR_TWO_LIVE = "022220";
     private final String AI_FIVE_PRE = "122220|022221|0202220|0222020|0220220";
     private final String AI_TRHEE_LIVE = "02220|020220|022020";
     private final String AI_TRHEE_DORMANT = "002221|020221|022021|20022|20202|1022201|122200|122020|120220|1022201";
     private final String AI_TWO_LIVE = "00220|02200|02020|020020|020020";
     private final String AI_TWO_DORMANT = "000221|020021|20002|1020201|1022112|122000|120020|2112201";
+    private final String AI_ONE_LIVE = "021|120";
     private final String AI_DEAD_FOUR = "122221";
     private final String AI_DEAD_THREE = "12221";
     private final String AI_DEAD_TWO = "1221";
-    private final String HUMAN_FIVE = "[0,2]*11111[0,2]*";
+    private final String HUMAN_FIVE = "11111";
     private final String HUMAN_FOUR_TWO_LIVE = "011110";
     private final String HUMAN_FIVE_PRE = "211110|011112|0101110|0111010|0110110";
     private final String HUMAN_TRHEE_LIVE = "01110|010110|011010";
     private final String HUMAN_TRHEE_DORMANT = "001112|010112|011012|10011|10101|2011102|211100|211010|210110|2011102";
     private final String HUMAN_TWO_LIVE = "00110|01100|01010|010010|010010";
     private final String HUMAN_TWO_DORMANT = "000112|010012|10001|2010102|2011221|211000|210010|1221102";
+    private final String HUMAN_ONE_LIVE = "012|210";
     private final String HUMAN_DEAD_FOUR = "211112";
     private final String HUMAN_DEAD_THREE = "21112";
     private final String HUMAN_DEAD_TWO = "2112";
@@ -78,9 +80,8 @@ public class AIPlayerI implements AIPlayerIService{
                         maxComputerScore = score;
                         result.setX(i);
                         result.setY(j);
-                    } else {
-                        continue;
                     }
+                    System.out.println("i: " + i + ",j: " + j + ",score : " + score );
                 }
             }
         }
@@ -288,6 +289,7 @@ public class AIPlayerI implements AIPlayerIService{
             score += matchNumber(line, AI_TRHEE_DORMANT) * 50;
             score += matchNumber(line, AI_TWO_LIVE) * 5;
             score += matchNumber(line, AI_TWO_DORMANT) * 3;
+            score += matchNumber(line, AI_ONE_LIVE) * 1;
             score += matchNumber(line, AI_DEAD_FOUR) * -5;
             score += matchNumber(line, AI_DEAD_THREE) * -5;
             score += matchNumber(line, AI_DEAD_TWO) * -5;
@@ -299,6 +301,7 @@ public class AIPlayerI implements AIPlayerIService{
             score += matchNumber(line, HUMAN_TRHEE_DORMANT) * 50;
             score += matchNumber(line, HUMAN_TWO_LIVE) * 5;
             score += matchNumber(line, HUMAN_TWO_DORMANT) * 3;
+            score += matchNumber(line, HUMAN_ONE_LIVE) * 1;
             score += matchNumber(line, HUMAN_DEAD_FOUR) * -5;
             score += matchNumber(line, HUMAN_DEAD_THREE) * -5;
             score += matchNumber(line, HUMAN_DEAD_TWO) * -5;
@@ -315,30 +318,33 @@ public class AIPlayerI implements AIPlayerIService{
     }
 
    // test
-    public static void main(String[] args) {
+    // public static void main(String[] args) {
 
-        Board testBoard = new Board();
-        AIPlayerIService AIplayer1 = new AIPlayerI();
-        testBoard.putPiece(new Position(2,6), new Piece(2));
-        testBoard.putPiece(new Position(2,7), new Piece(2));
-        testBoard.putPiece(new Position(2, 8), new Piece(2));
+    //     Board testBoard = new Board();
+    //     AIPlayerIService AIplayer1 = new AIPlayerI();
+    //     testBoard.putPiece(new Position(7,7), new Piece(1));
+    //     testBoard.putPiece(new Position(6,6), new Piece(2));
+    //     testBoard.putPiece(new Position(6,7), new Piece(2));
+    //     testBoard.putPiece(new Position(6,8), new Piece(2));
+    //     testBoard.putPiece(new Position(6,9), new Piece(2));
+    //     // testBoard.putPiece(new Position(2,7), new Piece(2));
+    //     // testBoard.putPiece(new Position(2, 8), new Piece(2));
 
-        testBoard.putPiece(new Position(6, 4), new Piece(1));
-        testBoard.putPiece(new Position(7, 5), new Piece(2));
-        testBoard.putPiece(new Position(10, 8), new Piece(2));
+    //     // testBoard.putPiece(new Position(6, 4), new Piece(1));
+    //     // testBoard.putPiece(new Position(7, 5), new Piece(2));
+    //     // testBoard.putPiece(new Position(10, 8), new Piece(2));
 
-        testBoard.putPiece(new Position(5, 7), new Piece(2));
-        testBoard.putPiece(new Position(6, 7), new Piece(2));
-        testBoard.putPiece(new Position(7, 7), new Piece(2));
-        testBoard.putPiece(new Position(8, 7), new Piece(2));
-        testBoard.putPiece(new Position(4, 7), new Piece(1));
-        testBoard.putPiece(new Position(9, 7), new Piece(1));
-        System.out.println("Board Drawed");
-        //Position p = AIplayer1.getComputerPositionSimple(testBoard);
-        Position p = AIplayer1.getComputerPosition(testBoard);
-        System.out.println("new position generated");
-        System.out.println(p.getX());
-        System.out.println(p.getY());
-
-    }
+    //     // testBoard.putPiece(new Position(5, 7), new Piece(2));
+    //     // testBoard.putPiece(new Position(6, 7), new Piece(2));
+    //     // testBoard.putPiece(new Position(7, 7), new Piece(2));
+    //     // testBoard.putPiece(new Position(8, 7), new Piece(2));
+    //     // testBoard.putPiece(new Position(4, 7), new Piece(1));
+    //     // testBoard.putPiece(new Position(3, 7), new Piece(1));
+    //     System.out.println("Board Drawed");
+    //     //Position p = AIplayer1.getComputerPositionSimple(testBoard);
+    //     Position p = AIplayer1.getComputerPositionSimple(testBoard);
+    //     System.out.println("new position generated");
+    //     System.out.println(p.getX());
+    //     System.out.println(p.getY());
+    // }
 }

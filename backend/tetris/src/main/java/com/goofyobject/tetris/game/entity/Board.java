@@ -43,13 +43,18 @@ public class Board implements Cloneable{
     // clone
     @Override
     public Board clone() {
-        Board bd = null;
-        try {
-            bd = (Board) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+        Board bd = new Board();
+        bd.num = this.num;
+        bd.grid = new Piece[gridNum][gridNum];
+
+        for (int i = 0; i < gridNum ; i++){
+            for (int j = 0; j < gridNum ; j++){
+                if (this.grid[i][j] != null){
+                    int color = this.grid[i][j].getColor();
+                    bd.putPiece(new Position(i,j), new Piece(color));
+                }
+            }
         }
         return bd;
-
     }
 }
