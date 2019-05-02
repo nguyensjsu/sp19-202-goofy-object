@@ -84,13 +84,27 @@ public class UserInfo {
         public UserInfo buildFromJSONObject(JSONObject userInfoObject) {
             UserInfo.Builder builder = UserInfo.Builder.newInstance();
             try{
-                builder.setUsername(userInfoObject.getString("username"));
-                builder.setPassword(userInfoObject.getString("password"));
-                builder.setGender(userInfoObject.getString("gender"));
-                builder.setRegion(userInfoObject.getString("region"));
-                builder.setAge(userInfoObject.getInt("age"));
-                builder.setWins(userInfoObject.getInt("wins"));
-                builder.setLoses(userInfoObject.getInt("loses"));
+                if(userInfoObject.has("username")) {
+                    builder.setUsername(userInfoObject.getString("username"));
+                }
+                if(userInfoObject.has("password")) {
+                    builder.setPassword(userInfoObject.getString("password"));
+                }
+                if(userInfoObject.has("gender")) {
+                    builder.setGender(userInfoObject.getString("gender"));
+                }
+                if(userInfoObject.has("region")) {
+                    builder.setRegion(userInfoObject.getString("region"));
+                }
+                if(userInfoObject.has("age")) {
+                    builder.setAge(userInfoObject.getInt("age"));
+                }
+                if(userInfoObject.has("wins")) {
+                    builder.setAge(userInfoObject.getInt("wins"));
+                }
+                if(userInfoObject.has("loses")) {
+                    builder.setAge(userInfoObject.getInt("loses"));
+                }
                 return builder.build();
             }catch (Exception e) {
                 e.printStackTrace();
