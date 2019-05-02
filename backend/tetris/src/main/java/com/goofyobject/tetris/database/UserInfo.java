@@ -1,5 +1,7 @@
 package com.goofyobject.tetris.database;
 
+import org.json.JSONObject;
+
 public class UserInfo {
     private String username;
     private String password;
@@ -77,6 +79,23 @@ public class UserInfo {
         // to return outer instance
         public UserInfo build() {
             return new UserInfo(this);
+        }
+
+        public UserInfo buildFromJSONObject(JSONObject userInfoObject) {
+            UserInfo.Builder builder = UserInfo.Builder.newInstance();
+            try{
+                builder.setUsername(userInfoObject.getString("username"));
+                builder.setPassword(userInfoObject.getString("password"));
+                builder.setGender(userInfoObject.getString("gender"));
+                builder.setRegion(userInfoObject.getString("region"));
+                builder.setAge(userInfoObject.getInt("age"));
+                builder.setWins(userInfoObject.getInt("wins"));
+                builder.setLoses(userInfoObject.getInt("loses"));
+                return builder.build();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 
