@@ -314,7 +314,7 @@ public class AIPlayerI implements AIPlayerIService{
         return count;
     }
 
-    //test
+   // test
     public static void main(String[] args) {
 
         Board testBoard = new Board();
@@ -334,7 +334,8 @@ public class AIPlayerI implements AIPlayerIService{
         testBoard.putPiece(new Position(4, 7), new Piece(1));
         testBoard.putPiece(new Position(9, 7), new Piece(1));
         System.out.println("Board Drawed");
-        Position p = AIplayer1.getComputerPositionSimple(testBoard);
+        //Position p = AIplayer1.getComputerPositionSimple(testBoard);
+        Position p = AIplayer1.getComputerPosition(testBoard);
         System.out.println("new position generated");
         System.out.println(p.getX());
         System.out.println(p.getY());
