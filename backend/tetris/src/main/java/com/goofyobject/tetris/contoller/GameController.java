@@ -113,7 +113,7 @@ public class GameController {
     }
 
     @MessageMapping("/putPiece")
-    public void putPiece(SimpMessageHeaderAccessor headerAccessor,Move move) throws Exception {
+    public void putPiece(Move move) throws Exception {
         String username = move.getUsername();
         User user = new User(username);
         GameLogic gameLogic = gameRoomService.getEngine(user);
@@ -144,13 +144,14 @@ public class GameController {
             }else{
                 if(gameLogic.isAI()) {
                     Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
-                    gameLogic.putPiece("AI", AIPosition);
+                    // gameLogic.putPiece("AI", AIPosition);
                     move = new Move("AI", AIPosition.getX(), AIPosition.getY());
+                    putPiece(move);
                 }
 
                 User readyPlayer = new User(gameLogic.readyPlayer());
                 logger.info(readyPlayer.getUsername());
-                sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
+                // sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
             }
         }
     }
