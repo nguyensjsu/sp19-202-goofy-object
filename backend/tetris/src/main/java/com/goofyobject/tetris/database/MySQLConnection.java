@@ -1,11 +1,11 @@
 package com.goofyobject.tetris.database;
 
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Date;
 
 
+@Repository
 public class MySQLConnection {
     private static MySQLConnection instance;
     private Connection conn = null;
