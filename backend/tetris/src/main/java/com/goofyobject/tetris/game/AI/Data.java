@@ -1,4 +1,4 @@
-package com.goofyobject.tetris.game.AI;
+package com.goofyobject.tetris.game.ai;
 
 public interface Data{
 

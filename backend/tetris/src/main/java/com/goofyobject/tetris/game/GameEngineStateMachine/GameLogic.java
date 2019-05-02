@@ -1,6 +1,5 @@
 package com.goofyobject.tetris.game.GameEngineStateMachine;
 
-import com.goofyobject.tetris.game.AI.AIPlayerI;
 import com.goofyobject.tetris.game.Factory.BoardFactory;
 import com.goofyobject.tetris.game.entity.Board;
 import com.goofyobject.tetris.game.entity.Piece;
@@ -65,6 +64,10 @@ public class GameLogic {
             this.curState = this.gameEndState;
         }
         return res;
+    }
+
+    public Board getBoard(){
+        return this.board;
     }
 
     public String getId1() {
