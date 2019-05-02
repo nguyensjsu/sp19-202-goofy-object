@@ -35,9 +35,10 @@ public class MySQLCreateTable {
             // Step 2. Create new tables.
             sql = "CREATE TABLE user " + "(username VARCHAR(255) NOT NULL, "
                     + "password VARCHAR(255) NOT NULL, " + "region VARCHAR(255), " + "gender VARCHAR(255), "
-                    + "age INT, " + " PRIMARY KEY(username) )";
+                    + "age INT, " +"wins INT, "+"loses INT, "+ " PRIMARY KEY(username) )";
             stmt.executeUpdate(sql);
 
+            System.out.println("Create Table is done successfully.");
         }catch(Exception e) {
             e.printStackTrace();
         }
