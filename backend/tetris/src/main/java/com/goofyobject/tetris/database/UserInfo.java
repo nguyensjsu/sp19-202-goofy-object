@@ -9,6 +9,77 @@ public class UserInfo {
     private int wins;
     private int loses;
 
+    public UserInfo(Builder builder) {
+        this.username = builder.username;
+        this.password = builder.password;
+        this.age = builder.age;
+        this.gender = builder.gender;
+        this.region = builder.region;
+        this.wins = builder.wins;
+        this.loses = builder.loses;
+    }
+
+    public static class Builder {
+
+        /// instance fields
+        private String username;
+        private String password;
+        private int age;
+        private String gender;
+        private String region;
+        private int wins;
+        private int loses;
+
+        public static Builder newInstance() {
+            return new Builder();
+        }
+
+        private Builder() {
+        }
+
+        // Setter methods
+        public Builder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder setAge(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public Builder setGender(String gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public Builder setRegion(String region) {
+            this.region = region;
+            return this;
+        }
+
+        public Builder setWins(int wins) {
+            this.wins = wins;
+            return this;
+        }
+
+        public Builder setLoses(int loses) {
+            this.loses = loses;
+            return this;
+        }
+
+        // build method to deal with outer class
+        // to return outer instance
+        public UserInfo build() {
+            return new UserInfo(this);
+        }
+    }
+
     public String getRegion() {
         return region;
     }
