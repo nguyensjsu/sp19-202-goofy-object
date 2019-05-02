@@ -40,12 +40,10 @@ class ChessBoard extends Component {
     componentDidMount() {
 
         // console.log("Game Mode:", this.game_mode === SINGLE_MODE)
-        if (this.game_mode === BATTLE_MODE) {
-            this.setState({
-                showMsg: true,
-                msg: "Connecting to Server..."
-            })
-        }
+        this.setState({
+            showMsg: true,
+            msg: "Connecting to Server..."
+        })
 
         const board = this.refs.board;
         const ctx = board.getContext("2d");
@@ -83,14 +81,20 @@ class ChessBoard extends Component {
 
         this.stompClient.connect({}, (frame) => {
             console.log("Connected:", frame);
+            this.subscribeToBattle(this.stompClient);
             if (this.game_mode === BATTLE_MODE) {
-                this.subscribeToBattle(this.stompClient);
                 this.setState({
                     showMsg: true,
                     msg: "Findng Oppenent..."
                 })
+                this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
+            } else if (this.game_mode === SINGLE_MODE) {
+                this.setState({
+                    showMsg: true,
+                    msg: "Creating Game..."
+                })
+                this.stompClient.send("/app/createAiGame", {}, JSON.stringify({ 'username': cookie.load('username') }));
             }
-            this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
         });
 
     }
@@ -161,6 +165,13 @@ class ChessBoard extends Component {
                 })
                 this.drawPiece(body.move.x, body.move.y, this.isMe);
                 this.isMe = false;
+            } else if (body.status === 214) {
+                console.log("Opponent Lost Connection", body);
+                this.setState({
+                    showMsg: true,
+                    msg: "Opponent Lost Connection"
+                })
+                this.isMe = false;
             }
         });
 
@@ -188,7 +199,7 @@ class ChessBoard extends Component {
         const overlay = this.refs.overlay;
         const ctx = overlay.getContext("2d");
         ctx.clearRect(0, 0, overlay.width, overlay.height);
-        
+
         ctx.strokeStyle = "#FF0000";
 
         ctx.strokeRect(x - this.interval / 2, y - this.interval / 2, this.interval, this.interval);
