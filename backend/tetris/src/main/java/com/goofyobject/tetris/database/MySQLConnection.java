@@ -1,9 +1,7 @@
 package com.goofyobject.tetris.database;
 
 import org.springframework.stereotype.Repository;
-
 import java.sql.*;
-
 
 @Repository
 public class MySQLConnection {
