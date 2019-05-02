@@ -12,7 +12,7 @@ import com.goofyobject.tetris.domain.Reply;
 import com.goofyobject.tetris.service.GameRoomService;
 import com.goofyobject.tetris.game.entity.Position;
 import com.goofyobject.tetris.game.GameEngineStateMachine.GameLogic;
-import com.goofyobject.tetris.game.ai.AIPlayerIService;
+import com.goofyobject.tetris.game.AI.AIPlayerIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +113,7 @@ public class GameController {
     }
 
     @MessageMapping("/putPiece")
-    public void putPiece(SimpMessageHeaderAccessor headerAccessor,Move move) throws Exception {
+    public void putPiece(Move move) throws Exception {
         String username = move.getUsername();
         User user = new User(username);
         GameLogic gameLogic = gameRoomService.getEngine(user);
@@ -144,15 +144,14 @@ public class GameController {
             }else{
                 if(gameLogic.isAI()) {
                     Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
-                    gameLogic.putPiece("AI", AIPosition);
-                    User readyPlayer = new User(gameLogic.readyPlayer());
+                    // gameLogic.putPiece("AI", AIPosition);
                     move = new Move("AI", AIPosition.getX(), AIPosition.getY());
-                    sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
+                    putPiece(move);
                 }
 
                 User readyPlayer = new User(gameLogic.readyPlayer());
                 logger.info(readyPlayer.getUsername());
-                sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
+                // sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
             }
         }
     }

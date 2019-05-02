@@ -6,7 +6,7 @@
 3. Abstract Factory Pattern: use Abstract Factory to get BlackPieceFacotry and WhitePieceFactory
 4. Decorator: Respond objects such as status code, user information, and player's move can be added in runtime.
 5. Builder: build UserInfo object with manay field, such as username, password, region, gender, age, wins, loses.
-
+6. Object Pool: reuse the ended game object without instantiate a new object. Save time and memory when createing new object.
 ## UI wireframe
 
 ## UML Diagram
