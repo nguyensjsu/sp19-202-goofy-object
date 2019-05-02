@@ -89,7 +89,7 @@ public class AIPlayerI implements AIPlayerIService{
         int result = 0;
         Board tempBoard = (Board) board.clone();
         // plus condition game not end
-        if (searchDepth == 0 ){
+        if (searchDepth <= 0 ){
             result = evaluateScore(tempBoard, this.aiColor);
             // int score = 0;
             // for (int i = 0 ; i<gridNum; i++){
@@ -105,8 +105,8 @@ public class AIPlayerI implements AIPlayerIService{
         }
         if (color == 2) {
             int maxScore = Integer.MIN_VALUE;
-            for (int i =0 ; i<gridNum; i++){
-                for (int j =0 ; j<gridNum; i++){
+            for (int i =0 ; i< gridNum; i++){
+                for (int j =0 ; j< gridNum; j++){
                     if(board.getGrid()[i][j] == null){
                         tempBoard.putPiece(new Position(i,j), new Piece(2));
                         int score = alpha_beta(tempBoard, searchDepth - 1, alpha, beta, 1);
@@ -123,7 +123,7 @@ public class AIPlayerI implements AIPlayerIService{
         } else {
             int minScore = Integer.MAX_VALUE;
             for (int i = 0; i < gridNum; i++) {
-                for (int j = 0; j < gridNum; i++) {
+                for (int j = 0; j < gridNum; j++) {
                     if (board.getGrid()[i][j] == null) {
                         tempBoard.putPiece(new Position(i, j), new Piece(1));
                         int score = alpha_beta(tempBoard, searchDepth - 1, alpha, beta, 2);
@@ -146,7 +146,11 @@ public class AIPlayerI implements AIPlayerIService{
         for (int y = 0; y < gridNum; y++){
             StringBuffer buffer = new StringBuffer();
             for (int x =0 ; x<gridNum; x++){
-                buffer = buffer.append(board.getGrid()[x][y].getColor());
+                if (board.getGrid()[x][y] != null){
+                    buffer = buffer.append(board.getGrid()[x][y].getColor());
+                } else {
+                    buffer = buffer.append('0');
+                }
             }
             String line = buffer.toString();
             score += getLineScore(line, color);
@@ -155,7 +159,11 @@ public class AIPlayerI implements AIPlayerIService{
         for (int x = 0; x < gridNum; x++) {
             StringBuffer buffer = new StringBuffer();
             for (int y = 0; y < gridNum; y++) {
-                buffer = buffer.append(board.getGrid()[x][y].getColor());
+                if (board.getGrid()[x][y] != null) {
+                    buffer = buffer.append(board.getGrid()[x][y].getColor());
+                } else {
+                    buffer = buffer.append('0');
+                }
             }
             String line = buffer.toString();
             score += getLineScore(line, color);
@@ -166,7 +174,11 @@ public class AIPlayerI implements AIPlayerIService{
             for (int x = 0; x < gridNum; x++) {
                 int y = (x - y_offset);
                 if (y >= 0 && y < gridNum) {
-                    buffer = buffer.append(board.getGrid()[x][y].getColor());
+                    if (board.getGrid()[x][y] != null) {
+                        buffer = buffer.append(board.getGrid()[x][y].getColor());
+                    } else {
+                        buffer = buffer.append('0');
+                    }
                 }
             }
             String line = buffer.toString();
@@ -178,7 +190,11 @@ public class AIPlayerI implements AIPlayerIService{
             for (int x = 0; x < gridNum; x++) {
                 int y = (x + y_offset);
                 if (y >= 0 && y < gridNum) {
-                    buffer = buffer.append(board.getGrid()[x][y].getColor());
+                    if (board.getGrid()[x][y] != null) {
+                        buffer = buffer.append(board.getGrid()[x][y].getColor());
+                    } else {
+                        buffer = buffer.append('0');
+                    }
                 }
             }
             String line = buffer.toString();
@@ -190,7 +206,11 @@ public class AIPlayerI implements AIPlayerIService{
             for (int x = 0; x < gridNum; x++) {
                 int y = sum - x;
                 if (y >= 0 && y < gridNum) {
-                    buffer = buffer.append(board.getGrid()[x][y].getColor());
+                    if (board.getGrid()[x][y] != null) {
+                        buffer = buffer.append(board.getGrid()[x][y].getColor());
+                    } else {
+                        buffer = buffer.append('0');
+                    }
                 }
             }
             String line = buffer.toString();
@@ -202,7 +222,11 @@ public class AIPlayerI implements AIPlayerIService{
             for (int x = 0; x < gridNum - 1; x++) {
                 int y = sum - x;
                 if (y >= 0 && y < gridNum) {
-                    buffer = buffer.append(board.getGrid()[x][y].getColor());
+                    if (board.getGrid()[x][y] != null) {
+                        buffer = buffer.append(board.getGrid()[x][y].getColor());
+                    } else {
+                        buffer = buffer.append('0');
+                    }
                 }
             }
             String line = buffer.toString();
@@ -249,63 +273,20 @@ public class AIPlayerI implements AIPlayerIService{
         return count;
     }
 
-    // public static void main(String[] args) {
+    //test
+    public static void main(String[] args) {
 
-    //     String content = "122220022221";
-    //     // System.out.println(matchNumber(content, ".*22222.*"));
-    //     int a = matchNumber(content, "122220|022221|0202220|0222020|0220220");
-    //     System.out.println(a);
+        Board testBoard = new Board();
+        AIPlayerIService AIplayer1 = new AIPlayerI();
+        testBoard.putPiece(new Position(7,7), new Piece(2));
+        testBoard.putPiece(new Position(5,7), new Piece(2));
+        testBoard.putPiece(new Position(6, 7), new Piece(2));
+        testBoard.putPiece(new Position(8,7), new Piece(2));
+        testBoard.putPiece(new Position(9,7), new Piece(2));
+        testBoard.putPiece(new Position(4,7), new Piece(2));
+        Position p = AIplayer1.getComputerPosition(testBoard);
+        System.out.println(p.getX());
+        System.out.println(p.getY());
 
-    // }
+    }
 }
-
-
-// // NEED TO INPUT EVALUATION FUNCTION
-// public int evaluateScore(Board board, Position p, int color){
-// int result = 0;
-// for (int dir = 0; dir < 8; dir++){
-// // FOUR_LIVE
-// if(board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) ==
-// color
-// && board.getColorAt(p, dir, 3) == color && board.getColorAt(p, dir, 4) ==
-// color
-// && board.getColorAt(p, dir, 5) == 0){
-// result += 400000;
-// }
-// // FOUR_DEAD_A
-// if (board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) ==
-// color
-// && board.getColorAt(p, dir, 3) == color && board.getColorAt(p, dir, -1) ==
-// color
-// && board.getColorAt(p, dir, 5) != color ) {
-// result += 300000;
-// }
-// // FOUR_DEAD_B
-// if (board.getColorAt(p, dir, -1) == color && board.getColorAt(p, dir, 1) ==
-// color
-// && board.getColorAt(p, dir, 2) == color && board.getColorAt(p, dir, 3) ==
-// color) {
-// result += 300000;
-// }
-// // THREE_LIVE_A
-// if (board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) ==
-// color
-// && board.getColorAt(p, dir, -1) == 0 && board.getColorAt(p, dir, -1) == 0) {
-// result += 200000;
-// }
-// // THREE_LIVE_B
-// if (board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) ==
-// color
-// && board.getColorAt(p, dir, 3) == 0 && board.getColorAt(p, dir, -1) == 0) {
-// result += 200000;
-// }
-// // TWO_DEAD
-// if (board.getColorAt(p, dir, -1) == color && board.getColorAt(p, dir, 1) == 0
-// && board.getColorAt(p, dir, 1) == 0 && board.getColorAt(p, dir, 1) == 0) {
-// result += 100;
-// }
-// // More around
-// result += (board.getColorAt(p, dir,1) + board.getColorAt(p, dir,2)) * 25;
-// }
-// return result;
-// }

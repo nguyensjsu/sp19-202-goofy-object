@@ -12,7 +12,7 @@ import com.goofyobject.tetris.domain.Reply;
 import com.goofyobject.tetris.service.GameRoomService;
 import com.goofyobject.tetris.game.entity.Position;
 import com.goofyobject.tetris.game.GameEngineStateMachine.GameLogic;
-import com.goofyobject.tetris.game.ai.AIPlayerIService;
+import com.goofyobject.tetris.game.AI.AIPlayerIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
