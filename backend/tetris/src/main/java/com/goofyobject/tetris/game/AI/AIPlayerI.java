@@ -1,8 +1,10 @@
-package com.goofyobject.tetris.game.AI;
+package com.goofyobject.tetris.game.ai;
 
 import com.goofyobject.tetris.game.entity.Board;
 import com.goofyobject.tetris.game.entity.Piece;
 import com.goofyobject.tetris.game.entity.Position;
+
+import org.springframework.stereotype.Component;
 
 // https://zjh776.iteye.com/blog/1979748
 
@@ -12,25 +14,22 @@ import java.util.Random;
 
 // computer forever white   2
 // human forever black   1
-public class AIPlayerI {
+@Component
+public class AIPlayerI implements AIPlayerIService{
 
-    private Board board;
     private int aiColor = 2; //computer fixed to white
     private final int gridNum = 15;
     private final int searchDepth = 4; // search depth
     private final int alpha = 10;
     private final int beta = 100;
-
-    public AIPlayerI(Board board) {
-        this.board = board;
-    }    
+   
     // for testing connection
-    public Position getComputerPosition() {
+    public Position getComputerPosition(Board board) {
 
         Random rn = new Random();
         int x = rn.nextInt(14);
         int y = rn.nextInt(14);
-        while (this.board.getGrid()[x][y] != null) {
+        while (board.getGrid()[x][y] != null) {
             x = rn.nextInt(14);
             y = rn.nextInt(14);
         }
@@ -39,7 +38,7 @@ public class AIPlayerI {
     }
 
     // actual method
-    public Position getComputerPosition_2() {
+    public Position getComputerPosition_2(Board board) {
 
         int maxComputerScore = Integer.MIN_VALUE;
         Piece[][] grid = board.getGrid();
@@ -51,7 +50,7 @@ public class AIPlayerI {
             for (int j = 0; j < gridNum; j++) {
 
                 if (grid[i][j] == null){
-                    Board tempBoard = (Board)this.board.clone();
+                    Board tempBoard = (Board) board.clone();
                     tempBoard.putPiece(new Position(i, j), new Piece(2));
                     int score = alpha_beta(tempBoard, searchDepth, alpha, beta,2);
                     if (score > maxComputerScore){
@@ -69,7 +68,7 @@ public class AIPlayerI {
     public int alpha_beta(Board board, int searchDepth, int alpha, int beta, int color) {
         
         int result = 0;
-        Board tempBoard = (Board) this.board.clone();
+        Board tempBoard = (Board) board.clone();
         // plus condition game not end
         if (searchDepth == 0 ){
             int score = 0;
