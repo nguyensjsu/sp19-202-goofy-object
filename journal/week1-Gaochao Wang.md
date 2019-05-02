@@ -1,9 +1,9 @@
-# Week 1 Scrum Report [3/30/2019-4/06/2019]
+# Week 1 Scrum Report [4/6/2019-4/13/2019]
 
 ## Gaochao Wang
 
-### Finished Last Week 
-- Task1: Use case diagram
+### Finished This Week 
+- Task1: Use case diagram, think about technology to use
 - Task2: DB schema design
 
 ### Planned Next Week 
@@ -11,7 +11,7 @@
 - Task2: Game Logic Design
 
 ### Problems/Blocks
-Not sure what database is fast enough to do real time update
+Not sure what database to use
 
 ### Time Spend
 - Task1: 4 hrs

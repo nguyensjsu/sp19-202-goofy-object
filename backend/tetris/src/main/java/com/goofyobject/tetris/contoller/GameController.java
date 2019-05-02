@@ -145,7 +145,9 @@ public class GameController {
                 if(gameLogic.isAI()) {
                     Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
                     gameLogic.putPiece("AI", AIPosition);
+                    User readyPlayer = new User(gameLogic.readyPlayer());
                     move = new Move("AI", AIPosition.getX(), AIPosition.getY());
+                    sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
                 }
 
                 User readyPlayer = new User(gameLogic.readyPlayer());
