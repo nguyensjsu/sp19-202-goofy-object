@@ -112,7 +112,7 @@ public class GameController {
         sendReply("join",user, new Reply[]{new Status(Code.FAIL)});
     }
 
-    @MessageMapping("/putPiece")
+    @MessageMapping("/putPieceXXXX")
     public void putPiece(Move move) throws Exception {
         String username = move.getUsername();
         User user = new User(username);
@@ -158,7 +158,7 @@ public class GameController {
     }
 
 
-    @MessageMapping("/putPieceReal")
+    @MessageMapping("/putPiece")
     public void putPieceReal(Move move) throws Exception {
         String username = move.getUsername();
         User user = new User(username);
@@ -179,6 +179,7 @@ public class GameController {
         String winner = gameLogic.checkWinner(pos);
         HashMap<String,Integer> hm =  new HashMap<>();
         Move move = new Move(p1, pos.getX(), pos.getY());
+        System.out.println("winner:" + winner);
         if (winner != null) {
             if (winner.equals(p1+"AI")){
                 hm.put(p1, Code.LOSE);
@@ -193,7 +194,7 @@ public class GameController {
             gameRoomService.removePlayersFromGame(new User(p1), null);
         }else{
             if(gameLogic.isAI()  && gameLogic.readyPlayer().equals(p1+"AI")) {
-                Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
+                Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
                 gameLogic.putPiece(null, AIPosition);
                 singlePlay(p1, gameLogic,AIPosition);
             }else {
