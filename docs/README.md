@@ -2,9 +2,10 @@
 
 ## Design Pattern Used:
 1. State Pattern:  Game state change btw player1 and player2, and change to GameEnd state in the end.
-2. Facotry Pattern:  Factory produce Piece for player to put in game board.
-3. Observer Pattern: One player notify the other player via GameEngine about the new move.
+2. Facotry Pattern:  Factory produce BlackPiece and WhitePiece for player to put in game board.
+3. Abstract Factory Pattern: use Abstract Factory to get BlackPieceFacotry and WhitePieceFactory
 4. Decorator: Respond objects such as status code, user information, and player's move can be added in runtime.
+5. Builder: build UserInfo object with manay field, such as username, password, region, gender, age, wins, loses.
 
 ## UI wireframe
 

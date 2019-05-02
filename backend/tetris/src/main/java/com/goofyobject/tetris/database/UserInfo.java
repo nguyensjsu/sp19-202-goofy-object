@@ -1,5 +1,7 @@
 package com.goofyobject.tetris.database;
 
+import org.json.JSONObject;
+
 public class UserInfo {
     private String username;
     private String password;
@@ -8,6 +10,108 @@ public class UserInfo {
     private String region;
     private int wins;
     private int loses;
+
+    public UserInfo(Builder builder) {
+        this.username = builder.username;
+        this.password = builder.password;
+        this.age = builder.age;
+        this.gender = builder.gender;
+        this.region = builder.region;
+        this.wins = builder.wins;
+        this.loses = builder.loses;
+    }
+
+    public static class Builder {
+
+        /// instance fields
+        private String username;
+        private String password;
+        private int age;
+        private String gender;
+        private String region;
+        private int wins;
+        private int loses;
+
+        public static Builder newInstance() {
+            return new Builder();
+        }
+
+        private Builder() {
+        }
+
+        // Setter methods
+        public Builder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder setAge(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public Builder setGender(String gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public Builder setRegion(String region) {
+            this.region = region;
+            return this;
+        }
+
+        public Builder setWins(int wins) {
+            this.wins = wins;
+            return this;
+        }
+
+        public Builder setLoses(int loses) {
+            this.loses = loses;
+            return this;
+        }
+
+        // build method to deal with outer class
+        // to return outer instance
+        public UserInfo build() {
+            return new UserInfo(this);
+        }
+
+        public UserInfo buildFromJSONObject(JSONObject userInfoObject) {
+            UserInfo.Builder builder = UserInfo.Builder.newInstance();
+            try{
+                if(userInfoObject.has("username")) {
+                    builder.setUsername(userInfoObject.getString("username"));
+                }
+                if(userInfoObject.has("password")) {
+                    builder.setPassword(userInfoObject.getString("password"));
+                }
+                if(userInfoObject.has("gender")) {
+                    builder.setGender(userInfoObject.getString("gender"));
+                }
+                if(userInfoObject.has("region")) {
+                    builder.setRegion(userInfoObject.getString("region"));
+                }
+                if(userInfoObject.has("age")) {
+                    builder.setAge(userInfoObject.getInt("age"));
+                }
+                if(userInfoObject.has("wins")) {
+                    builder.setAge(userInfoObject.getInt("wins"));
+                }
+                if(userInfoObject.has("loses")) {
+                    builder.setAge(userInfoObject.getInt("loses"));
+                }
+                return builder.build();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
     public String getRegion() {
         return region;

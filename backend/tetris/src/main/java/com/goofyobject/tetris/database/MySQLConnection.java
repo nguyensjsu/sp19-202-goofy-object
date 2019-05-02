@@ -1,9 +1,7 @@
 package com.goofyobject.tetris.database;
 
 import org.springframework.stereotype.Repository;
-
 import java.sql.*;
-
 
 @Repository
 public class MySQLConnection {
@@ -19,7 +17,7 @@ public class MySQLConnection {
 
     private MySQLConnection() {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             conn = DriverManager.getConnection(MySQLDBUtil.URL);
         } catch (Exception e) {
             e.printStackTrace();
