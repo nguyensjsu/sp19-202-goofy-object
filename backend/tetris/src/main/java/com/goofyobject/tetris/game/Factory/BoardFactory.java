@@ -5,7 +5,7 @@ import com.goofyobject.tetris.game.entity.Board;
 public class BoardFactory {
 
     private BoardFactory() {}
-    public static Board createNewBoard() {
+    public static Board createBoard() {
         return new Board();
     }
 }

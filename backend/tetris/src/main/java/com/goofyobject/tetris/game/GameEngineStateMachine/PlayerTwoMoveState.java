@@ -1,6 +1,7 @@
 package com.goofyobject.tetris.game.GameEngineStateMachine;
 
 
+import com.goofyobject.tetris.game.Factory.AbstractPieceFactory;
 import com.goofyobject.tetris.game.entity.Board;
 import com.goofyobject.tetris.game.entity.Position;
 
@@ -18,7 +19,7 @@ public class PlayerTwoMoveState implements GameState {
     @Override
     public boolean putPiece(String id, Position p) {
         if(!playerId.equals(id)) {return false;}
-        boolean res = this.board.putPiece(p,2);
+        boolean res = this.board.putPiece(p, AbstractPieceFactory.getWhitePieceFactory().createPiece());
         if(res) {
             this.engine.switchToPlayerOneMoveState();
             return true;

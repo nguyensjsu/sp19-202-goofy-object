@@ -1,6 +1,5 @@
 package com.goofyobject.tetris.game.entity;
 
-import com.goofyobject.tetris.game.Factory.PieceFactory;
 
 public class Board {
     private final int gridNum = 15;
@@ -11,7 +10,8 @@ public class Board {
         this.grid = new Piece[gridNum][gridNum];
     }
 
-    public boolean putPiece(Position p, int c) {
+    public boolean putPiece(Position p, Piece piece) {
+        int c = piece.getColor();
         if (p == null || (c != 1 && c != 2)) {
             return false;
         }
@@ -19,7 +19,7 @@ public class Board {
         int y = p.getY();
         System.out.println("new Put Piece: color=" + c + ", x=" + x + ", y=" + y);
         if (grid[x][y] == null) {
-            grid[x][y] = PieceFactory.getNewPiece(c);
+            grid[x][y] = piece;
             num++;
             return true;
         } else {
@@ -56,7 +56,6 @@ public class Board {
     // from center Position p, move direction dir, and offset number p, return piece color
     // 1: black, 2: white, 3: blank
     public int getColorAt(Position p, int dir, int offset) {
-
         int i = p.getX();
         int j = p.getY();
         int result = 0;

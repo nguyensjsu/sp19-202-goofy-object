@@ -30,7 +30,7 @@ public class AIPlayerI {
         Random rn = new Random();
         int x = rn.nextInt(14);
         int y = rn.nextInt(14);
-        while (this.board.getGrid()[x][y] == null) {
+        while (this.board.getGrid()[x][y] != null) {
             x = rn.nextInt(14);
             y = rn.nextInt(14);
         }
@@ -52,7 +52,7 @@ public class AIPlayerI {
 
                 if (grid[i][j] == null){
                     Board tempBoard = (Board)this.board.clone();
-                    tempBoard.putPiece(new Position(i, j), 2);
+                    tempBoard.putPiece(new Position(i, j), new Piece(2));
                     int score = alpha_beta(tempBoard, searchDepth, alpha, beta,2);
                     if (score > maxComputerScore){
                         maxComputerScore = score;
@@ -88,7 +88,7 @@ public class AIPlayerI {
             for (int i =0 ; i<gridNum; i++){
                 for (int j =0 ; j<gridNum; i++){
                     if(board.getGrid()[i][j] == null){
-                        tempBoard.putPiece(new Position(i,j), 2);
+                        tempBoard.putPiece(new Position(i,j), new Piece(2));
                         int score = alpha_beta(tempBoard, searchDepth - 1, alpha, beta, 1);
                         maxScore = (maxScore > score) ? maxScore : score;
                         alpha = (alpha > score) ? alpha : score;
@@ -105,7 +105,7 @@ public class AIPlayerI {
             for (int i = 0; i < gridNum; i++) {
                 for (int j = 0; j < gridNum; i++) {
                     if (board.getGrid()[i][j] == null) {
-                        tempBoard.putPiece(new Position(i, j), 1);
+                        tempBoard.putPiece(new Position(i, j), new Piece(1));
                         int score = alpha_beta(tempBoard, searchDepth - 1, alpha, beta, 2);
                         minScore = (minScore < score) ? minScore : score;
                         beta = (beta < score) ? beta : score;
