@@ -53,7 +53,7 @@ public class AIPlayerI {
                 if (grid[i][j] == null){
                     Board tempBoard = (Board)this.board.clone();
                     tempBoard.putPiece(new Position(i, j), 2);
-                    int score = alpha_beta(tempBoard, searchDepth, alpha, beta,true);
+                    int score = alpha_beta(tempBoard, searchDepth, alpha, beta,2);
                     if (score > maxComputerScore){
                         maxComputerScore = score;
                         result = new Position(i, j);
@@ -66,22 +66,30 @@ public class AIPlayerI {
         return result;
     }
 
-    public int alpha_beta(Board board, int searchDepth, int alpha, int beta, boolean AIPlayer) {
+    public int alpha_beta(Board board, int searchDepth, int alpha, int beta, int color) {
         
         int result = 0;
-        int id = 2;
         Board tempBoard = (Board) this.board.clone();
         // plus condition game not end
         if (searchDepth == 0 ){
-            result = evaluateScore(board, id);
+            int score = 0;
+            for (int i = 0 ; i<gridNum; i++){
+                for (int j =0 ; j<gridNum; i++){
+                    if(board.getGrid()[i][j] == null){
+                        Position p = new Position(i, j);
+                        score = evaluateScore(board, p, this.aiColor);
+                        result = (score > result) ? score : result;
+                    }
+                }
+            }
         }
-        if (AIPlayer) {
+        if (color == 2) {
             int maxScore = Integer.MIN_VALUE;
             for (int i =0 ; i<gridNum; i++){
                 for (int j =0 ; j<gridNum; i++){
                     if(board.getGrid()[i][j] == null){
                         tempBoard.putPiece(new Position(i,j), 2);
-                        int score = alpha_beta(tempBoard, searchDepth - 1, alpha, beta, false);
+                        int score = alpha_beta(tempBoard, searchDepth - 1, alpha, beta, 1);
                         maxScore = (maxScore > score) ? maxScore : score;
                         alpha = (alpha > score) ? alpha : score;
                         if (beta <= alpha) {
@@ -98,7 +106,7 @@ public class AIPlayerI {
                 for (int j = 0; j < gridNum; i++) {
                     if (board.getGrid()[i][j] == null) {
                         tempBoard.putPiece(new Position(i, j), 1);
-                        int score = alpha_beta(tempBoard, searchDepth - 1, alpha, beta, true);
+                        int score = alpha_beta(tempBoard, searchDepth - 1, alpha, beta, 2);
                         minScore = (minScore < score) ? minScore : score;
                         beta = (beta < score) ? beta : score;
                         if (beta <= alpha) {
@@ -113,13 +121,36 @@ public class AIPlayerI {
     }
 
     // NEED TO INPUT EVALUATION FUNCTION
-    public int evaluateScore(Board board, int id){
-        // int result = 0;
-        // if(board.checkFiveInRow() == 2){
-        //     result = 100000;
-        // }
-        // return result;
-        return 1000;
+    public int evaluateScore(Board board, Position p, int color){
+        int result = 0;
+        for (int dir = 0; dir < 8; dir++){
+            // FOUR_LIVE
+            if(board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) == color
+                && board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 1) == color
+                && board.getColorAt(p, dir, 1) == 0){
+                result += 400000;
+            }
+            // FOUR_DEAD_A
+            if (board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) == color
+                    && board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 1) == color
+                    && board.getColorAt(p, dir, 1) % color == 1) {
+                result += 300000;
+            }
+            // FOUR_DEAD_B
+            if (board.getColorAt(p, dir, -1) == color && board.getColorAt(p, dir, 1) == color
+                    && board.getColorAt(p, dir, 2) == color && board.getColorAt(p, dir, 3) == color) {
+                result += 300000;
+            }
+            // ADD MORE 
+            // TWO_DEAD
+            if (board.getColorAt(p, dir, -1) == color && board.getColorAt(p, dir, 1) == 0
+                    && board.getColorAt(p, dir, 1) == 0 && board.getColorAt(p, dir, 1) == 0) {
+                result += 100;
+            }
+            // More around
+            result += (board.getColorAt(p, dir,1) + board.getColorAt(p, dir,2)) * 25;                  
+        }
+        return result;
     }
 
 }
