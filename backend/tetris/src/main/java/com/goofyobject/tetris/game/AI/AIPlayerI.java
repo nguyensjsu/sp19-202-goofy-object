@@ -52,17 +52,16 @@ public class AIPlayerI {
 
                 if (grid[i][j] == null){
                     Board tempBoard = (Board)this.board.clone();
-                    tempBoard.putPiece(new Position(i, j), new Piece(2));
+                    Position p = new Position(i,j);
+                    tempBoard.putPiece(p, new Piece(2));
                     int score = alpha_beta(tempBoard, searchDepth, alpha, beta,2);
                     if (score > maxComputerScore){
                         maxComputerScore = score;
-                        result = new Position(i, j);
+                        result = p;
                     }
                 }
-
             }
         }
-        
         return result;
     }
 
@@ -77,7 +76,8 @@ public class AIPlayerI {
                 for (int j =0 ; j<gridNum; i++){
                     if(board.getGrid()[i][j] == null){
                         Position p = new Position(i, j);
-                        score = evaluateScore(board, p, this.aiColor);
+                        tempBoard.putPiece(p, new Piece(2));
+                        score = evaluateScore(tempBoard, p, this.aiColor);
                         result = (score > result) ? score : result;
                     }
                 }
@@ -132,8 +132,8 @@ public class AIPlayerI {
             }
             // FOUR_DEAD_A 
             if (board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) == color
-                    && board.getColorAt(p, dir, 3) == color && board.getColorAt(p, dir, 4) == color
-                    && board.getColorAt(p, dir, 5) % color == 1) {
+                    && board.getColorAt(p, dir, 3) == color && board.getColorAt(p, dir, -1) == color
+                    && board.getColorAt(p, dir, 5) != color ) {
                 result += 300000;
             }
             // FOUR_DEAD_B
@@ -141,7 +141,16 @@ public class AIPlayerI {
                     && board.getColorAt(p, dir, 2) == color && board.getColorAt(p, dir, 3) == color) {
                 result += 300000;
             }
-            // ADD MORE 
+            // THREE_LIVE_A
+            if (board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) == color
+                    && board.getColorAt(p, dir, -1) == 0 && board.getColorAt(p, dir, -1) == 0) {
+                result += 200000;
+            }     
+            // THREE_LIVE_B            
+            if (board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) == color
+                    && board.getColorAt(p, dir, 3) == 0 && board.getColorAt(p, dir, -1) == 0) {
+                result += 200000;
+            }                   
             // TWO_DEAD
             if (board.getColorAt(p, dir, -1) == color && board.getColorAt(p, dir, 1) == 0
                     && board.getColorAt(p, dir, 1) == 0 && board.getColorAt(p, dir, 1) == 0) {
