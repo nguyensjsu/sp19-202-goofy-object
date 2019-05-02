@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 public class GameRoomServiceImp implements GameRoomService {
     private final LinkedList<User> waitingQueue = new LinkedList<>();
     private final ConcurrentHashMap<User, GameLogic> engines = new ConcurrentHashMap<>();
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
@@ -76,14 +75,9 @@ public class GameRoomServiceImp implements GameRoomService {
 
     @Override
     public User PlayerLeave(String sessionId){
-
-        User informPlayer = null; 
-
+        User informPlayer = null;
         for (User user : engines.keySet()) {
             if (user.getSessionId().equals(sessionId)){
-
-                
-
                 GameLogic game = engines.get(user);
                 String player1Username = game.getId1();
                 String player2Username = game.getId2();
@@ -103,7 +97,6 @@ public class GameRoomServiceImp implements GameRoomService {
 
     @Override
     public boolean addPlayersToGame(User p1, User p2, GameLogic game){
-
         if (p1 != null && engines.contains(p1)){
             return false;
         }

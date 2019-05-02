@@ -9,10 +9,12 @@ import com.goofyobject.tetris.domain.Status;
 import com.goofyobject.tetris.domain.User;
 import com.goofyobject.tetris.domain.Reply;
 
+import com.goofyobject.tetris.game.AI.AIPlayerI;
 import com.goofyobject.tetris.service.GameRoomService;
 import com.goofyobject.tetris.game.entity.Position;
 import com.goofyobject.tetris.game.GameEngineStateMachine.GameLogic;
 
+import com.sun.media.sound.AiffFileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +28,15 @@ import org.springframework.stereotype.Controller;
 public class GameController {
     @Autowired
     GameRoomService gameRoomService;
-
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @MessageMapping("/createAiGame")
     public void createAiGame(SimpMessageHeaderAccessor headerAccessor, User user) throws Exception {
         String username = user.getUsername();
-
         String sessionId = headerAccessor.getSessionId();
         user.setSessionId(sessionId);
-
         boolean isAdded = gameRoomService.addPlayersToGame(user, null, new GameLogic(username, null));
 
         if (!isAdded) {
@@ -46,7 +44,6 @@ public class GameController {
             return;
         }
         sendReply("update",user,new Reply[]{new Status(Code.BLACK)});
-
     }
 
     @MessageMapping("/addToQueue")
@@ -63,14 +60,11 @@ public class GameController {
             return;
         }
         sendReply("added",user,new Reply[]{new Status(Code.OK)});
-
         matchOpponent(user);
     }
 
     public void sendReply(String topicName, User user, Reply[] reply){
-
         Reply cur = user;
-        
         for (int i = 0; i < reply.length; i++){
             cur.setDecorator(reply[i]);
             cur = reply[i];
@@ -90,7 +84,6 @@ public class GameController {
     }
 
     public void matchOpponent(User user) throws Exception {
-
         String username = user.getUsername();
         int i = 0;
         while (i < 200) {
@@ -100,30 +93,24 @@ public class GameController {
             if (gameLogic != null) {
                 String p1 = gameLogic.getId1();
                 String p2 = gameLogic.getId2();
-                
                 String oppnentName = p1;
-
                 Status color = new Status(Code.WHITE);
-
                 if (username.equals(p1)){
                     oppnentName = p2;
                     color = new Status(Code.BLACK);
                 }
-
                 sendReply("join",user, new Reply[]{new User(oppnentName), color});
                 return;
             }
             Thread.sleep(500);
             i++;
         }
-
         gameRoomService.removePlayerFromQueue(user);
         sendReply("join",user, new Reply[]{new Status(Code.FAIL)});
     }
 
     @MessageMapping("/putPiece")
     public void putPiece(SimpMessageHeaderAccessor headerAccessor,Move move) throws Exception {
-
         String username = move.getUsername();
         User user = new User(username);
         GameLogic gameLogic = gameRoomService.getEngine(user);
@@ -132,28 +119,37 @@ public class GameController {
             HashMap<String,Integer> hm =  new HashMap<>();
             String p1 = gameLogic.getId1();
             String p2 = gameLogic.getId2();
+            AIPlayerI aiPlayerI = gameLogic.getAiPlayerI();
             String winner = gameLogic.checkWinner(pos);
 
             if (winner != null) {
-
                 String loser = p1;
                 if (winner.equals(p1)){
                     loser = p2;
                 }
 
                 hm.put(winner, Code.WIN);
-                hm.put(loser, Code.LOSE);
+                if(aiPlayerI == null) {
+                    hm.put(loser, Code.LOSE);
+                }
                 sendResult(hm,move);
                 gameRoomService.removePlayersFromGame(new User(p1), new User(p2));
             }else if (gameLogic.checkDraw()) {
                 hm.put(p1,Code.DRAW);
-                hm.put(p2,Code.DRAW);
+                if(aiPlayerI == null) {
+                    hm.put(p2, Code.DRAW);
+                }
                 sendResult(hm,move);
                 gameRoomService.removePlayersFromGame(new User(p1), new User(p2));
             }else{
+                if(aiPlayerI != null) {
+                    Position AIPosition = aiPlayerI.getComputerPosition();
+                    gameLogic.putPiece("AI", AIPosition);
+                    move = new Move("AI", AIPosition.getX(), AIPosition.getY());
+                }
+
                 User readyPlayer = new User(gameLogic.readyPlayer());
                 logger.info(readyPlayer.getUsername());
-                // User readyUser = new User(readyPlayer);
                 sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
             }
         }

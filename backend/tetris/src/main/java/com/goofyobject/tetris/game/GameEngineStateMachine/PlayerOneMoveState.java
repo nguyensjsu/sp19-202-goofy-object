@@ -20,11 +20,7 @@ public class PlayerOneMoveState implements GameState {
         if(!playerId.equals(id)) {return false;}
         boolean res = this.board.putPiece(p,1);
         if(res) {
-            if(this.logic.getAiPlayerI() == null) {
-                this.logic.switchToPlayerTwoMoveState();
-            }else {
-                this.board.putPiece( this.logic.getAiPlayerI().getComputerPosition(), 2);
-            }
+            this.logic.switchToPlayerTwoMoveState();
             return true;
         }
         return false;

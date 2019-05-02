@@ -17,6 +17,7 @@ public class GameLogic {
         this.board = new Board();
         if(id2 == null) {
             aiPlayerI = new AIPlayerI(this.board);
+            id2 = "AI";
         }
         playerOneMoveState = new PlayerOneMoveState(this, id1, this.board);
         playerTwoMoveState = new PlayerTwoMoveState(this, id2, this.board);
