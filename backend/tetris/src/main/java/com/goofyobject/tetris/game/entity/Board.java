@@ -59,7 +59,6 @@ public class Board {
         int i = p.getX();
         int j = p.getY();
         int result = 0;
-
         switch (dir) {
             case 1:
                 j -= offset;
