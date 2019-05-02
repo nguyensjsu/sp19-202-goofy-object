@@ -76,6 +76,22 @@ public class GameRoomServiceImp implements GameRoomService {
     @Override
     public User PlayerLeave(String sessionId){
         User informPlayer = null;
+
+        User leavePlayer = null;
+
+        Iterator<User> iterator = waitingQueue.iterator();
+        while (iterator.hasNext()) {
+            User next = iterator.next();
+            if (next.getSessionId().equals(sessionId)) {
+                leavePlayer = next;
+                break;
+            }
+        }
+
+        if (leavePlayer != null){
+            removePlayerFromQueue(leavePlayer);
+        }
+
         for (User user : engines.keySet()) {
             if (user.getSessionId().equals(sessionId)){
                 GameLogic game = engines.get(user);
@@ -97,10 +113,10 @@ public class GameRoomServiceImp implements GameRoomService {
 
     @Override
     public boolean addPlayersToGame(User p1, User p2, GameLogic game){
-        if (p1 != null && engines.contains(p1)){
+        if (p1 != null && engines.containsKey(p1)){
             return false;
         }
-        if (p2 != null && engines.contains(p2)){
+        if (p2 != null && engines.containsKey(p2)){
             return false;
         }
 
