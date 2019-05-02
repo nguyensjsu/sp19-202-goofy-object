@@ -10,12 +10,13 @@ stompClient.subscribe('/topic/join?' + "tok", function (res){
 });
     
 stompClient.subscribe('/topic/update?' + "tok" , function (res){
-            //if has status code: OK(202), WIN(211), LOSE(212)
-            //else: no status means a update move from opponent
+            //status code: OK(202), WIN(211), LOSE(212), DRAW(213), LEAVE(214)
             console.log(res);
 });
 
-stompClient.send("/app/addToQueue", {}, JSON.stringify({'username': "tok" }));
+stompClient.send("/app/addToQueue", {}, JSON.stringify({'username': "tok" })); 
+stompClient.send("/app/createAiGame", {}, JSON.stringify({'username': "tok" })); // single mode
+
 
 
 var move = {"username":"tok","x": 1,"y": 2};
