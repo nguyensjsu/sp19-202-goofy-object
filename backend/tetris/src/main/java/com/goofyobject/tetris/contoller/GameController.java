@@ -9,12 +9,10 @@ import com.goofyobject.tetris.domain.Status;
 import com.goofyobject.tetris.domain.User;
 import com.goofyobject.tetris.domain.Reply;
 
-import com.goofyobject.tetris.game.AI.AIPlayerI;
 import com.goofyobject.tetris.service.GameRoomService;
 import com.goofyobject.tetris.game.entity.Position;
 import com.goofyobject.tetris.game.GameEngineStateMachine.GameLogic;
-
-import com.sun.media.sound.AiffFileReader;
+import com.goofyobject.tetris.game.ai.AIPlayerIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +26,13 @@ import org.springframework.stereotype.Controller;
 public class GameController {
     @Autowired
     GameRoomService gameRoomService;
+
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
+
+    @Autowired
+    private AIPlayerIService AIplayer1;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @MessageMapping("/createAiGame")
@@ -119,7 +122,6 @@ public class GameController {
             HashMap<String,Integer> hm =  new HashMap<>();
             String p1 = gameLogic.getId1();
             String p2 = gameLogic.getId2();
-            AIPlayerI aiPlayerI = gameLogic.getAiPlayerI();
             String winner = gameLogic.checkWinner(pos);
 
             if (winner != null) {
@@ -129,21 +131,19 @@ public class GameController {
                 }
 
                 hm.put(winner, Code.WIN);
-                if(aiPlayerI == null) {
-                    hm.put(loser, Code.LOSE);
-                }
+                hm.put(loser, Code.LOSE);
+
                 sendResult(hm,move);
                 gameRoomService.removePlayersFromGame(new User(p1), new User(p2));
             }else if (gameLogic.checkDraw()) {
                 hm.put(p1,Code.DRAW);
-                if(aiPlayerI == null) {
-                    hm.put(p2, Code.DRAW);
-                }
+                hm.put(p2, Code.DRAW);
+                
                 sendResult(hm,move);
                 gameRoomService.removePlayersFromGame(new User(p1), new User(p2));
             }else{
-                if(aiPlayerI != null) {
-                    Position AIPosition = aiPlayerI.getComputerPosition();
+                if(gameLogic.isAI()) {
+                    Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
                     gameLogic.putPiece("AI", AIPosition);
                     move = new Move("AI", AIPosition.getX(), AIPosition.getY());
                 }
