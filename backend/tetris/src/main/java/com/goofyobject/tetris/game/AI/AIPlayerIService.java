@@ -1,4 +1,4 @@
-package com.goofyobject.tetris.game.ai;
+package com.goofyobject.tetris.game.AI;
 
 import com.goofyobject.tetris.game.entity.Board;
 import com.goofyobject.tetris.game.entity.Position;

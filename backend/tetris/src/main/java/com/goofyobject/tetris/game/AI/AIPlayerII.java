@@ -1,4 +1,4 @@
-package com.goofyobject.tetris.game.ai;
+package com.goofyobject.tetris.game.AI;
 
 import java.util.HashMap;
 import java.util.LinkedList;
