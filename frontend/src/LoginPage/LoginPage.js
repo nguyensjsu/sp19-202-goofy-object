@@ -37,6 +37,10 @@ class LoginPage extends Component {
         })
     }
 
+    onNewUserHandler = () => {
+        this.props.history.push('/register')
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -44,6 +48,7 @@ class LoginPage extends Component {
                 <label htmlFor="username">Username: </label>
                 <input type="text" id="username" value={this.state.username} onChange={this.onChangeHandler}></input>
                 <input type="button" value="Login" onClick={this.onLoginHandler}></input>
+                <input type="button" value="New User" onClick={this.onNewUserHandler}></input>
                 <p>{this.state.msg}</p>
             </React.Fragment>
 
