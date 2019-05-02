@@ -54,12 +54,12 @@ public class Board {
     }
 
     // from center Position p, move direction dir, and offset number p, return piece color
-    // 1: black, 2: white, 3: blank
+    // 1: black, 2: white, 0: blank, -1: position out of boundary
     public int getColorAt(Position p, int dir, int offset) {
+
         int i = p.getX();
         int j = p.getY();
-        int result = 0;
-
+        int result = -1;
         switch (dir) {
             case 1:
                 j -= offset;
@@ -94,9 +94,9 @@ public class Board {
         }
         if ( i >=0 && i <= 14 && j >= 0 && j <= 14){
             if (this.grid[i][j] == null) {
-                result =  this.grid[i][j].getColor();
-            } else {
                 result = 0;
+            } else {
+                result = this.grid[i][j].getColor();
             }
         } else {
             result = -1;  // out of boudary
