@@ -43,7 +43,7 @@ public class GameController {
             sendReply("added",user, new Reply[]{new Status(Code.FAIL)});
             return;
         }
-        sendReply("update",user,new Reply[]{new Status(Code.BLACK)});
+        sendReply("join",user,new Reply[]{new Status(Code.BLACK)});
     }
 
     @MessageMapping("/addToQueue")
