@@ -1,7 +1,7 @@
 package com.goofyobject.tetris.contoller;
 
 import com.goofyobject.tetris.database.MySQLConnection;
-import com.goofyobject.tetris.database.UserInfor;
+import com.goofyobject.tetris.database.UserInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,19 +14,19 @@ public class LoginController {
     private MySQLConnection mySQLConnection;
 
     @PostMapping("/login")
-    public boolean login(@RequestBody UserInfor userInfor) {
-        if(userInfor == null || userInfor.getUsername() == null || userInfor.getUsername().trim().equals("")  ) {
+    public boolean login(@RequestBody UserInfo userInfo) {
+        if(userInfo == null || userInfo.getUsername() == null || userInfo.getUsername().trim().equals("")  ) {
                 return false;
         }
-        return mySQLConnection.login(userInfor);
+        return mySQLConnection.login(userInfo);
     }
 
     @PostMapping("/register")
-    public boolean register(@RequestBody UserInfor userInfor) {
-        if(userInfor == null || userInfor.getUsername() == null || userInfor.getUsername().trim().equals("")
-            || userInfor.getPassword() == null || userInfor.getPassword().trim().equals("")) {
+    public boolean register(@RequestBody UserInfo userInfo) {
+        if(userInfo == null || userInfo.getUsername() == null || userInfo.getUsername().trim().equals("")
+            || userInfo.getPassword() == null || userInfo.getPassword().trim().equals("")) {
                 return false;
         }
-        return mySQLConnection.saveUser(userInfor);
+        return mySQLConnection.saveUser(userInfo);
     }
 }

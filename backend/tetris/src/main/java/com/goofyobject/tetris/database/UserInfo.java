@@ -1,6 +1,6 @@
 package com.goofyobject.tetris.database;
 
-public class UserInfor {
+public class UserInfo {
     private String username;
     private String password;
     private int age;

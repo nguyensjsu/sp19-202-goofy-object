@@ -37,15 +37,15 @@ public class MySQLConnection {
         }
     }
 
-    public boolean saveUser(UserInfor userInfor) {
+    public boolean saveUser(UserInfo userInfo) {
         String sql = "INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, userInfor.getUsername());
-            statement.setString(2, userInfor.getPassword());
-            statement.setString(3, userInfor.getRegion());
-            statement.setString(4, userInfor.getGender());
-            statement.setInt(5, userInfor.getAge());
+            statement.setString(1, userInfo.getUsername());
+            statement.setString(2, userInfo.getPassword());
+            statement.setString(3, userInfo.getRegion());
+            statement.setString(4, userInfo.getGender());
+            statement.setInt(5, userInfo.getAge());
             statement.setInt(6, 0);
             statement.setInt(7, 0);
             statement.execute();
@@ -56,13 +56,13 @@ public class MySQLConnection {
         return false;
     }
 
-    public boolean login(UserInfor userInfor) {
+    public boolean login(UserInfo userInfo) {
         String sql = "SELECT * FROM user WHERE username = ?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, userInfor.getUsername());
+            statement.setString(1, userInfo.getUsername());
             ResultSet rs = statement.executeQuery();
-            if(rs.next() && rs.getString("password").equals(userInfor.getPassword()) ) {
+            if(rs.next() && rs.getString("password").equals(userInfo.getPassword()) ) {
                 return true;
             }else {
                 return false;
