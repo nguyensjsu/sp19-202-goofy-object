@@ -17,7 +17,7 @@ public class AIPlayerI {
     private Board board;
     private int aiColor = 2; //computer fixed to white
     private final int gridNum = 15;
-    private final int searchDepth = 4; // search depth
+    private final int searchDepth = 3; // search depth
     private final int alpha = 10;
     private final int beta = 100;
 
@@ -126,14 +126,14 @@ public class AIPlayerI {
         for (int dir = 0; dir < 8; dir++){
             // FOUR_LIVE
             if(board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) == color
-                && board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 1) == color
-                && board.getColorAt(p, dir, 1) == 0){
+                && board.getColorAt(p, dir, 3) == color && board.getColorAt(p, dir, 4) == color
+                && board.getColorAt(p, dir, 5) == 0){
                 result += 400000;
             }
-            // FOUR_DEAD_A
+            // FOUR_DEAD_A 
             if (board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 2) == color
-                    && board.getColorAt(p, dir, 1) == color && board.getColorAt(p, dir, 1) == color
-                    && board.getColorAt(p, dir, 1) % color == 1) {
+                    && board.getColorAt(p, dir, 3) == color && board.getColorAt(p, dir, 4) == color
+                    && board.getColorAt(p, dir, 5) % color == 1) {
                 result += 300000;
             }
             // FOUR_DEAD_B
@@ -153,4 +153,9 @@ public class AIPlayerI {
         return result;
     }
 
+    public static void main(String[] args) {
+        int i = -1;
+        int result = i % 2;
+        System.out.println(result);
+    }
 }
