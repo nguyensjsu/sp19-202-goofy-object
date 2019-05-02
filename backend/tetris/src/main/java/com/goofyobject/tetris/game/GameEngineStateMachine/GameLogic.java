@@ -17,7 +17,7 @@ public class GameLogic {
         this.board = BoardFactory.createBoard();
         if(id2 == null) {
             AI = true;
-            id2 = "AI";
+            id2 = id1+"AI";
         }
         playerOneMoveState = new PlayerOneMoveState(this, id1, this.board);
         playerTwoMoveState = new PlayerTwoMoveState(this, id2, this.board);

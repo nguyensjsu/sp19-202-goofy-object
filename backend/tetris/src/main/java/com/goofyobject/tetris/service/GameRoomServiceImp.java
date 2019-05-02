@@ -76,9 +76,7 @@ public class GameRoomServiceImp implements GameRoomService {
     @Override
     public User PlayerLeave(String sessionId){
         User informPlayer = null;
-
         User leavePlayer = null;
-
         Iterator<User> iterator = waitingQueue.iterator();
         while (iterator.hasNext()) {
             User next = iterator.next();
