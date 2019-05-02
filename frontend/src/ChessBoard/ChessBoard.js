@@ -99,6 +99,12 @@ class ChessBoard extends Component {
 
     }
 
+    componentWillUnmount() {
+        this.stompClient.disconnect((res) => {
+            console.log("Disconnected:", res)
+        })
+    }
+
     subscribeToBattle = (stompClient) => {
 
         stompClient.subscribe('/topic/added?' + cookie.load('username'), (res) => {
