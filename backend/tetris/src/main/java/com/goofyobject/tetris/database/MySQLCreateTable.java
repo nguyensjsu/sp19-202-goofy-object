@@ -10,7 +10,7 @@ public class MySQLCreateTable {
     public static void main(String[] args) {
         try {
             // Ensure the driver is imported.
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             // This is java.sql.Connection. Not com.mysql.jdbc.Connection.
             Connection conn = null;
             try {
@@ -37,6 +37,9 @@ public class MySQLCreateTable {
                     + "password VARCHAR(255) NOT NULL, " + "region VARCHAR(255), " + "gender VARCHAR(255), "
                     + "age INT, " +"wins INT, "+"loses INT, "+ " PRIMARY KEY(username) )";
             stmt.executeUpdate(sql);
+
+            sql = "INSERT INTO user VALUES(\"dummy\",\"dummy\",\"dummy\",\"dummy\",0,0,0)";
+            stmt.execute(sql);
 
             System.out.println("Create Table is done successfully.");
         }catch(Exception e) {
