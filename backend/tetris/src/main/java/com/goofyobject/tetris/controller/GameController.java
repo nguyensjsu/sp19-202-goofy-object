@@ -16,6 +16,7 @@ import com.goofyobject.tetris.game.AI.AIPlayerIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -35,10 +36,11 @@ public class GameController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @MessageMapping("/createAiGame")
-    public void createAiGame(SimpMessageHeaderAccessor headerAccessor, User user) throws Exception {
+    @MessageMapping("/createAiGame/{level}")
+    public void createAiGame(SimpMessageHeaderAccessor headerAccessor, User user, @DestinationVariable String level ) throws Exception {
         String username = user.getUsername();
         String sessionId = headerAccessor.getSessionId();
+        logger.info("level:" + level);
         user.setSessionId(sessionId);
         boolean isAdded = gameRoomService.addPlayersToGame(user, null, new GameLogic(username, null));
 
