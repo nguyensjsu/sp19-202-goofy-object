@@ -1,14 +1,16 @@
 # Week 3 Scrum Report [04/14/2019-04/20/2019]
 
-## Tianyu Cao
+## Chikei Loi
 
 ### Finished This Week
-1. Completed the websocket API
-2. Refactor the websocket api to integrate frontend
+1. Completed PVP mode routing and matching
+2. Refactor the socket communication to integrate frontend
 3. Tested websocket functionality in PVP mode.
 ### Planned Next Week
-1. Add disconnect function and add to the state pattern
+1. Add disconnect function 
 2. Help teammate to add design patterns
+3. Deploy to cloud
+4. Providing routing for AI
 ### Problems/Blocks
 
 
