@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 // https://zjh776.iteye.com/blog/1979748
 
-// SCRATCH!!!
 // import java.util.ArrayList;
 import java.util.Random;
 
@@ -62,7 +61,7 @@ public class AIPlayerI implements AIPlayerIService{
     }
 
     // Simple AI
-    public Position getComputerPositionSimple(Board board) {
+    public Position getComputerPositionSimple2(Board board) {
 
         int maxComputerScore = Integer.MIN_VALUE;
         Piece[][] grid = board.getGrid();
@@ -88,7 +87,7 @@ public class AIPlayerI implements AIPlayerIService{
         return result;
     }
     // actual method
-    public Position getComputerPosition2(Board board) {
+    public Position getComputerPositionSimple(Board board) {
 
         int maxComputerScore = Integer.MIN_VALUE;
         Piece[][] grid = board.getGrid();
@@ -317,34 +316,32 @@ public class AIPlayerI implements AIPlayerIService{
         return count;
     }
 
-   // test
-    // public static void main(String[] args) {
+//    // test
+//     public static void main(String[] args) {
 
-    //     Board testBoard = new Board();
-    //     AIPlayerIService AIplayer1 = new AIPlayerI();
-    //     testBoard.putPiece(new Position(7,7), new Piece(1));
-    //     testBoard.putPiece(new Position(6,6), new Piece(2));
-    //     testBoard.putPiece(new Position(6,7), new Piece(2));
-    //     testBoard.putPiece(new Position(6,8), new Piece(2));
-    //     testBoard.putPiece(new Position(6,9), new Piece(2));
-    //     // testBoard.putPiece(new Position(2,7), new Piece(2));
-    //     // testBoard.putPiece(new Position(2, 8), new Piece(2));
+//         Board testBoard = new Board();
+//         AIPlayerIService AIplayer1 = new AIPlayerI();
+//         testBoard.putPiece(new Position(7,7), new Piece(1));
+//         testBoard.putPiece(new Position(6,7), new Piece(2));
+//         testBoard.putPiece(new Position(6,8), new Piece(2));
+//         // testBoard.putPiece(new Position(2,7), new Piece(2));
+//         // testBoard.putPiece(new Position(2, 8), new Piece(2));
 
-    //     // testBoard.putPiece(new Position(6, 4), new Piece(1));
-    //     // testBoard.putPiece(new Position(7, 5), new Piece(2));
-    //     // testBoard.putPiece(new Position(10, 8), new Piece(2));
+//         // testBoard.putPiece(new Position(6, 4), new Piece(1));
+//         // testBoard.putPiece(new Position(7, 5), new Piece(2));
+//         // testBoard.putPiece(new Position(10, 8), new Piece(2));
 
-    //     // testBoard.putPiece(new Position(5, 7), new Piece(2));
-    //     // testBoard.putPiece(new Position(6, 7), new Piece(2));
-    //     // testBoard.putPiece(new Position(7, 7), new Piece(2));
-    //     // testBoard.putPiece(new Position(8, 7), new Piece(2));
-    //     // testBoard.putPiece(new Position(4, 7), new Piece(1));
-    //     // testBoard.putPiece(new Position(3, 7), new Piece(1));
-    //     System.out.println("Board Drawed");
-    //     //Position p = AIplayer1.getComputerPositionSimple(testBoard);
-    //     Position p = AIplayer1.getComputerPositionSimple(testBoard);
-    //     System.out.println("new position generated");
-    //     System.out.println(p.getX());
-    //     System.out.println(p.getY());
-    // }
+//         // testBoard.putPiece(new Position(5, 7), new Piece(2));
+//         // testBoard.putPiece(new Position(6, 7), new Piece(2));
+//         // testBoard.putPiece(new Position(7, 7), new Piece(2));
+//         // testBoard.putPiece(new Position(8, 7), new Piece(2));
+//         // testBoard.putPiece(new Position(4, 7), new Piece(1));
+//         // testBoard.putPiece(new Position(3, 7), new Piece(1));
+//         System.out.println("Board Drawed");
+//         //Position p = AIplayer1.getComputerPositionSimple(testBoard);
+//         Position p = AIplayer1.getComputerPosition2(testBoard);
+//         System.out.println("new position generated");
+//         System.out.println(p.getX());
+//         System.out.println(p.getY());
+//     }
 }
