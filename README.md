@@ -24,6 +24,10 @@ I set up a wechat app group, where all team members can communicate in the mobil
 ## Project Description
 
 ### Individual Contributions
+Yuxiang is building FrontEnd.
+Gaochao is building GameLogic for both single and battle mode to maintain the game life cycle. He also developed HTTP web service for user login and registration, and pass user information to database to validate and store. 
+
+### [Ad Video](https://www.youtube.com)
 
 ### [Weekly Journal](https://github.com/nguyensjsu/sp19-202-goofy-object/tree/master/journal)
 
