@@ -1,4 +1,4 @@
-# Project report: including ui wireframe, design pattern implemented and explaination. Link images as needed
+# Project Report
 
 ## Design Pattern Used:
 1. State Pattern:  Game state change btw player1 and player2, and change to GameEnd state in the end. -implemented by Gaochao
