@@ -16,7 +16,8 @@ I set up a wechat app group, where all team members can communicate in the mobil
 
 #### Simplicity
 
-#### Feedback
+#### Feedback--Yuxiang Chen:
+
 
 #### Respect
 
