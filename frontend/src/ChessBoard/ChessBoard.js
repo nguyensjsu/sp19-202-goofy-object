@@ -107,6 +107,7 @@ class ChessBoard extends Component {
     }
 
     retry = () => {
+        console.log(this.game_mode);
         if (this.game_mode === BATTLE_MODE) this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
         if (this.game_mode === EASY_MODE) this.stompClient.send("/app/createAiGame/easy", {}, JSON.stringify({ 'username': cookie.load('username') }));
         if (this.game_mode === MID_MODE) this.stompClient.send("/app/createAiGame/medium", {}, JSON.stringify({ 'username': cookie.load('username') }));
@@ -118,7 +119,7 @@ class ChessBoard extends Component {
             //status code: OK(202),FAIL(400)
             console.log("Topic add:", JSON.parse(res.body));
             if (res.body.status === 400) {
-                setTimeout(this.retry)
+                setTimeout(this.retry,10000)
             }
         });
         stompClient.subscribe('/topic/join?' + cookie.load('username'), (res) => {
@@ -128,7 +129,7 @@ class ChessBoard extends Component {
             console.log("Topic join", body);
 
             if (body.status === 400) {
-                setTimeout(this.retry)
+                setTimeout(this.retry,10000)
                 console.log("Joing Error:")
             } else if (body.status === 220) {
                 this.my_color = COLOR_BLACK;

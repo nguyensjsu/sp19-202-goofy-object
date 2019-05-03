@@ -104,8 +104,9 @@ public class GameController {
             sendReply("join",user, new Reply[]{new User(oppnentName), color});
             return;
         }
-  
-        gameRoomService.removePlayerFromQueue(user);
+
+        Thread.sleep(1000);
+        //gameRoomService.removePlayerFromQueue(user);
         sendReply("join",user, new Reply[]{new Status(Code.FAIL)});
     }
 
