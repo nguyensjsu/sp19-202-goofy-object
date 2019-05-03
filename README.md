@@ -17,7 +17,7 @@ I set up a wechat app group, where all team members can communicate in the mobil
 #### Simplicity
 
 #### Feedback--Yuxiang Chen:
-
+Ever since we started the project, we have held regular meetings every week as well as meetings as needed during our free time to discuss the project and everyone's progress. We listen to each other and constantly adept our approach to accomplish the project. Over the past weeks of hard working, we have been changing UI, adapting different technology, like web socket, by hearing feedbacks from each other. 
 
 #### Respect
 
