@@ -60,10 +60,10 @@ public class GameController {
 
         boolean isAdded = gameRoomService.addPlayerToQueue(user, sessionId);
 
-        if (!isAdded) {
-            sendReply("added",user, new Reply[]{new Status(Code.FAIL)});
-            return;
-        }
+        // if (!isAdded) {
+        //     sendReply("added",user, new Reply[]{new Status(Code.FAIL)});
+        //     return;
+        // }
         sendReply("added",user,new Reply[]{new Status(Code.OK)});
         matchOpponent(user);
     }
