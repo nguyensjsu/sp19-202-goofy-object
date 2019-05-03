@@ -62,11 +62,6 @@ public class AIPlayerI implements AIPlayerIService{
         return result;
     }
 
-    @Override
-    public Position getComputerPosition2(Board board) {
-        return null;
-    }
-
     // Simple AI
     public Position getComputerPositionSimple(Board board) {
 
@@ -101,6 +96,7 @@ public class AIPlayerI implements AIPlayerIService{
         return result;
     }
     // Alpha-Beta AI
+    @Override
     public Position getComputerPosition2(Board board) {
 
         int maxComputerScore = Integer.MIN_VALUE;

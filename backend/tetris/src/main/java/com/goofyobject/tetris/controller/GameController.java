@@ -89,25 +89,22 @@ public class GameController {
     public void matchOpponent(User user) throws Exception {
         String username = user.getUsername();
         int i = 0;
-        while (i < 200) {
-            gameRoomService.findOpponent(user);
-            GameLogic gameLogic = gameRoomService.getEngine(user);
+        gameRoomService.findOpponent(user);
+        GameLogic gameLogic = gameRoomService.getEngine(user);
 
-            if (gameLogic != null) {
-                String p1 = gameLogic.getId1();
-                String p2 = gameLogic.getId2();
-                String oppnentName = p1;
-                Status color = new Status(Code.WHITE);
-                if (username.equals(p1)){
-                    oppnentName = p2;
-                    color = new Status(Code.BLACK);
-                }
-                sendReply("join",user, new Reply[]{new User(oppnentName), color});
-                return;
+        if (gameLogic != null) {
+            String p1 = gameLogic.getId1();
+            String p2 = gameLogic.getId2();
+            String oppnentName = p1;
+            Status color = new Status(Code.WHITE);
+            if (username.equals(p1)){
+                oppnentName = p2;
+                color = new Status(Code.BLACK);
             }
-            Thread.sleep(500);
-            i++;
+            sendReply("join",user, new Reply[]{new User(oppnentName), color});
+            return;
         }
+  
         gameRoomService.removePlayerFromQueue(user);
         sendReply("join",user, new Reply[]{new Status(Code.FAIL)});
     }
