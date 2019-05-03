@@ -143,8 +143,8 @@ public class GameController {
                 gameRoomService.removePlayersFromGame(new User(p1), new User(p2));
             }else{
                 if(gameLogic.isAI()) {
-                    Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
-                    //Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
+                    //Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
+                    Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
                     // gameLogic.putPiece("AI", AIPosition);
                     move = new Move("AI", AIPosition.getX(), AIPosition.getY());
                     putPiece(move);
