@@ -119,7 +119,7 @@ class ChessBoard extends Component {
             //status code: OK(202),FAIL(400)
             console.log("Topic add:", JSON.parse(res.body));
             if (res.body.status === 400) {
-                setTimeout(this.retry,10000)
+                setTimeout(this.retry,3000)
             }
         });
         stompClient.subscribe('/topic/join?' + cookie.load('username'), (res) => {
@@ -129,7 +129,7 @@ class ChessBoard extends Component {
             console.log("Topic join", body);
 
             if (body.status === 400) {
-                setTimeout(this.retry,10000)
+                setTimeout(this.retry,3000)
                 console.log("Joing Error:")
             } else if (body.status === 220) {
                 this.my_color = COLOR_BLACK;
