@@ -26,8 +26,9 @@ Ever since we started the project, we have held regular meetings every week as w
 ## Project Description
 
 ### Individual Contributions
-Yuxiang is building FrontEnd.  
-Gaochao is building GameLogic for both single and battle mode to maintain the game life cycle. He also developed HTTP web service for user login and registration, and pass user information to database to validate and store. 
+- Yuxiang is building FrontEnd. 
+- Chikei is building socket communication between client and servers.He implemented functionaliy such as game matching and player's action both in AI mode and PvP mode,  He also deploy the application in cloud. 
+- Gaochao is building GameLogic for both single and battle mode to maintain the game life cycle. He also developed HTTP web service for user login and registration, and pass user information to database to validate and store. 
 
 ### [Ad Video](https://youtu.be/E8Z2UzNvzVc)
 
