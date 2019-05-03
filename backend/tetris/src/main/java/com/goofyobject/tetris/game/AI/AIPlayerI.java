@@ -19,10 +19,12 @@ import java.util.Random;
 public class AIPlayerI implements AIPlayerIService{
 
     private int aiColor = 2; //computer fixed to white
+    private int humanColor = 1; // human fixed to black
     private final int gridNum = 15;
     private final int searchDepth = 3; // search depth
     private final int alpha = 0;
     private final int beta = 0;
+    // Piece Patterns
     private final String AI_FIVE = "22222";
     private final String AI_FOUR_TWO_LIVE = "022220";
     private final String AI_FIVE_PRE = "122220|022221|0202220|0222020|0220220";
@@ -46,7 +48,7 @@ public class AIPlayerI implements AIPlayerIService{
     private final String HUMAN_DEAD_THREE = "21112";
     private final String HUMAN_DEAD_TWO = "2112";
    
-    // for testing connection
+    // RANDOM AI
     public Position getComputerPosition(Board board) {
 
         Random rn = new Random();
@@ -61,7 +63,7 @@ public class AIPlayerI implements AIPlayerIService{
     }
 
     // Simple AI
-    public Position getComputerPositionSimple2(Board board) {
+    public Position getComputerPositionSimple(Board board) {
 
         int maxComputerScore = Integer.MIN_VALUE;
         Piece[][] grid = board.getGrid();
@@ -79,6 +81,13 @@ public class AIPlayerI implements AIPlayerIService{
                         maxComputerScore = score;
                         result.setX(i);
                         result.setY(j);
+                    } else if (score == maxComputerScore) { // if equal score, pick the position randomly
+                        Random rn = new Random();
+                        int r = rn.nextInt(3);
+                        if (r <= 1) {
+                            result.setX(i);
+                            result.setY(j);
+                        }
                     }
                     System.out.println("i: " + i + ",j: " + j + ",score : " + score );
                 }
@@ -86,8 +95,8 @@ public class AIPlayerI implements AIPlayerIService{
         }
         return result;
     }
-    // actual method
-    public Position getComputerPositionSimple(Board board) {
+    // Alpha-Beta AI
+    public Position getComputerPosition2(Board board) {
 
         int maxComputerScore = Integer.MIN_VALUE;
         Piece[][] grid = board.getGrid();
@@ -100,41 +109,47 @@ public class AIPlayerI implements AIPlayerIService{
                     Board tempBoard = (Board) board.clone();
                     tempBoard.putPiece(new Position(i, j), new Piece(2));
                     int score = alpha_beta(tempBoard, searchDepth, alpha, beta,2);
+                    score -= (Math.abs(i - 7) + Math.abs(j - 7));
                     if (score > maxComputerScore){
                         maxComputerScore = score;
                         result.setX(i);
                         result.setY(j);
-                    } else{
-                        continue;
+                    } else if (score == maxComputerScore){ // if equal score, pick the position randomly
+                        Random rn = new Random();
+                        int r = rn.nextInt(3);
+                        if (r <= 1){
+                            result.setX(i);
+                            result.setY(j);
+                        }
                     }
+                    System.out.println("i: " + i + ",j: " + j + ",score : " + score); 
                 }
             }
         }
         return result;
     }
 
+    // alpha_beta function to get the score
     public int alpha_beta(Board board, int searchDepth, int alpha, int beta, int color) {
         
         int result = 0;
         Board tempBoard = (Board) board.clone();
         // plus condition game not end
         if (searchDepth <= 0 ){
-            result = evaluateScore(tempBoard, this.aiColor);
-            return result;
+            return evaluateScore(tempBoard, color);
         }
         else {
             if (color == 2) {
                 int maxScore = Integer.MIN_VALUE;
                 Position p = this.getComputerPosition(tempBoard);
-                int x = 100;
-                int y = 100;
                 boolean flag = false;
+                color = 1;
                 for (int i = 0 ; i< gridNum; i++){
                     for (int j =0 ; j< gridNum; j++){
                         if(tempBoard.getGrid()[i][j] == null){
                             Board tempBoard2 = (Board) tempBoard.clone(); 
                             tempBoard2.putPiece(new Position(i,j), new Piece(2));
-                            int score = alpha_beta(tempBoard2, searchDepth - 1, alpha, beta, 1);
+                            int score = alpha_beta(tempBoard2, searchDepth - 1, alpha, beta, color);
                             p = (score > maxScore) ? new Position(i,j) : p;
                             maxScore = (score > maxScore) ? score : maxScore;
                             alpha = (alpha > score) ? alpha : score;
@@ -155,12 +170,13 @@ public class AIPlayerI implements AIPlayerIService{
                 int minScore = Integer.MAX_VALUE;
                 Position p = this.getComputerPosition(tempBoard);
                 boolean flag = false;
+                color = 2;
                 for (int i = 0; i < gridNum; i++) {
                     for (int j = 0; j < gridNum; j++) {
                         if (tempBoard.getGrid()[i][j] == null) {
                             Board tempBoard2 = (Board) tempBoard.clone();
                             tempBoard2.putPiece(new Position(i, j), new Piece(1));
-                            int score = alpha_beta(tempBoard2, searchDepth - 1, alpha, beta, 2);
+                            int score = alpha_beta(tempBoard2, searchDepth - 1, alpha, beta, color);
                             p = (score < minScore) ? new Position(i, j) : p;
                             minScore = (score < minScore) ? score : minScore;
                             beta = (beta < score) ? beta : score;
@@ -181,8 +197,13 @@ public class AIPlayerI implements AIPlayerIService{
         }
     }
 
+    // evaluate the score for player/color
     public int evaluateScore(Board board, int color) {
         int score = 0;
+        int opp = 0;
+        if (color == 1){
+            opp = 2;
+        } else if (color == 2) {opp = 1;}
         // 15 Rows
         for (int y = 0; y < gridNum; y++){
             StringBuffer buffer = new StringBuffer();
@@ -194,7 +215,7 @@ public class AIPlayerI implements AIPlayerIService{
                 }
             }
             String line = buffer.toString();
-            score += getLineScore(line, color);
+            score += ( getLineScore(line, color) - getLineScore(line, opp));
         }
         // 15 Columns
         for (int x = 0; x < gridNum; x++) {
@@ -207,7 +228,7 @@ public class AIPlayerI implements AIPlayerIService{
                 }
             }
             String line = buffer.toString();
-            score += getLineScore(line, color);
+            score += (getLineScore(line, color) - getLineScore(line, opp));
         }
         // 15 Diagonals
         for (int y_offset = 0; y_offset < gridNum; y_offset ++) {
@@ -223,7 +244,7 @@ public class AIPlayerI implements AIPlayerIService{
                 }
             }
             String line = buffer.toString();
-            score += getLineScore(line, color);
+            score += (getLineScore(line, color) - getLineScore(line, opp));
         }
         // 14 Diagonals
         for (int y_offset = 1; y_offset < gridNum; y_offset++) {
@@ -239,7 +260,7 @@ public class AIPlayerI implements AIPlayerIService{
                 }
             }
             String line = buffer.toString();
-            score += getLineScore(line, color);
+            score += (getLineScore(line, color) - getLineScore(line, opp));
         }
         // 15 Diagonals
         for (int sum = 0; sum < gridNum; sum++) {
@@ -255,7 +276,7 @@ public class AIPlayerI implements AIPlayerIService{
                 }
             }
             String line = buffer.toString();
-            score += getLineScore(line, color);
+            score += (getLineScore(line, color) - getLineScore(line, opp));
         } 
         // 14 Diagonals
         for (int sum = gridNum + 1; sum < (2 * gridNum - 1); sum++) {
@@ -271,7 +292,7 @@ public class AIPlayerI implements AIPlayerIService{
                 }
             }
             String line = buffer.toString();
-            score += getLineScore(line, color);
+            score += (getLineScore(line, color) - getLineScore(line, opp));
         }           
        
         return score;
@@ -317,31 +338,42 @@ public class AIPlayerI implements AIPlayerIService{
     }
 
 //    // test
-//     public static void main(String[] args) {
+    // public static void main(String[] args) {
 
-//         Board testBoard = new Board();
-//         AIPlayerIService AIplayer1 = new AIPlayerI();
-//         testBoard.putPiece(new Position(7,7), new Piece(1));
-//         testBoard.putPiece(new Position(6,7), new Piece(2));
-//         testBoard.putPiece(new Position(6,8), new Piece(2));
-//         // testBoard.putPiece(new Position(2,7), new Piece(2));
-//         // testBoard.putPiece(new Position(2, 8), new Piece(2));
+    //     Board testBoard = new Board();
+    //     AIPlayerIService AIplayer1 = new AIPlayerI();
+    //     testBoard.putPiece(new Position(6, 6), new Piece(1));
+    //     testBoard.putPiece(new Position(7, 7), new Piece(1));
+    //     testBoard.putPiece(new Position(8, 8), new Piece(1));
+    //     testBoard.putPiece(new Position(5, 5), new Piece(1));
+    //     testBoard.putPiece(new Position(4, 4), new Piece(2));
+    //     testBoard.putPiece(new Position(6, 7), new Piece(2));
+    //     testBoard.putPiece(new Position(6, 8), new Piece(2));
 
-//         // testBoard.putPiece(new Position(6, 4), new Piece(1));
-//         // testBoard.putPiece(new Position(7, 5), new Piece(2));
-//         // testBoard.putPiece(new Position(10, 8), new Piece(2));
+    //     System.out.println("Board Drawed");
+    //     int score_AI = AIplayer1.evaluateScore(testBoard, 2);
+    //     int score_HUMAN = AIplayer1.evaluateScore(testBoard, 1);
+    //     System.out.println("AI Score: " + score_AI + ", Human Score: " + score_HUMAN);
+    //    // testBoard.putPiece(new Position(6, 9), new Piece(2));
 
-//         // testBoard.putPiece(new Position(5, 7), new Piece(2));
-//         // testBoard.putPiece(new Position(6, 7), new Piece(2));
-//         // testBoard.putPiece(new Position(7, 7), new Piece(2));
-//         // testBoard.putPiece(new Position(8, 7), new Piece(2));
-//         // testBoard.putPiece(new Position(4, 7), new Piece(1));
-//         // testBoard.putPiece(new Position(3, 7), new Piece(1));
-//         System.out.println("Board Drawed");
-//         //Position p = AIplayer1.getComputerPositionSimple(testBoard);
-//         Position p = AIplayer1.getComputerPosition2(testBoard);
-//         System.out.println("new position generated");
-//         System.out.println(p.getX());
-//         System.out.println(p.getY());
-//     }
+    //     // testBoard.putPiece(new Position(2,7), new Piece(2));
+    //     // testBoard.putPiece(new Position(2, 8), new Piece(2));
+
+    //     // testBoard.putPiece(new Position(6, 4), new Piece(1));
+    //     // testBoard.putPiece(new Position(7, 5), new Piece(2));
+    //     // testBoard.putPiece(new Position(10, 8), new Piece(2));
+
+    //     // testBoard.putPiece(new Position(5, 7), new Piece(2));
+    //     // testBoard.putPiece(new Position(6, 7), new Piece(2));
+    //     // testBoard.putPiece(new Position(7, 7), new Piece(2));
+    //     // testBoard.putPiece(new Position(8, 7), new Piece(2));
+    //     // testBoard.putPiece(new Position(4, 7), new Piece(1));
+    //     // testBoard.putPiece(new Position(3, 7), new Piece(1));
+        
+    //     Position p = AIplayer1.getComputerPositionSimple(testBoard);
+    //     //Position p = AIplayer1.getComputerPosition2(testBoard);
+    //     System.out.println("new position generated");
+    //     System.out.println(p.getX());
+    //     System.out.println(p.getY());
+    // }
 }
