@@ -112,7 +112,7 @@ public class GameController {
         sendReply("join",user, new Reply[]{new Status(Code.FAIL)});
     }
 
-    @MessageMapping("/putPiece")
+    @MessageMapping("/putPieceXXXX")
     public void putPiece(Move move) throws Exception {
         String username = move.getUsername();
         User user = new User(username);
@@ -144,15 +144,93 @@ public class GameController {
             }else{
                 if(gameLogic.isAI()) {
                     Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
+                    //Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
                     // gameLogic.putPiece("AI", AIPosition);
                     move = new Move("AI", AIPosition.getX(), AIPosition.getY());
                     putPiece(move);
+                }else {
+                    User readyPlayer = new User(gameLogic.readyPlayer());
+                    logger.info(readyPlayer.getUsername());
+                    //sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
                 }
+            }
+        }
+    }
 
+
+    @MessageMapping("/putPiece")
+    public void putPieceReal(Move move) throws Exception {
+        String username = move.getUsername();
+        User user = new User(username);
+        GameLogic gameLogic = gameRoomService.getEngine(user);
+        Position pos = new Position(move.getX(),move.getY());
+        if (gameLogic != null && gameLogic.putPiece(username, pos)) {
+            String p1 = gameLogic.getId1();
+            if(gameLogic.isAI()) {
+                singlePlay(p1, gameLogic, pos);
+            }else {
+                String p2 = gameLogic.getId2();
+                battlePlay(p1, p2, gameLogic, pos);
+            }
+        }
+    }
+
+    private void singlePlay(String p1, GameLogic gameLogic,Position pos) {
+        String winner = gameLogic.checkWinner(pos);
+        HashMap<String,Integer> hm =  new HashMap<>();
+        Move move = new Move(p1, pos.getX(), pos.getY());
+        System.out.println("winner:" + winner);
+        if (winner != null) {
+            if (winner.equals(p1+"AI")){
+                hm.put(p1, Code.LOSE);
+            }else {
+                hm.put(p1, Code.WIN);
+            }
+            sendResult(hm, move);
+            gameRoomService.removePlayersFromGame(new User(p1), null);
+        }else if (gameLogic.checkDraw()) {
+            hm.put(p1,Code.DRAW);
+            sendResult(hm, move);
+            gameRoomService.removePlayersFromGame(new User(p1), null);
+        }else{
+            if(gameLogic.isAI()  && gameLogic.readyPlayer().equals(p1+"AI")) {
+                Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
+                gameLogic.putPiece(null, AIPosition);
+                singlePlay(p1, gameLogic,AIPosition);
+            }else {
+                move = new Move(null, pos.getX(), pos.getY());
                 User readyPlayer = new User(gameLogic.readyPlayer());
                 logger.info(readyPlayer.getUsername());
-                // sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
+                sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
             }
+        }
+    }
+
+    private void battlePlay(String p1, String p2, GameLogic gameLogic, Position pos) {
+        String winner = gameLogic.checkWinner(pos);
+        HashMap<String,Integer> hm =  new HashMap<>();
+        Move move = new Move(p1, pos.getX(), pos.getY());
+        if (winner != null) {
+            String loser = p1;
+            if (winner.equals(p1)){
+                loser = p2;
+            }
+
+            hm.put(winner, Code.WIN);
+            hm.put(loser, Code.LOSE);
+
+            sendResult(hm, move);
+            gameRoomService.removePlayersFromGame(new User(p1), new User(p2));
+        }else if (gameLogic.checkDraw()) {
+            hm.put(p1,Code.DRAW);
+            hm.put(p2, Code.DRAW);
+            sendResult(hm,move);
+            gameRoomService.removePlayersFromGame(new User(p1), new User(p2));
+        }else{
+            User readyPlayer = new User(gameLogic.readyPlayer());
+            logger.info(readyPlayer.getUsername());
+            sendReply("update", readyPlayer, new Reply[]{move,new Status(Code.OK)});
+
         }
     }
 

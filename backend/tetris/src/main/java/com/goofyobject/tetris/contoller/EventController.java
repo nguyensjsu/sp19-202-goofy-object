@@ -30,7 +30,6 @@ public class EventController {
     private SimpMessageSendingOperations messagingTemplate;
 
     public void sendReply(String topicName, User user, Reply[] reply){
-
         Reply cur = reply[0];
         for (int i = 1; i < reply.length; i++){
             cur.setDecorator(reply[i]);
