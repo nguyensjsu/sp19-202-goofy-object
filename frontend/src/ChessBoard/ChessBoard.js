@@ -4,7 +4,7 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import config from '../config'
 import cookie from 'react-cookies';
-import { SINGLE_MODE, BATTLE_MODE } from '../ModeSelection/ModeSelection';
+import { MID_MODE, EASY_MODE, BATTLE_MODE } from '../ModeSelection/ModeSelection';
 
 const BOARD_EMPTY = 0;
 const BOARD_SELF = 1;
@@ -88,12 +88,13 @@ class ChessBoard extends Component {
                     msg: "Findng Oppenent..."
                 })
                 this.stompClient.send('/app/addToQueue', {}, JSON.stringify({ username: cookie.load('username') }))
-            } else if (this.game_mode === SINGLE_MODE) {
+            } else {
                 this.setState({
                     showMsg: true,
                     msg: "Creating Game..."
                 })
-                this.stompClient.send("/app/createAiGame", {}, JSON.stringify({ 'username': cookie.load('username') }));
+                if (this.game_mode === EASY_MODE) this.stompClient.send("/app/createAiGame/easy", {}, JSON.stringify({ 'username': cookie.load('username') }));
+                if (this.game_mode === MID_MODE) this.stompClient.send("/app/createAiGame/medium", {}, JSON.stringify({ 'username': cookie.load('username') }));
             }
         });
 
