@@ -50,7 +50,7 @@ class LoginPage extends Component {
                 <label htmlFor="username">Username: </label>
                 <input type="text" id="username" value={this.state.username} onChange={this.onChangeHandler}></input><br/>
                 <label htmlFor="password">Password: </label>
-                <input type="text" id="password" value={this.state.password} onChange={this.onChangeHandler}></input><br/>
+                <input type="password" id="password" value={this.state.password} onChange={this.onChangeHandler}></input><br/>
                 <input type="button" value="Login" onClick={this.onLoginHandler}></input>
                 <input type="button" value="New User" onClick={this.onNewUserHandler}></input>
                 <p>{this.state.msg}</p>

@@ -43,7 +43,7 @@ class RegisterPage extends Component {
                 <label htmlFor="username">Username: </label>
                 <input type="text" id="username" value={this.state.username} onChange={this.onChangeHandler}></input><br></br>
                 <label htmlFor="password">Password: </label>
-                <input type="text" id="password" value={this.state.password} onChange={this.onChangeHandler}></input><br></br>
+                <input type="password" id="password" value={this.state.password} onChange={this.onChangeHandler}></input><br></br>
                 <label htmlFor="age">Age: </label>
                 <input type="number" id="age" value={this.state.age} onChange={this.onChangeHandler}></input><br></br>
                 <label htmlFor="gender">Gender: </label>
