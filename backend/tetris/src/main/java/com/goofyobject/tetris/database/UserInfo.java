@@ -1,5 +1,7 @@
 package com.goofyobject.tetris.database;
 
+import java.sql.ResultSet;
+
 import org.json.JSONObject;
 
 public class UserInfo {
@@ -111,6 +113,40 @@ public class UserInfo {
             }
             return null;
         }
+
+        public UserInfo buildFromResultSet(ResultSet rs) {
+            UserInfo.Builder builder = UserInfo.Builder.newInstance();
+            try{
+                if(rs.getString("username") != null) {
+                    builder.setUsername(rs.getString("username"));
+                }
+                if(rs.getString("password") != null) {
+                    builder.setUsername(rs.getString("password"));
+                }
+                if(rs.getString("gender") != null) {
+                    builder.setUsername(rs.getString("gender"));
+                }
+                if(rs.getString("region") != null) {
+                    builder.setUsername(rs.getString("region"));
+                }
+                if(rs.getString("age") != null) {
+                    builder.setUsername(rs.getString("age"));
+                }
+                if(rs.getString("wins") != null) {
+                    builder.setUsername(rs.getString("wins"));
+                }
+                if(rs.getString("loses") != null) {
+                    builder.setUsername(rs.getString("loses"));
+                }
+                return builder.build();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+
     }
 
     public String getRegion() {
