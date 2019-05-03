@@ -62,10 +62,6 @@ public class AIPlayerI implements AIPlayerIService{
         return result;
     }
 
-    @Override
-    public Position getComputerPosition2(Board board) {
-        return null;
-    }
 
     // Simple AI
     public Position getComputerPositionSimple(Board board) {
