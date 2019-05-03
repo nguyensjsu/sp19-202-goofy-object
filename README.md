@@ -11,11 +11,13 @@
 
 
 #### Communication--Gaochao Wang:
-I set up a wechat app group, where all team members can communicate in the mobile app. We also update our progress and discuss problems on the platform. I talked with each member every day or two to get to know their progress and coordiate project update.
+I set up a wechat app group, where all team members can communicate in the mobile app. We also update our progress and discuss problems on the platform. I talked with each member every day or two to get to know their progress and coordiate project update.  
+
 
 #### Simplicity
 
-#### Feedback
+#### Feedback--Yuxiang Chen:
+Ever since we started the project, we have held regular meetings every week as well as meetings as needed during our free time to discuss the project and everyone's progress. We listen to each other and constantly adept our approach to accomplish the project. Over the past weeks of hard working, we have been changing UI, adapting different technology, like web socket, by hearing feedbacks from each other. 
 
 #### Respect
 
@@ -24,6 +26,10 @@ I set up a wechat app group, where all team members can communicate in the mobil
 ## Project Description
 
 ### Individual Contributions
+Yuxiang is building FrontEnd.  
+Gaochao is building GameLogic for both single and battle mode to maintain the game life cycle. He also developed HTTP web service for user login and registration, and pass user information to database to validate and store. 
+
+### [Ad Video](https://www.youtube.com)
 
 ### [Weekly Journal](https://github.com/nguyensjsu/sp19-202-goofy-object/tree/master/journal)
 

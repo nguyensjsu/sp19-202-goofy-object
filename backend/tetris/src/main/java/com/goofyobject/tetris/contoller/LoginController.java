@@ -1,8 +1,7 @@
 package com.goofyobject.tetris.contoller;
 
-import com.goofyobject.tetris.database.MySQLConnection;
 import com.goofyobject.tetris.database.UserInfo;
-
+import com.goofyobject.tetris.database.UserService;
 import com.goofyobject.tetris.domain.User;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import java.io.BufferedReader;
 @RequestMapping()
 public class LoginController {
     @Autowired
-    private MySQLConnection mySQLConnection;
+    private UserService userService;
 
     @PostMapping("/login")
     public boolean login(HttpServletRequest request) {
@@ -25,7 +24,7 @@ public class LoginController {
         if(userInfo == null || userInfo.getUsername() == null || userInfo.getUsername().trim().equals("")  ) {
                 return false;
         }
-        return mySQLConnection.login(userInfo);
+        return userService.findUsersByUsername(userInfo);
     }
 
     @PostMapping("/register")
@@ -35,7 +34,7 @@ public class LoginController {
             || userInfo.getPassword() == null || userInfo.getPassword().trim().equals("")) {
                 return false;
         }
-        return mySQLConnection.saveUser(userInfo);
+        return userService.saveUser(userInfo) == 1;
     }
 
 

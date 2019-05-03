@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - MySQLCreateTable",
+            "request": "launch",
+            "mainClass": "com.goofyobject.tetris.database.MySQLCreateTable",
+            "projectName": "tetris"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - AIPlayerI",
             "request": "launch",
             "mainClass": "com.goofyobject.tetris.game.AI.AIPlayerI",
