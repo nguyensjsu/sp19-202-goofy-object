@@ -1,4 +1,4 @@
-package com.goofyobject.tetris.contoller;
+package com.goofyobject.tetris.controller;
 
 import java.util.Date;
 import java.util.HashMap;

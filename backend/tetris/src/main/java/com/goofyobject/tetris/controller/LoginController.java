@@ -1,8 +1,7 @@
-package com.goofyobject.tetris.contoller;
+package com.goofyobject.tetris.controller;
 
 import com.goofyobject.tetris.database.UserInfo;
 import com.goofyobject.tetris.database.UserService;
-import com.goofyobject.tetris.domain.User;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
