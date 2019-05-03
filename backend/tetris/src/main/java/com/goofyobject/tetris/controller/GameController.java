@@ -1,4 +1,4 @@
-package com.goofyobject.tetris.contoller;
+package com.goofyobject.tetris.controller;
 
 import java.util.HashMap;
 
@@ -16,6 +16,7 @@ import com.goofyobject.tetris.game.AI.AIPlayerIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -35,10 +36,11 @@ public class GameController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @MessageMapping("/createAiGame")
-    public void createAiGame(SimpMessageHeaderAccessor headerAccessor, User user) throws Exception {
+    @MessageMapping("/createAiGame/{level}")
+    public void createAiGame(SimpMessageHeaderAccessor headerAccessor, User user, @DestinationVariable String level ) throws Exception {
         String username = user.getUsername();
         String sessionId = headerAccessor.getSessionId();
+        logger.info("level:" + level);
         user.setSessionId(sessionId);
         boolean isAdded = gameRoomService.addPlayersToGame(user, null, new GameLogic(username, null));
 
@@ -89,26 +91,24 @@ public class GameController {
     public void matchOpponent(User user) throws Exception {
         String username = user.getUsername();
         int i = 0;
-        while (i < 200) {
-            gameRoomService.findOpponent(user);
-            GameLogic gameLogic = gameRoomService.getEngine(user);
+        gameRoomService.findOpponent(user);
+        GameLogic gameLogic = gameRoomService.getEngine(user);
 
-            if (gameLogic != null) {
-                String p1 = gameLogic.getId1();
-                String p2 = gameLogic.getId2();
-                String oppnentName = p1;
-                Status color = new Status(Code.WHITE);
-                if (username.equals(p1)){
-                    oppnentName = p2;
-                    color = new Status(Code.BLACK);
-                }
-                sendReply("join",user, new Reply[]{new User(oppnentName), color});
-                return;
+        if (gameLogic != null) {
+            String p1 = gameLogic.getId1();
+            String p2 = gameLogic.getId2();
+            String oppnentName = p1;
+            Status color = new Status(Code.WHITE);
+            if (username.equals(p1)){
+                oppnentName = p2;
+                color = new Status(Code.BLACK);
             }
-            Thread.sleep(500);
-            i++;
+            sendReply("join",user, new Reply[]{new User(oppnentName), color});
+            return;
         }
-        gameRoomService.removePlayerFromQueue(user);
+
+        Thread.sleep(1000);
+        //gameRoomService.removePlayerFromQueue(user);
         sendReply("join",user, new Reply[]{new Status(Code.FAIL)});
     }
 
