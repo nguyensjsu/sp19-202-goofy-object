@@ -11,7 +11,7 @@
 
 
 #### Communication--Gaochao Wang:
-I set up a wechat app group, where all team members can communicate in the mobile app. We also update our progress and discuss problems on the platform. I talked with each member every day or two to get to know their progress and coordiate project update.  
+I set up a wechat app group, where all team members can communicate using the mobile app. We also update our task progress, discuss problems on the platform and make plan for next tasks. I talked with each member every day or two to get to know their progress and coordiate to meet and work together, and make sure everyone is on the same page with every progress.  
 
 
 #### Simplicity
