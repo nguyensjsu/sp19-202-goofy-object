@@ -337,18 +337,18 @@ public class AIPlayerI implements AIPlayerIService{
         return count;
     }
 
-//    // test
+   // test
     // public static void main(String[] args) {
 
     //     Board testBoard = new Board();
     //     AIPlayerIService AIplayer1 = new AIPlayerI();
-    //     testBoard.putPiece(new Position(6, 6), new Piece(1));
-    //     testBoard.putPiece(new Position(7, 7), new Piece(1));
-    //     testBoard.putPiece(new Position(8, 8), new Piece(1));
-    //     testBoard.putPiece(new Position(5, 5), new Piece(1));
-    //     testBoard.putPiece(new Position(4, 4), new Piece(2));
-    //     testBoard.putPiece(new Position(6, 7), new Piece(2));
-    //     testBoard.putPiece(new Position(6, 8), new Piece(2));
+    //     // testBoard.putPiece(new Position(6, 6), new Piece(1));
+    //     // testBoard.putPiece(new Position(7, 7), new Piece(1));
+    //     // testBoard.putPiece(new Position(8, 8), new Piece(1));
+    //     // testBoard.putPiece(new Position(5, 5), new Piece(1));
+    //     // testBoard.putPiece(new Position(4, 4), new Piece(2));
+    //     // testBoard.putPiece(new Position(6, 7), new Piece(2));
+    //     // testBoard.putPiece(new Position(6, 8), new Piece(2));
 
     //     System.out.println("Board Drawed");
     //     int score_AI = AIplayer1.evaluateScore(testBoard, 2);
