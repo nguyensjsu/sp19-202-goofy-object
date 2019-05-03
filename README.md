@@ -2,7 +2,7 @@
 ## Team Members: 
     Chikei Loi,  Gaochao Wang, Tianyu Cao, Xiaoting Jin, Yuxiang Chen
 
-* [Github Repo](url_to_your_github_repo)
+* [Github Repo](https://github.com/nguyensjsu/sp19-202-goofy-object)
 
 
 ## XP values:
@@ -29,7 +29,7 @@ Ever since we started the project, we have held regular meetings every week as w
 Yuxiang is building FrontEnd.  
 Gaochao is building GameLogic for both single and battle mode to maintain the game life cycle. He also developed HTTP web service for user login and registration, and pass user information to database to validate and store. 
 
-### [Ad Video](https://www.youtube.com)
+### [Ad Video](https://youtu.be/E8Z2UzNvzVc)
 
 ### [Weekly Journal](https://github.com/nguyensjsu/sp19-202-goofy-object/tree/master/journal)
 
