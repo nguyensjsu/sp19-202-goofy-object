@@ -17,7 +17,7 @@ public class Board implements Cloneable{
         }
         int x = p.getX();
         int y = p.getY();
-        System.out.println("new Put Piece: color=" + c + ", x=" + x + ", y=" + y);
+        // System.out.println("new Put Piece: color=" + c + ", x=" + x + ", y=" + y);
         if (grid[x][y] == null) {
             grid[x][y] = piece;
             num++;
