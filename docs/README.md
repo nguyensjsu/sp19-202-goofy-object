@@ -10,6 +10,13 @@
 
 ## UI wireframe
 
+![](screenshots/login.png)
+![](screenshots/register.png)
+![](screenshots/mode.png)
+![](screenshots/game.png)
+![](screenshots/win.png)
+![](screenshots/board.png)
+
 ## UML Diagram
 
 ### Use Case Diagram
