@@ -12,4 +12,4 @@ Implement the basic socket communication with frontend
 Need to come a scalable and robust structure for the backend
 
 ### Time Spent
-5 hrs
+10 hrs
