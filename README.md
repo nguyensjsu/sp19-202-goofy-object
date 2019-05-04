@@ -31,7 +31,7 @@ By definition, respect is a deep value, one that lies below the surface of the v
 - Yuxiang is building FrontEnd. 
 - Chikei is building socket communication between client and servers.He implemented functionaliy such as game matching and player's action both in AI mode and PvP mode,  He also deploy the application in cloud. 
 - Gaochao is building GameLogic for both single and battle mode to maintain the game life cycle. He also developed HTTP web service for user login and registration, and pass user information to database to validate and store. 
-- Xiaoting is building the algorithm of AI Player and she is also doing the test and drew the sequence diagram.
+- Xiaoting is building the algorithm of AI Player and she is also doing the test and drew the user case diagram.
 - Tianyu helped the AI player together with Xiaoting, implemented the Strategy Pattern to the AI algorithm, as well as drew the Activity Diagram and Sequence Diagram.
 
 ### [Ad Video](https://www.youtube.com/watch?v=23SZd8M2BZw)
