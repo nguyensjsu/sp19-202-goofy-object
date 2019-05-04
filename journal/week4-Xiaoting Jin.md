@@ -3,9 +3,8 @@
 ## Xiaoting Jin
 
 ### Finished This Week
-1. Finished Abstract Factory Pattern
-2. Testing
-3. Documentations
+1. Testing
+2. Documentations
 ### Planned Next Week
 
 ### Problems/Blocks
