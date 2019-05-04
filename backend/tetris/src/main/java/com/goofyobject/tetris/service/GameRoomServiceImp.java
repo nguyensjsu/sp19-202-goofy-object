@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import com.goofyobject.tetris.domain.User;
+import com.goofyobject.tetris.game.AI.AIContext;
 import com.goofyobject.tetris.game.GameEngineStateMachine.GameLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameRoomServiceImp implements GameRoomService {
     private final LinkedList<User> waitingQueue = new LinkedList<>();
-    private final ConcurrentHashMap<User, GameLogic> engines = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<User, Object[]> engines = new ConcurrentHashMap<>();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
@@ -58,14 +59,26 @@ public class GameRoomServiceImp implements GameRoomService {
             String opponentUsername = opponent.getUsername();
             String curUsername = user.getUsername();
             GameLogic engine = new GameLogic(opponentUsername,curUsername);
-            addPlayersToGame(opponent,user, engine);
+            addPlayersToGame(opponent,user,engine,null);
             return true;
         }
 
     }
 
+    @Override
     public GameLogic getEngine(User user) {
-        return engines.get(user);
+        if (engines.get(user) == null){
+            return null;
+        }
+        return (GameLogic) engines.get(user)[0];
+    }
+    
+    @Override
+    public AIContext getAiContext(User user) {
+        if (engines.get(user) == null){
+            return null;
+        }
+        return (AIContext) engines.get(user)[1];
     }
 
     @Override
@@ -92,7 +105,7 @@ public class GameRoomServiceImp implements GameRoomService {
 
         for (User user : engines.keySet()) {
             if (user.getSessionId().equals(sessionId)){
-                GameLogic game = engines.get(user);
+                GameLogic game = (GameLogic) engines.get(user)[0];
                 String player1Username = game.getId1();
                 String player2Username = game.getId2();
                 User player1 = new User(player1Username);
@@ -110,7 +123,7 @@ public class GameRoomServiceImp implements GameRoomService {
 
 
     @Override
-    public boolean addPlayersToGame(User p1, User p2, GameLogic game){
+    public boolean addPlayersToGame(User p1, User p2, GameLogic game, AIContext context){
         if (p1 != null && engines.containsKey(p1)){
             return false;
         }
@@ -118,10 +131,16 @@ public class GameRoomServiceImp implements GameRoomService {
             return false;
         }
 
-        engines.put(p1,game);
-        if (p2 != null){
-            engines.put(p2,game);
+        if (context != null){
+            System.out.println("1111");
+            engines.put(p1,new Object[]{game,context});
+        }else{
+            System.out.println("2222");
+            engines.put(p1,new Object[]{game,null});
+            engines.put(p2,new Object[]{game,null});
         }
+        
+
         return true;
     }
 

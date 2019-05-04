@@ -33,7 +33,6 @@ public class GameController {
 
     // @Autowired
     // private AIPlayerIService AIplayer1;
-    private AIContext aiContext = new AIContext();
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -43,7 +42,18 @@ public class GameController {
         String sessionId = headerAccessor.getSessionId();
         logger.info("level:" + level);
         user.setSessionId(sessionId);
-        boolean isAdded = gameRoomService.addPlayersToGame(user, null, new GameLogic(username, null));
+        
+        AIContext aiContext = new AIContext();
+
+        if (level.equals("easy")){
+            aiContext.setAIStrategy(new AIRandom());
+        }else if (level.equals("medium")){
+            aiContext.setAIStrategy(new AISimple());
+        }else{
+            
+        }
+
+        boolean isAdded = gameRoomService.addPlayersToGame(user, null, new GameLogic(username, null), aiContext);
 
         if (!isAdded) {
             sendReply("added",user, new Reply[]{new Status(Code.FAIL)});
@@ -147,11 +157,11 @@ public class GameController {
                     //Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
 
                     // Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
-                    aiContext.setAIStrategy(new AIAlphaBeta());
-                    Position AIPosition = aiContext.operationAI(gameLogic.getBoard());
+
+                    // Position AIPosition = aiContext.operationAI(gameLogic.getBoard());
 
                     // gameLogic.putPiece("AI", AIPosition);
-                    move = new Move("AI", AIPosition.getX(), AIPosition.getY());
+                    // move = new Move("AI", AIPosition.getX(), AIPosition.getY());
                     putPiece(move);
                 }else {
                     User readyPlayer = new User(gameLogic.readyPlayer());
@@ -168,11 +178,12 @@ public class GameController {
         String username = move.getUsername();
         User user = new User(username);
         GameLogic gameLogic = gameRoomService.getEngine(user);
+        AIContext aiContext = gameRoomService.getAiContext(user);
         Position pos = new Position(move.getX(),move.getY());
         if (gameLogic != null && gameLogic.putPiece(username, pos)) {
             String p1 = gameLogic.getId1();
             if(gameLogic.isAI()) {
-                singlePlay(p1, gameLogic, pos);
+                singlePlay(p1, gameLogic, pos,aiContext);
             }else {
                 String p2 = gameLogic.getId2();
                 battlePlay(p1, p2, gameLogic, pos);
@@ -180,7 +191,7 @@ public class GameController {
         }
     }
 
-    private void singlePlay(String p1, GameLogic gameLogic,Position pos) {
+    private void singlePlay(String p1, GameLogic gameLogic,Position pos, AIContext aiContext) {
         String winner = gameLogic.checkWinner(pos);
         HashMap<String,Integer> hm =  new HashMap<>();
         Move move = new Move(p1, pos.getX(), pos.getY());
@@ -201,11 +212,9 @@ public class GameController {
             if(gameLogic.isAI()  && gameLogic.readyPlayer().equals(p1+"AI")) {
 
                 // Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
-                aiContext.setAIStrategy(new AIAlphaBeta());
                 Position AIPosition = aiContext.operationAI(gameLogic.getBoard());
-
                 gameLogic.putPiece(null, AIPosition);
-                singlePlay(p1, gameLogic,AIPosition);
+                singlePlay(p1, gameLogic,AIPosition,null);
             }else {
                 move = new Move(null, pos.getX(), pos.getY());
                 User readyPlayer = new User(gameLogic.readyPlayer());
