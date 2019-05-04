@@ -12,7 +12,7 @@ import com.goofyobject.tetris.domain.Reply;
 import com.goofyobject.tetris.service.GameRoomService;
 import com.goofyobject.tetris.game.entity.Position;
 import com.goofyobject.tetris.game.GameEngineStateMachine.GameLogic;
-import com.goofyobject.tetris.game.AI.AIPlayerIService;
+import com.goofyobject.tetris.game.AI.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,9 @@ public class GameController {
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
-    @Autowired
-    private AIPlayerIService AIplayer1;
+    // @Autowired
+    // private AIPlayerIService AIplayer1;
+    private AIContext aiContext = new AIContext();
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -144,7 +145,11 @@ public class GameController {
             }else{
                 if(gameLogic.isAI()) {
                     //Position AIPosition = AIplayer1.getComputerPosition(gameLogic.getBoard());
-                    Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
+
+                    // Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
+                    aiContext.setAIStrategy(new AIAlphaBeta());
+                    Position AIPosition = aiContext.operationAI(gameLogic.getBoard());
+
                     // gameLogic.putPiece("AI", AIPosition);
                     move = new Move("AI", AIPosition.getX(), AIPosition.getY());
                     putPiece(move);
@@ -194,7 +199,11 @@ public class GameController {
             gameRoomService.removePlayersFromGame(new User(p1), null);
         }else{
             if(gameLogic.isAI()  && gameLogic.readyPlayer().equals(p1+"AI")) {
-                Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
+
+                // Position AIPosition = AIplayer1.getComputerPositionSimple(gameLogic.getBoard());
+                aiContext.setAIStrategy(new AIAlphaBeta());
+                Position AIPosition = aiContext.operationAI(gameLogic.getBoard());
+
                 gameLogic.putPiece(null, AIPosition);
                 singlePlay(p1, gameLogic,AIPosition);
             }else {
