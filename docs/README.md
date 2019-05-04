@@ -26,7 +26,7 @@
 ![alt text](https://github.com/nguyensjsu/sp19-202-goofy-object/blob/master/docs/class_diagram.png)
 
 ### Activity Diagram
-![alt text](https://github.com/nguyensjsu/sp19-202-goofy-object/blob/master/docs/Activity%20Diagram0.png.png)
+![alt text](https://github.com/nguyensjsu/sp19-202-goofy-object/blob/master/docs/Activity%20Diagram0.png)
 
 ### Sequence Diagram
-![alt text](https://github.com/nguyensjsu/sp19-202-goofy-object/blob/master/docs/Sequence%20Diagram0.png.png)
+![alt text](https://github.com/nguyensjsu/sp19-202-goofy-object/blob/master/docs/Sequence%20Diagram0.png)
