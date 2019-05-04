@@ -32,7 +32,7 @@ Ever since we started the project, we have held regular meetings every week as w
 - Gaochao is building GameLogic for both single and battle mode to maintain the game life cycle. He also developed HTTP web service for user login and registration, and pass user information to database to validate and store. 
 - Xiaoting is building the algorithm of AI Player and she is also doing the test.
 
-### [Ad Video](https://youtu.be/E8Z2UzNvzVc)
+### [Ad Video](https://www.youtube.com/watch?v=23SZd8M2BZw)
 
 ### [Weekly Journal](https://github.com/nguyensjsu/sp19-202-goofy-object/tree/master/journal)
 
