@@ -145,7 +145,7 @@ public class AICommonMethod {
         int score = 0;
         if (color == 2) {
             score += matchNumber(line, AI_FIVE) * 100000;
-            score += matchNumber(line, AI_FOUR_TWO_LIVE) * 10000;
+            score += matchNumber(line, AI_FOUR_TWO_LIVE) * 100000;
             score += matchNumber(line, AI_FIVE_PRE) * 5000;
             score += matchNumber(line, AI_TRHEE_LIVE) * 200;
             score += matchNumber(line, AI_TRHEE_DORMANT) * 50;
@@ -157,7 +157,7 @@ public class AICommonMethod {
             score += matchNumber(line, AI_DEAD_TWO) * -5;
         } else if (color == 1) {
             score += matchNumber(line, HUMAN_FIVE) * 100000;
-            score += matchNumber(line, HUMAN_FOUR_TWO_LIVE) * 10000;
+            score += matchNumber(line, HUMAN_FOUR_TWO_LIVE) * 100000;
             score += matchNumber(line, HUMAN_FIVE_PRE) * 5000;
             score += matchNumber(line, HUMAN_TRHEE_LIVE) * 200;
             score += matchNumber(line, HUMAN_TRHEE_DORMANT) * 50;

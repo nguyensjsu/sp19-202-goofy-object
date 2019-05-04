@@ -3,10 +3,7 @@ package com.goofyobject.tetris.game.AI;
 import com.goofyobject.tetris.game.entity.Board;
 import com.goofyobject.tetris.game.entity.Piece;
 import com.goofyobject.tetris.game.entity.Position;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
