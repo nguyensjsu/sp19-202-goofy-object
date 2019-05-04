@@ -59,7 +59,7 @@ public class AICommonMethod {
                 }
             }
             String line = buffer.toString();
-            score += ( getLineScore(line, color) - getLineScore(line, opp));
+            score += getLineScore(line, color);
         }
         // 15 Columns
         for (int x = 0; x < gridNum; x++) {
@@ -72,8 +72,7 @@ public class AICommonMethod {
                 }
             }
             String line = buffer.toString();
-            score += (getLineScore(line, color) - getLineScore(line, opp));
-        }
+            score += getLineScore(line, color);        }
         // 15 Diagonals
         for (int y_offset = 0; y_offset < gridNum; y_offset ++) {
             StringBuffer buffer = new StringBuffer();
@@ -88,7 +87,7 @@ public class AICommonMethod {
                 }
             }
             String line = buffer.toString();
-            score += (getLineScore(line, color) - getLineScore(line, opp));
+            score += getLineScore(line, color);
         }
         // 14 Diagonals
         for (int y_offset = 1; y_offset < gridNum; y_offset++) {
@@ -104,7 +103,7 @@ public class AICommonMethod {
                 }
             }
             String line = buffer.toString();
-            score += (getLineScore(line, color) - getLineScore(line, opp));
+            score += getLineScore(line, color);
         }
         // 15 Diagonals
         for (int sum = 0; sum < gridNum; sum++) {
@@ -120,7 +119,7 @@ public class AICommonMethod {
                 }
             }
             String line = buffer.toString();
-            score += (getLineScore(line, color) - getLineScore(line, opp));
+            score += getLineScore(line, color);
         } 
         // 14 Diagonals
         for (int sum = gridNum + 1; sum < (2 * gridNum - 1); sum++) {
@@ -136,7 +135,7 @@ public class AICommonMethod {
                 }
             }
             String line = buffer.toString();
-            score += (getLineScore(line, color) - getLineScore(line, opp));
+            score += getLineScore(line, color);
         }           
        
         return score;
@@ -147,29 +146,29 @@ public class AICommonMethod {
     public int getLineScore(String line, int color){
         int score = 0;
         if (color == 2) {
-            score += matchNumber(line, AI_FIVE) * 100000;
-            score += matchNumber(line, AI_FOUR_TWO_LIVE) * 100000;
-            score += matchNumber(line, AI_FIVE_PRE) * 5000;
-            score += matchNumber(line, AI_TRHEE_LIVE) * 200;
-            score += matchNumber(line, AI_TRHEE_DORMANT) * 50;
-            score += matchNumber(line, AI_TWO_LIVE) * 5;
-            score += matchNumber(line, AI_TWO_DORMANT) * 3;
-            score += matchNumber(line, AI_ONE_LIVE) * 1;
-            score += matchNumber(line, AI_DEAD_FOUR) * -5;
-            score += matchNumber(line, AI_DEAD_THREE) * -5;
-            score += matchNumber(line, AI_DEAD_TWO) * -5;
+            score += ( matchNumber(line, AI_FIVE) * 100000 - matchNumber(line, HUMAN_FIVE) * 200000);
+            score += ( matchNumber(line, AI_FOUR_TWO_LIVE) * 10000 - matchNumber(line, HUMAN_FOUR_TWO_LIVE) * 20000);
+            score += ( matchNumber(line, AI_FIVE_PRE) * 5000 - matchNumber(line, HUMAN_FIVE_PRE) * 10000);
+            score += ( matchNumber(line, AI_TRHEE_LIVE) * 200 - matchNumber(line, HUMAN_TRHEE_LIVE) * 10000) ;
+            score += ( matchNumber(line, AI_TRHEE_DORMANT) * 50 - matchNumber(line, HUMAN_TRHEE_DORMANT) * 50);
+            score += ( matchNumber(line, AI_TWO_LIVE) * 5 - matchNumber(line, HUMAN_TWO_LIVE) * 5);
+            score += ( matchNumber(line, AI_TWO_DORMANT) * 3 - matchNumber(line, HUMAN_TWO_DORMANT) * 3);
+            score += ( matchNumber(line, AI_ONE_LIVE) * 1 - matchNumber(line, HUMAN_ONE_LIVE) * 1);
+            score += ( matchNumber(line, AI_DEAD_FOUR) * -5 - matchNumber(line, HUMAN_DEAD_FOUR) * -5);
+            score += ( matchNumber(line, AI_DEAD_THREE) * -5 - matchNumber(line, HUMAN_DEAD_THREE) * -5);
+            score += ( matchNumber(line, AI_DEAD_TWO) * -5 - matchNumber(line, HUMAN_DEAD_TWO) * -5);
         } else if (color == 1) {
-            score += matchNumber(line, HUMAN_FIVE) * 100000;
-            score += matchNumber(line, HUMAN_FOUR_TWO_LIVE) * 100000;
-            score += matchNumber(line, HUMAN_FIVE_PRE) * 5000;
-            score += matchNumber(line, HUMAN_TRHEE_LIVE) * 200;
-            score += matchNumber(line, HUMAN_TRHEE_DORMANT) * 50;
-            score += matchNumber(line, HUMAN_TWO_LIVE) * 5;
-            score += matchNumber(line, HUMAN_TWO_DORMANT) * 3;
-            score += matchNumber(line, HUMAN_ONE_LIVE) * 1;
-            score += matchNumber(line, HUMAN_DEAD_FOUR) * -5;
-            score += matchNumber(line, HUMAN_DEAD_THREE) * -5;
-            score += matchNumber(line, HUMAN_DEAD_TWO) * -5;
+            score += ( matchNumber(line, HUMAN_FIVE) * 100000 - matchNumber(line, AI_FIVE) * 200000);
+            score += ( matchNumber(line, HUMAN_FOUR_TWO_LIVE) * 10000 - matchNumber(line, AI_FOUR_TWO_LIVE) * 20000);
+            score += ( matchNumber(line, HUMAN_FIVE_PRE) * 5000 - matchNumber(line, AI_FIVE_PRE) * 10000);
+            score += ( matchNumber(line, HUMAN_TRHEE_LIVE) * 200 - matchNumber(line, AI_TRHEE_LIVE) * 10000) ;
+            score += ( matchNumber(line, HUMAN_TRHEE_DORMANT) * 50 - matchNumber(line, AI_TRHEE_DORMANT) * 50);
+            score += ( matchNumber(line, HUMAN_TWO_LIVE) * 5 - matchNumber(line, AI_TWO_LIVE) * 5);
+            score += ( matchNumber(line, HUMAN_TWO_DORMANT) * 3 - matchNumber(line, AI_TWO_DORMANT) * 3);
+            score += ( matchNumber(line, HUMAN_ONE_LIVE) * 1 - matchNumber(line, AI_ONE_LIVE) * 1);
+            score += ( matchNumber(line, HUMAN_DEAD_FOUR) * -5 - matchNumber(line, AI_DEAD_FOUR) * -5);
+            score += ( matchNumber(line, HUMAN_DEAD_THREE) * -5 - matchNumber(line, AI_DEAD_THREE) * -5);
+            score += ( matchNumber(line, HUMAN_DEAD_TWO) * -5 - matchNumber(line, AI_DEAD_TWO) * -5);
         }
         return score;
     }
