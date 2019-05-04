@@ -6,7 +6,7 @@ import com.goofyobject.tetris.game.entity.Position;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.stereotype.Component;
+
 
 public class AICommonMethod {
 
@@ -40,12 +40,14 @@ public class AICommonMethod {
     private final String HUMAN_DEAD_THREE = "21112";
     private final String HUMAN_DEAD_TWO = "2112";
 
+    // evaluate the score of board for player color
     public int evaluateScore(Board board, int color) {
         int score = 0;
         int opp = 0;
         if (color == 1){
             opp = 2;
         } else if (color == 2) {opp = 1;}
+        // 4 directions
         // 15 Rows
         for (int y = 0; y < gridNum; y++){
             StringBuffer buffer = new StringBuffer();
@@ -141,6 +143,7 @@ public class AICommonMethod {
 
     }
 
+    // score of chess pattern
     public int getLineScore(String line, int color){
         int score = 0;
         if (color == 2) {
@@ -171,6 +174,7 @@ public class AICommonMethod {
         return score;
     }
 
+    // string matcher
     public static int matchNumber(String line, String pattern){
         Pattern p=Pattern.compile(pattern ,Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(line);

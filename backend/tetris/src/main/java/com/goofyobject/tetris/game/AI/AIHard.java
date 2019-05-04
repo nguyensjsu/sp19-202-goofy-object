@@ -58,6 +58,7 @@ public class AIHard extends AICommonMethod implements AIStrategy  {
     }
 
     // alpha_beta function to get the score
+    // there's bug in this function
     public int alpha_beta(Board board, int searchDepth, int alpha, int beta, int color) {
         
         int result = 0;
@@ -124,8 +125,6 @@ public class AIHard extends AICommonMethod implements AIStrategy  {
             }
         }
     }
-
-
 
     public static void main(String[] args) {
 
