@@ -15,7 +15,7 @@ stompClient.subscribe('/topic/update?' + "tok" , function (res){
 });
 
 stompClient.send("/app/addToQueue", {}, JSON.stringify({'username': "tok" })); 
-stompClient.send("/app/createAiGame", {}, JSON.stringify({'username': "tok" })); // single mode
+stompClient.send("/app/createAiGame/{level}", {}, JSON.stringify({'username': "tok" })); // single mode
 
 
 
