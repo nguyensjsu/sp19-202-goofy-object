@@ -12,16 +12,36 @@ import java.util.Random;
 
 public class AIEasy implements AIStrategy {
 
-    public Position getComputerPosition(Board board){
+    private final int gridNum = 15;
 
-        Random rn = new Random();
-        int x = rn.nextInt(14);
-        int y = rn.nextInt(14);
-        while (board.getGrid()[x][y] != null) {
-            x = rn.nextInt(14);
-            y = rn.nextInt(14);
+    public Position getComputerPosition(Board board) {
+        int maxComputerScore = Integer.MIN_VALUE;
+        Piece[][] grid = board.getGrid();
+        // if the board is full, there's no pisition to place piece
+        Position result = new Position(100, 100);
+        // return the position with maximum Computer score
+        for (int i = 0; i < gridNum; i++) {
+            for (int j = 0; j < gridNum; j++) {
+                if (grid[i][j] == null) {
+                    int score = 0;
+                    score -= (Math.abs(i - 7) + Math.abs(j - 7));
+                    score += (board.getNeighNum(new Position(i,j)))*2;
+                    if (score > maxComputerScore) {
+                        maxComputerScore = score;
+                        result.setX(i);
+                        result.setY(j);
+                    } else if (score == maxComputerScore) { // if equal score, pick the position randomly
+                        Random rn = new Random();
+                        int r = rn.nextInt(3);
+                        if (r <= 1) {
+                            result.setX(i);
+                            result.setY(j);
+                        }
+                    }
+                    System.out.println("i: " + i + ",j: " + j + ",score : " + score);
+                }
+            }
         }
-        Position result = new Position(x, y);
         return result;
     }
 }

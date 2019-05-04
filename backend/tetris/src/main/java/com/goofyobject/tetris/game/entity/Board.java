@@ -1,5 +1,6 @@
 package com.goofyobject.tetris.game.entity;
 
+import org.springframework.beans.factory.config.YamlProcessor.MatchCallback;
 
 public class Board implements Cloneable{
     private final int gridNum = 15;
@@ -56,5 +57,17 @@ public class Board implements Cloneable{
             }
         }
         return bd;
+    }
+    // get number of pieces at position (i,j)
+    public int getNeighNum(Position p){
+        int result = 0;
+        for (int x = Math.max(p.getX() - 1,0); x <= Math.min(p.getX() + 1, gridNum); x++){
+            for (int y = Math.max(p.getY() - 1, 0); y <= Math.min(p.getY() + 1, gridNum); y++){
+                if (this.grid[x][y] !=  null){
+                    result += 1;
+                }
+            }
+        }
+        return (result -1);
     }
 }

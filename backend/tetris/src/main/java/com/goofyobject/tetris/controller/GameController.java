@@ -46,9 +46,9 @@ public class GameController {
         AIContext aiContext = new AIContext();
 
         if (level.equals("easy")){
-            aiContext.setAIStrategy(new AIRandom());
+            aiContext.setAIStrategy(new AIEasy());
         }else if (level.equals("medium")){
-            aiContext.setAIStrategy(new AISimple());
+            aiContext.setAIStrategy(new AIMedium());
         }else{
             
         }
