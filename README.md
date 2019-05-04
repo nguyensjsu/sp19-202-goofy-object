@@ -1,6 +1,7 @@
 # Team: Goofy Object
 
-#Demo: https://five-in-row-202.herokuapp.com note: do not use the same browser for PVP
+# Demo: 
+https://five-in-row-202.herokuapp.com note: do not use the same browser for PVP
 
 ## Team Members: 
     Chikei Loi,  Gaochao Wang, Tianyu Cao, 
