@@ -53,13 +53,11 @@ public class EventController {
         Date date = new Date();
         logger.info("Disconnet a web socket connection : " + date.getTime());
 
-
         User informPlayer = gameRoomService.PlayerLeave(event.getSessionId());
 
         if (informPlayer != null){
             sendReply("update",informPlayer,new Reply[]{new Status(Code.LEAVE)});
         }
-        
 
     }
 

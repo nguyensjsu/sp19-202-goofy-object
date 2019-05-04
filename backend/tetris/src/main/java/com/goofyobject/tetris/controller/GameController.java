@@ -42,7 +42,6 @@ public class GameController {
         String sessionId = headerAccessor.getSessionId();
         logger.info("level:" + level);
         user.setSessionId(sessionId);
-        
         AIContext aiContext = new AIContext();
 
         if (level.equals("easy")){
