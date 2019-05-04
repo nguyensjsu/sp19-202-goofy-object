@@ -8,6 +8,7 @@
 ## XP values:
 
 #### Courage--Xiaoting Jin:
+We don't fear anything because we are working as a team. Sometimes, we will get stuck on a complex problem or issue, but we won't give up and will keep trying the next day.
 
 
 #### Communication--Gaochao Wang:
