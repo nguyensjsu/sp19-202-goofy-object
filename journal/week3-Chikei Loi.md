@@ -12,7 +12,8 @@
 3. Deploy to cloud
 4. Providing routing for AI
 ### Problems/Blocks
-
+had to map session to user for disconnecting
+have to research about how to serve reactjs files to cloud
 
 ### Time Spent
 10 hours

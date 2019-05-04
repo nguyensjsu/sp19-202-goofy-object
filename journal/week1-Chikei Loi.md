@@ -9,6 +9,7 @@ Design the backend using websocket
 Implement the basic socket communication with frontend
 
 ### Problems/Blocks
+Need to come a scalable and robust structure for the backend
 
 ### Time Spent
 5 hrs
