@@ -23,4 +23,4 @@
 ![alt text](https://github.com/nguyensjsu/sp19-202-goofy-object/blob/master/docs/Use%20Case%20Diagram.png)
 
 ### Class Diagram
-![alt text](https://github.com/nguyensjsu/sp19-202-goofy-object/blob/master/docs/Class%20Diagram.png)
+![alt text](https://github.com/nguyensjsu/sp19-202-goofy-object/blob/master/docs/class_diagram.png)
