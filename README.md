@@ -14,7 +14,8 @@
 I set up a wechat app group, where all team members can communicate using the mobile app. We also update our task progress, discuss problems on the platform and make plan for next tasks. I talked with each member every day or two to get to know their progress and coordiate to meet and work together, and make sure everyone is on the same page with every progress.  
 
 
-#### Simplicity
+#### Simplicity-Chikei Loi
+I make sure that everyone completes their tasks exactly as they are set by the team. We apply simplicity by seperate works in modules.This reduces dependencies and less conflict which lead to cleaner code. In terms of the game design, we have all the basic features that a five-in-a-row should have.
 
 #### Feedback--Yuxiang Chen:
 Ever since we started the project, we have held regular meetings every week as well as meetings as needed during our free time to discuss the project and everyone's progress. We listen to each other and constantly adept our approach to accomplish the project. Over the past weeks of hard working, we have been changing UI, adapting different technology, like web socket, by hearing feedbacks from each other. 
