@@ -30,18 +30,11 @@ public class AIEasy implements AIStrategy {
                         maxComputerScore = score;
                         result.setX(i);
                         result.setY(j);
-                    } else if (score == maxComputerScore) { // if equal score, pick the position randomly
-                        Random rn = new Random();
-                        int r = rn.nextInt(3);
-                        if (r <= 1) {
-                            result.setX(i);
-                            result.setY(j);
-                        }
                     }
                     System.out.println("i: " + i + ",j: " + j + ",score : " + score);
                 }
             }
         }
         return result;
-    }
+    }   
 }

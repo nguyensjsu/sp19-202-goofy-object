@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - AIEasy",
+            "request": "launch",
+            "mainClass": "com.goofyobject.tetris.game.AI.AIEasy",
+            "projectName": "tetris"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - AIHard",
             "request": "launch",
             "mainClass": "com.goofyobject.tetris.game.AI.AIHard",
