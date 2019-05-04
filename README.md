@@ -20,7 +20,8 @@ I make sure that everyone completes their tasks exactly as they are set by the t
 #### Feedback--Yuxiang Chen:
 Ever since we started the project, we have held regular meetings every week as well as meetings as needed during our free time to discuss the project and everyone's progress. We listen to each other and constantly adept our approach to accomplish the project. Over the past weeks of hard working, we have been changing UI, adapting different technology, like web socket, by hearing feedbacks from each other. 
 
-#### Respect
+#### Respect--Tianyu Cao:
+By definition, respect is a deep value, one that lies below the surface of the value. In Extreme Programming, everyone respects each other as a valued team member: when we work in the team, we always consider respecting each other as our first priority because only respect leads to effective communications so that we will be able to understand clearly whaht exactly tasks we need to focus on.
 
 # Project: Gomoku
 
