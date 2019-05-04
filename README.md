@@ -1,6 +1,8 @@
 # Team: Goofy Object
 ## Team Members: 
-    Chikei Loi,  Gaochao Wang, Tianyu Cao, Xiaoting Jin(2 accounts: xiaoting0524, southinsouth(flagged by GitHub)), Yuxiang Chen(2 accounts: 4ychen8160, chen8160(flagged by GitHub))
+    Chikei Loi,  Gaochao Wang, Tianyu Cao, 
+    Xiaoting Jin(2 accounts: xiaoting0524, southinsouth(flagged by GitHub))
+    Yuxiang Chen(2 accounts: 4ychen8160, chen8160(flagged by GitHub))
   
 
 * [Github Repo](https://github.com/nguyensjsu/sp19-202-goofy-object)
