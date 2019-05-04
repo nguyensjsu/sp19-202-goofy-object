@@ -50,7 +50,8 @@ public class GameController {
         }else if (level.equals("medium")){
             aiContext.setAIStrategy(new AIMedium());
         }else{
-            
+            sendReply("added",user, new Reply[]{new Status(Code.FAIL)});
+            return;
         }
 
         boolean isAdded = gameRoomService.addPlayersToGame(user, null, new GameLogic(username, null), aiContext);
