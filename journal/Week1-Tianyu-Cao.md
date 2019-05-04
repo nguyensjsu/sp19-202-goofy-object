@@ -13,4 +13,4 @@ we decided to make the game of "Five in the Row".
 
 
 ### Time Spent
-6 hrs
+10 hrs
