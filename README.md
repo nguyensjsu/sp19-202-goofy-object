@@ -8,8 +8,7 @@
 ## XP values:
 
 #### Courage--Xiaoting Jin:
-We don't fear anything because we are working as a team. Sometimes, we will get stuck on a complex problem or issue, but we won't give up and will keep trying the next day.
-
+We don't fear anything because we are working as a team and we have the courage to build up the entire project from scratch. Sometimes, we will get stuck on a complex problem or issue, but we won't give up and keep trying the next day. 
 
 #### Communication--Gaochao Wang:
 I set up a wechat app group, where all team members can communicate using the mobile app. We also update our task progress, discuss problems on the platform and make plan for next tasks. I talked with each member every day or two to get to know their progress and coordiate to meet and work together, and make sure everyone is on the same page with every progress.  
