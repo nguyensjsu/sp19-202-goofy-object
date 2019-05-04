@@ -61,8 +61,8 @@ public class Board implements Cloneable{
     // get number of pieces at position (i,j)
     public int getNeighNum(Position p){
         int result = 0;
-        for (int x = Math.max(p.getX() - 1,0); x <= Math.min(p.getX() + 1, gridNum); x++){
-            for (int y = Math.max(p.getY() - 1, 0); y <= Math.min(p.getY() + 1, gridNum); y++){
+        for (int x = Math.max(p.getX() - 1,0); x <= Math.min(p.getX() + 1, gridNum-1); x++){
+            for (int y = Math.max(p.getY() - 1, 0); y <= Math.min(p.getY() + 1, gridNum-1); y++){
                 if (this.grid[x][y] !=  null){
                     result += 1;
                 }
