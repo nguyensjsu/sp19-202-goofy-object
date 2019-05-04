@@ -36,7 +36,9 @@ public class AIHard extends AICommonMethod implements AIStrategy  {
                 if (grid[i][j] == null){
                     Board tempBoard = (Board) board.clone();
                     tempBoard.putPiece(new Position(i, j), new Piece(2));
-                    int score = alpha_beta(tempBoard, searchDepth, alpha, beta,2);
+                    System.out.println("alpha_beta started");
+                    int score = alpha_beta(tempBoard, 2, 0, 0, 2);
+                    System.out.println("alpha_beta applied");
                     score -= (Math.abs(i - 7) + Math.abs(j - 7));
                     if (score > maxComputerScore){
                         maxComputerScore = score;
@@ -62,24 +64,26 @@ public class AIHard extends AICommonMethod implements AIStrategy  {
     public int alpha_beta(Board board, int searchDepth, int alpha, int beta, int color) {
         
         int result = 0;
-        Board tempBoard = (Board) board.clone();
+        Board tempBoard = board.clone();
         // plus condition game not end
-        if (searchDepth <= 0 ){
+        if (searchDepth == 0 ){
             return evaluateScore(tempBoard, color);
         }
         else {
             if (color == 2) {
                 int maxScore = Integer.MIN_VALUE;
-                Position p = this.getComputerPosition(tempBoard);
                 boolean flag = false;
                 color = 1;
+                int x = 0;
+                int y = 0;
                 for (int i = 0 ; i< gridNum; i++){
                     for (int j =0 ; j< gridNum; j++){
                         if(tempBoard.getGrid()[i][j] == null){
-                            Board tempBoard2 = (Board) tempBoard.clone(); 
+                            Board tempBoard2 = tempBoard.clone(); 
                             tempBoard2.putPiece(new Position(i,j), new Piece(2));
                             int score = alpha_beta(tempBoard2, searchDepth - 1, alpha, beta, color);
-                            p = (score > maxScore) ? new Position(i,j) : p;
+                            x = (score > maxScore) ? i : x;
+                            y = (score > maxScore) ? j : y;
                             maxScore = (score > maxScore) ? score : maxScore;
                             alpha = (alpha > score) ? alpha : score;
                             if (beta <= alpha) {
@@ -93,20 +97,23 @@ public class AIHard extends AICommonMethod implements AIStrategy  {
                     }
                 }
                 result = maxScore;
-                tempBoard.putPiece(p, new Piece(2));
+                tempBoard.putPiece(new Position(x,y), new Piece(1));
+                System.out.println("SearchDepth: " + searchDepth + "Number of pieces: " + tempBoard.getChessNum());
                 return result;
             } else {
                 int minScore = Integer.MAX_VALUE;
-                Position p = this.getComputerPosition(tempBoard);
                 boolean flag = false;
                 color = 2;
+                int x = 0;
+                int y = 0;
                 for (int i = 0; i < gridNum; i++) {
                     for (int j = 0; j < gridNum; j++) {
                         if (tempBoard.getGrid()[i][j] == null) {
-                            Board tempBoard2 = (Board) tempBoard.clone();
+                            Board tempBoard2 = tempBoard.clone();
                             tempBoard2.putPiece(new Position(i, j), new Piece(1));
                             int score = alpha_beta(tempBoard2, searchDepth - 1, alpha, beta, color);
-                            p = (score < minScore) ? new Position(i, j) : p;
+                            x = (score < minScore) ? i : x;
+                            y = (score < minScore) ? j : y;
                             minScore = (score < minScore) ? score : minScore;
                             beta = (beta < score) ? beta : score;
                             if (beta <= alpha) {
@@ -120,7 +127,8 @@ public class AIHard extends AICommonMethod implements AIStrategy  {
                     }
                 }
                 result = minScore;
-                tempBoard.putPiece(p, new Piece(1));
+                tempBoard.putPiece(new Position(x,y), new Piece(2));
+                System.out.println("SearchDepth: " + searchDepth + "Number of pieces: " + tempBoard.getChessNum());
                 return result;
             }
         }
@@ -129,36 +137,21 @@ public class AIHard extends AICommonMethod implements AIStrategy  {
     public static void main(String[] args) {
 
         Board testBoard = new Board();
-        AIPlayerIService AIplayer1 = new AIPlayerI();
-        // testBoard.putPiece(new Position(6, 6), new Piece(1));
-        // testBoard.putPiece(new Position(7, 7), new Piece(1));
-        // testBoard.putPiece(new Position(8, 8), new Piece(1));
-        // testBoard.putPiece(new Position(5, 5), new Piece(1));
-        // testBoard.putPiece(new Position(4, 4), new Piece(2));
-        // testBoard.putPiece(new Position(6, 7), new Piece(2));
-        // testBoard.putPiece(new Position(6, 8), new Piece(2));
+        AIHard AIplayer1 = new AIHard();
+        testBoard.putPiece(new Position(6, 6), new Piece(1));
+        testBoard.putPiece(new Position(7, 7), new Piece(1));
+        testBoard.putPiece(new Position(8, 8), new Piece(1));
+      //  testBoard.putPiece(new Position(5, 5), new Piece(1));
+        testBoard.putPiece(new Position(4, 4), new Piece(2));
+        testBoard.putPiece(new Position(6, 7), new Piece(2));
+        testBoard.putPiece(new Position(6, 8), new Piece(2));
+        testBoard.putPiece(new Position(6, 8), new Piece(2));
 
         System.out.println("Board Drawed");
         int score_AI = AIplayer1.evaluateScore(testBoard, 2);
         int score_HUMAN = AIplayer1.evaluateScore(testBoard, 1);
         System.out.println("AI Score: " + score_AI + ", Human Score: " + score_HUMAN);
-       // testBoard.putPiece(new Position(6, 9), new Piece(2));
-
-        // testBoard.putPiece(new Position(2,7), new Piece(2));
-        // testBoard.putPiece(new Position(2, 8), new Piece(2));
-
-        // testBoard.putPiece(new Position(6, 4), new Piece(1));
-        // testBoard.putPiece(new Position(7, 5), new Piece(2));
-        // testBoard.putPiece(new Position(10, 8), new Piece(2));
-
-        // testBoard.putPiece(new Position(5, 7), new Piece(2));
-        // testBoard.putPiece(new Position(6, 7), new Piece(2));
-        // testBoard.putPiece(new Position(7, 7), new Piece(2));
-        // testBoard.putPiece(new Position(8, 7), new Piece(2));
-        // testBoard.putPiece(new Position(4, 7), new Piece(1));
-        // testBoard.putPiece(new Position(3, 7), new Piece(1));
-        
-        Position p = AIplayer1.getComputerPositionSimple(testBoard);
+        Position p = AIplayer1.getComputerPosition(testBoard);
         //Position p = AIplayer1.getComputerPosition2(testBoard);
         System.out.println("new position generated");
         System.out.println(p.getX());

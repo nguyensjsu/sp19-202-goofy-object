@@ -58,7 +58,11 @@ public class Board implements Cloneable{
         }
         return bd;
     }
-    // get number of pieces at position (i,j)
+
+    public int getChessNum(){
+        return this.num;
+    }
+    // get number of pieces around position (i,j)
     public int getNeighNum(Position p){
         int result = 0;
         for (int x = Math.max(p.getX() - 1,0); x <= Math.min(p.getX() + 1, gridNum-1); x++){
