@@ -20,7 +20,7 @@ public class GameRoomServiceImp implements GameRoomService {
     @Override
     public boolean addPlayerToQueue(User user, String sessionId) {
         synchronized (waitingQueue) {
-            if (waitingQueue.contains(user) || engines.contains(user)) {
+            if (waitingQueue.contains(user) || engines.containsKey(user)) {
                 return false;
             }
 
